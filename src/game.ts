@@ -10,6 +10,8 @@ export class Game {
   private isPlayerStunned: boolean;
   private playerStunDuration: number;
   private playerStunTimer: number;
+  private playerStunColor: string;
+  private playerDefaultColor: string;
 
   private enemies: Array<Enemy>;
   private enemy: Enemy;
@@ -30,8 +32,10 @@ export class Game {
     this.registerEventListeners();
 
     this.isPlayerStunned = false;
-    this.playerStunDuration = 2000; // Adjust the stun duration as needed (in milliseconds)
+    this.playerStunDuration = 1000; // Adjust the stun duration as needed (in milliseconds)
     this.playerStunTimer = 0;
+    this.playerStunColor = 'green'; // Color to indicate player stun
+    this.playerDefaultColor = 'blue'; // Default player color
 
     // Create an instance of the player
     this.player = new Player(
@@ -40,7 +44,8 @@ export class Game {
       this.canvas.height / 2,
       20,
       20,
-      100
+      100,
+      this.playerDefaultColor
     );
 
     this.enemies = new Array<Enemy>();
@@ -48,7 +53,8 @@ export class Game {
     // Create an instance of the enemy
     this.enemy = new Enemy(this.canvas, 100, 100, 20, 20);
 
-    this.enemies.push(this.enemy);
+    this.enemies.push(new Enemy(this.canvas, 100, 100, 20, 20));
+    this.enemies.push(new Enemy(this.canvas, 600, 400, 40, 40));
   }
 
   private registerEventListeners() {
@@ -81,6 +87,10 @@ export class Game {
     const elapsed = Date.now() - this.playerStunTimer;
     if (elapsed >= this.playerStunDuration) {
       this.isPlayerStunned = false;
+      this.player.color = this.playerDefaultColor;
+    } else {
+      // Set the player color
+      this.player.color = this.playerStunColor;
     }
   }
 
@@ -159,7 +169,7 @@ export class Game {
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     // Render game elements here
-    this.context.fillStyle = 'blue';
+    this.context.fillStyle = this.player.color;
     this.context.fillRect(
       this.player.x - this.player.width / 2,
       this.player.y - this.player.height / 2,
@@ -167,8 +177,10 @@ export class Game {
       this.player.height
     );
 
-    // Render the enemy
-    this.enemy.draw();
+    for (let i = 0; i < this.enemies.length; i++) {
+      // Render the enemy
+      this.enemies[i].draw();
+    }
 
     // Render the player health
     this.drawPlayerHealth();

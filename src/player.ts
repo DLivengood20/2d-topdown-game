@@ -6,6 +6,7 @@ export class Player {
   width: number;
   height: number;
   health: number;
+  color: string;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -13,7 +14,8 @@ export class Player {
     y: number,
     width: number,
     height: number,
-    health: number
+    health: number,
+    color: string
   ) {
     this.canvas = canvas;
     this.context = canvas.getContext('2d');
@@ -22,6 +24,7 @@ export class Player {
     this.width = width;
     this.height = height;
     this.health = health;
+    this.color = color;
   }
 
   draw() {

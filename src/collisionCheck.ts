@@ -5,10 +5,10 @@ export class CollisionCheck {
   static check(player: Player, enemies: Enemy[]) {
     for (let i = 0; i < enemies.length; i++) {
       if (
-        enemies[i].x < player.x + player.width &&
-        enemies[i].x + enemies[i].width > player.x &&
-        enemies[i].y < player.y + player.height &&
-        enemies[i].y + enemies[i].height > player.y
+        enemies[i].x + enemies[i].width / 2 > player.x - player.width / 2 &&
+        enemies[i].x - enemies[i].width / 2 < player.x + player.width / 2 &&
+        enemies[i].y + enemies[i].height / 2 > player.y - player.height / 2 &&
+        enemies[i].y - enemies[i].height / 2 < player.y + player.height / 2
       )
         return true;
     }

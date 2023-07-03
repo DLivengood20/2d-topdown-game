@@ -1,4 +1,3 @@
-import { CollisionCheck as collision } from './collisionCheck';
 import { Enemy } from './enemy';
 import { Player } from './player';
 
@@ -58,147 +57,15 @@ export class Game {
     // Set the font color to black (or any color that contrasts with the background)
     this.context.fillStyle = 'black';
     this.context.font = '18px Arial';
-    this.context.fillText(`Health: ${this.player.health}`, 10, 30);
+    this.context.fillText(`Health: ${this.player.getHealth()}`, 10, 30);
   }
 
   update() {
     // Update game logic here
     if (!this.player.isStunned) {
-      this.handlePlayerMovement();
+      this.player.handleMovement(this.keysPressed, this.enemies);
     } else {
       this.player.updateStun();
-    }
-  }
-
-  private handlePlayerMovement() {
-    const speed = 5; // Adjust the movement speed as needed
-    const diagonalSpeed = Math.cos(45) * speed;
-
-    if (this.keysPressed['ArrowUp'] && this.keysPressed['ArrowLeft']) {
-      if (collision.check(this.player, this.enemies)) {
-        this.player.y += diagonalSpeed * 2;
-        this.player.x += diagonalSpeed * 2;
-        this.player.takeDamage(10, true);
-      } else {
-        if (this.player.y - this.player.height / 2 - speed >= 0) {
-          this.player.y -= diagonalSpeed;
-        } else {
-          this.player.y = this.player.height / 2;
-        }
-        if (this.player.x - this.player.width / 2 - speed >= 0) {
-          this.player.x -= diagonalSpeed;
-        } else {
-          this.player.x = this.player.width / 2;
-        }
-      }
-    } else if (this.keysPressed['ArrowUp'] && this.keysPressed['ArrowRight']) {
-      if (collision.check(this.player, this.enemies)) {
-        this.player.y += diagonalSpeed * 2;
-        this.player.x -= diagonalSpeed * 2;
-        this.player.takeDamage(10, true);
-      } else {
-        if (this.player.y - this.player.height / 2 - speed >= 0) {
-          this.player.y -= diagonalSpeed;
-        } else {
-          this.player.y = this.player.height / 2;
-        }
-        if (
-          this.player.x + speed + this.player.width / 2 <=
-          this.canvas.width
-        ) {
-          this.player.x += diagonalSpeed;
-        } else {
-          this.player.x = this.canvas.width - this.player.width / 2;
-        }
-      }
-    } else if (this.keysPressed['ArrowDown'] && this.keysPressed['ArrowLeft']) {
-      if (collision.check(this.player, this.enemies)) {
-        this.player.y -= diagonalSpeed * 2;
-        this.player.x += diagonalSpeed * 2;
-        this.player.takeDamage(10, true);
-      } else {
-        if (
-          this.player.y + speed + this.player.height / 2 <=
-          this.canvas.height
-        ) {
-          this.player.y += diagonalSpeed;
-        } else {
-          this.player.y = this.canvas.height - this.player.height / 2;
-        }
-        if (this.player.x - this.player.width / 2 - speed >= 0) {
-          this.player.x -= diagonalSpeed;
-        } else {
-          this.player.x = this.player.width / 2;
-        }
-      }
-    } else if (
-      this.keysPressed['ArrowDown'] &&
-      this.keysPressed['ArrowRight']
-    ) {
-      if (collision.check(this.player, this.enemies)) {
-        this.player.y -= diagonalSpeed * 2;
-        this.player.x -= diagonalSpeed * 2;
-        this.player.takeDamage(10, true);
-      } else {
-        if (
-          this.player.y + speed + this.player.height / 2 <=
-          this.canvas.height
-        ) {
-          this.player.y += diagonalSpeed;
-        } else {
-          this.player.y = this.canvas.height - this.player.height / 2;
-        }
-        if (
-          this.player.x + speed + this.player.width / 2 <=
-          this.canvas.width
-        ) {
-          this.player.x += diagonalSpeed;
-        } else {
-          this.player.x = this.canvas.width - this.player.width / 2;
-        }
-      }
-    } else if (this.keysPressed['ArrowUp']) {
-      if (collision.check(this.player, this.enemies)) {
-        this.player.y += speed * 2;
-        this.player.takeDamage(10, true);
-      } else if (this.player.y - this.player.height / 2 - speed >= 0) {
-        this.player.y -= speed;
-      } else {
-        this.player.y = this.player.height / 2;
-      }
-    } else if (this.keysPressed['ArrowDown']) {
-      if (collision.check(this.player, this.enemies)) {
-        this.player.y -= speed * 2;
-        this.player.takeDamage(10, true);
-      } else if (
-        this.player.y + speed + this.player.height / 2 <=
-        this.canvas.height
-      ) {
-        this.player.y += speed;
-      } else {
-        this.player.y = this.canvas.height - this.player.height / 2;
-      }
-    } else if (this.keysPressed['ArrowLeft']) {
-      if (collision.check(this.player, this.enemies)) {
-        this.player.x += speed * 2;
-        this.player.takeDamage(10, true);
-      } else if (this.player.x - this.player.width / 2 - speed >= 0) {
-        this.player.x -= speed;
-      } else {
-        this.player.x = this.player.width / 2;
-      }
-    } else if (this.keysPressed['ArrowRight']) {
-      if (collision.check(this.player, this.enemies)) {
-        this.player.x -= speed * 2;
-        this.player.takeDamage(10, true);
-      } else if (
-        this.player.x + speed + this.player.width / 2 <=
-        this.canvas.width
-      ) {
-        this.player.x += speed;
-      } else {
-        this.player.x = this.canvas.width - this.player.width / 2;
-      }
     }
   }
 

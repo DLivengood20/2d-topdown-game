@@ -78,6 +78,13 @@ export class Game {
     this.context.fillText(`Health: ${this.player.health}`, 10, 30);
   }
 
+  private damagePlayer(amount: number, stun?: boolean) {
+    this.player.health -= amount;
+    if (stun) {
+      this.stunPlayer();
+    }
+  }
+
   private stunPlayer() {
     this.isPlayerStunned = true;
     this.playerStunTimer = Date.now();
@@ -105,22 +112,104 @@ export class Game {
 
   private handlePlayerMovement() {
     const speed = 5; // Adjust the movement speed as needed
+    const diagonalSpeed = Math.cos(45) * 5;
 
-    if (this.keysPressed['ArrowUp']) {
+    if (this.keysPressed['ArrowUp'] && this.keysPressed['ArrowLeft']) {
+      if (collision.check(this.player, this.enemies)) {
+        this.player.y += diagonalSpeed * 2;
+        this.player.x += diagonalSpeed * 2;
+        this.damagePlayer(10, true);
+      } else {
+        if (this.player.y - this.player.height / 2 - speed >= 0) {
+          this.player.y -= diagonalSpeed;
+        } else {
+          this.player.y = this.player.height / 2;
+        }
+        if (this.player.x - this.player.width / 2 - speed >= 0) {
+          this.player.x -= diagonalSpeed;
+        } else {
+          this.player.x = this.player.width / 2;
+        }
+      }
+    } else if (this.keysPressed['ArrowUp'] && this.keysPressed['ArrowRight']) {
+      if (collision.check(this.player, this.enemies)) {
+        this.player.y += diagonalSpeed * 2;
+        this.player.x -= diagonalSpeed * 2;
+        this.damagePlayer(10, true);
+      } else {
+        if (this.player.y - this.player.height / 2 - speed >= 0) {
+          this.player.y -= diagonalSpeed;
+        } else {
+          this.player.y = this.player.height / 2;
+        }
+        if (
+          this.player.x + speed + this.player.width / 2 <=
+          this.canvas.width
+        ) {
+          this.player.x += diagonalSpeed;
+        } else {
+          this.player.x = this.canvas.width - this.player.width / 2;
+        }
+      }
+    } else if (this.keysPressed['ArrowDown'] && this.keysPressed['ArrowLeft']) {
+      if (collision.check(this.player, this.enemies)) {
+        this.player.y -= diagonalSpeed * 2;
+        this.player.x += diagonalSpeed * 2;
+        this.damagePlayer(10, true);
+      } else {
+        if (
+          this.player.y + speed + this.player.height / 2 <=
+          this.canvas.height
+        ) {
+          this.player.y += diagonalSpeed;
+        } else {
+          this.player.y = this.canvas.height - this.player.height / 2;
+        }
+        if (this.player.x - this.player.width / 2 - speed >= 0) {
+          this.player.x -= diagonalSpeed;
+        } else {
+          this.player.x = this.player.width / 2;
+        }
+      }
+    } else if (
+      this.keysPressed['ArrowDown'] &&
+      this.keysPressed['ArrowRight']
+    ) {
+      if (collision.check(this.player, this.enemies)) {
+        this.player.y -= diagonalSpeed * 2;
+        this.player.x -= diagonalSpeed * 2;
+        this.damagePlayer(10, true);
+      } else {
+        if (
+          this.player.y + speed + this.player.height / 2 <=
+          this.canvas.height
+        ) {
+          this.player.y += diagonalSpeed;
+        } else {
+          this.player.y = this.canvas.height - this.player.height / 2;
+        }
+        if (
+          this.player.x + speed + this.player.width / 2 <=
+          this.canvas.width
+        ) {
+          this.player.x += diagonalSpeed;
+        } else {
+          this.player.x = this.canvas.width - this.player.width / 2;
+        }
+      }
+    } else if (this.keysPressed['ArrowUp']) {
       if (collision.check(this.player, this.enemies)) {
         this.player.y += speed * 2;
-        this.stunPlayer();
+        this.damagePlayer(10, true);
       } else if (this.player.y - this.player.height / 2 - speed >= 0) {
         this.player.y -= speed;
       } else {
         this.player.y = this.player.height / 2;
       }
-    }
-
-    if (this.keysPressed['ArrowDown']) {
+    } else if (this.keysPressed['ArrowDown']) {
       if (collision.check(this.player, this.enemies)) {
         this.player.y -= speed * 2;
-        this.stunPlayer();
+        this.damagePlayer(10, true);
       } else if (
         this.player.y + speed + this.player.height / 2 <=
         this.canvas.height
@@ -129,23 +218,19 @@ export class Game {
       } else {
         this.player.y = this.canvas.height - this.player.height / 2;
       }
-    }
-
-    if (this.keysPressed['ArrowLeft']) {
+    } else if (this.keysPressed['ArrowLeft']) {
       if (collision.check(this.player, this.enemies)) {
         this.player.x += speed * 2;
-        this.stunPlayer();
+        this.damagePlayer(10, true);
       } else if (this.player.x - this.player.width / 2 - speed >= 0) {
         this.player.x -= speed;
       } else {
         this.player.x = this.player.width / 2;
       }
-    }
-
-    if (this.keysPressed['ArrowRight']) {
+    } else if (this.keysPressed['ArrowRight']) {
       if (collision.check(this.player, this.enemies)) {
         this.player.x -= speed * 2;
-        this.stunPlayer();
+        this.damagePlayer(10, true);
       } else if (
         this.player.x + speed + this.player.width / 2 <=
         this.canvas.width
@@ -184,18 +269,5 @@ export class Game {
 
     // Render the player health
     this.drawPlayerHealth();
-
-    // Check collision with the enemy
-    if (
-      this.enemy.checkCollision(
-        this.player.x,
-        this.player.y,
-        this.player.width,
-        this.player.height
-      )
-    ) {
-      // Handle collision logic, e.g., reduce player health
-      this.player.health -= 10;
-    }
   }
 }

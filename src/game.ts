@@ -7,14 +7,7 @@ export class Game {
   private context: CanvasRenderingContext2D | null;
   private keysPressed: { [key: string]: boolean };
 
-  private isPlayerStunned: boolean;
-  private playerStunDuration: number;
-  private playerStunTimer: number;
-  private playerStunColor: string;
-  private playerDefaultColor: string;
-
   private enemies: Array<Enemy>;
-  private enemy: Enemy;
   private player: Player;
 
   constructor() {
@@ -31,12 +24,6 @@ export class Game {
     this.keysPressed = {};
     this.registerEventListeners();
 
-    this.isPlayerStunned = false;
-    this.playerStunDuration = 1000; // Adjust the stun duration as needed (in milliseconds)
-    this.playerStunTimer = 0;
-    this.playerStunColor = 'green'; // Color to indicate player stun
-    this.playerDefaultColor = 'blue'; // Default player color
-
     // Create an instance of the player
     this.player = new Player(
       this.canvas,
@@ -44,14 +31,10 @@ export class Game {
       this.canvas.height / 2,
       20,
       20,
-      100,
-      this.playerDefaultColor
+      100
     );
 
     this.enemies = new Array<Enemy>();
-
-    // Create an instance of the enemy
-    this.enemy = new Enemy(this.canvas, 100, 100, 20, 20);
 
     this.enemies.push(new Enemy(this.canvas, 100, 100, 20, 20));
     this.enemies.push(new Enemy(this.canvas, 600, 400, 40, 40));
@@ -78,47 +61,24 @@ export class Game {
     this.context.fillText(`Health: ${this.player.health}`, 10, 30);
   }
 
-  private damagePlayer(amount: number, stun?: boolean) {
-    this.player.health -= amount;
-    if (stun) {
-      this.stunPlayer();
-    }
-  }
-
-  private stunPlayer() {
-    this.isPlayerStunned = true;
-    this.playerStunTimer = Date.now();
-  }
-
-  private updatePlayerStun() {
-    const elapsed = Date.now() - this.playerStunTimer;
-    if (elapsed >= this.playerStunDuration) {
-      this.isPlayerStunned = false;
-      this.player.color = this.playerDefaultColor;
-    } else {
-      // Set the player color
-      this.player.color = this.playerStunColor;
-    }
-  }
-
   update() {
     // Update game logic here
-    if (!this.isPlayerStunned) {
+    if (!this.player.isStunned) {
       this.handlePlayerMovement();
     } else {
-      this.updatePlayerStun();
+      this.player.updateStun();
     }
   }
 
   private handlePlayerMovement() {
     const speed = 5; // Adjust the movement speed as needed
-    const diagonalSpeed = Math.cos(45) * 5;
+    const diagonalSpeed = Math.cos(45) * speed;
 
     if (this.keysPressed['ArrowUp'] && this.keysPressed['ArrowLeft']) {
       if (collision.check(this.player, this.enemies)) {
         this.player.y += diagonalSpeed * 2;
         this.player.x += diagonalSpeed * 2;
-        this.damagePlayer(10, true);
+        this.player.takeDamage(10, true);
       } else {
         if (this.player.y - this.player.height / 2 - speed >= 0) {
           this.player.y -= diagonalSpeed;
@@ -135,7 +95,7 @@ export class Game {
       if (collision.check(this.player, this.enemies)) {
         this.player.y += diagonalSpeed * 2;
         this.player.x -= diagonalSpeed * 2;
-        this.damagePlayer(10, true);
+        this.player.takeDamage(10, true);
       } else {
         if (this.player.y - this.player.height / 2 - speed >= 0) {
           this.player.y -= diagonalSpeed;
@@ -155,7 +115,7 @@ export class Game {
       if (collision.check(this.player, this.enemies)) {
         this.player.y -= diagonalSpeed * 2;
         this.player.x += diagonalSpeed * 2;
-        this.damagePlayer(10, true);
+        this.player.takeDamage(10, true);
       } else {
         if (
           this.player.y + speed + this.player.height / 2 <=
@@ -178,7 +138,7 @@ export class Game {
       if (collision.check(this.player, this.enemies)) {
         this.player.y -= diagonalSpeed * 2;
         this.player.x -= diagonalSpeed * 2;
-        this.damagePlayer(10, true);
+        this.player.takeDamage(10, true);
       } else {
         if (
           this.player.y + speed + this.player.height / 2 <=
@@ -200,7 +160,7 @@ export class Game {
     } else if (this.keysPressed['ArrowUp']) {
       if (collision.check(this.player, this.enemies)) {
         this.player.y += speed * 2;
-        this.damagePlayer(10, true);
+        this.player.takeDamage(10, true);
       } else if (this.player.y - this.player.height / 2 - speed >= 0) {
         this.player.y -= speed;
       } else {
@@ -209,7 +169,7 @@ export class Game {
     } else if (this.keysPressed['ArrowDown']) {
       if (collision.check(this.player, this.enemies)) {
         this.player.y -= speed * 2;
-        this.damagePlayer(10, true);
+        this.player.takeDamage(10, true);
       } else if (
         this.player.y + speed + this.player.height / 2 <=
         this.canvas.height
@@ -221,7 +181,7 @@ export class Game {
     } else if (this.keysPressed['ArrowLeft']) {
       if (collision.check(this.player, this.enemies)) {
         this.player.x += speed * 2;
-        this.damagePlayer(10, true);
+        this.player.takeDamage(10, true);
       } else if (this.player.x - this.player.width / 2 - speed >= 0) {
         this.player.x -= speed;
       } else {
@@ -230,7 +190,7 @@ export class Game {
     } else if (this.keysPressed['ArrowRight']) {
       if (collision.check(this.player, this.enemies)) {
         this.player.x -= speed * 2;
-        this.damagePlayer(10, true);
+        this.player.takeDamage(10, true);
       } else if (
         this.player.x + speed + this.player.width / 2 <=
         this.canvas.width
@@ -254,13 +214,7 @@ export class Game {
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     // Render game elements here
-    this.context.fillStyle = this.player.color;
-    this.context.fillRect(
-      this.player.x - this.player.width / 2,
-      this.player.y - this.player.height / 2,
-      this.player.width,
-      this.player.height
-    );
+    this.player.draw();
 
     for (let i = 0; i < this.enemies.length; i++) {
       // Render the enemy

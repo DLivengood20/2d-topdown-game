@@ -34,18 +34,4 @@ export class Enemy {
       this.height
     );
   }
-
-  checkCollision(
-    playerX: number,
-    playerY: number,
-    playerWidth: number,
-    playerHeight: number
-  ) {
-    return (
-      this.x < playerX + playerWidth &&
-      this.x + this.width > playerX &&
-      this.y < playerY + playerHeight &&
-      this.y + this.height > playerY
-    );
-  }
 }

@@ -1,5 +1,6 @@
 import { CollisionCheck as collision } from './collisionCheck';
 import { Enemy } from './enemy';
+import { FacingAngles } from './facingAngles';
 
 export class Player {
   private canvas: HTMLCanvasElement;
@@ -15,8 +16,10 @@ export class Player {
   private stunTimer: number;
   private stunColor: string;
   private defaultColor: string;
+  private faceColor: string;
   speed: number;
   diagonalSpeed: number;
+  facing: number;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -36,6 +39,7 @@ export class Player {
 
     this.defaultColor = 'blue'; // Default player color
     this.color = this.defaultColor;
+    this.faceColor = 'orange';
 
     this.isStunned = false;
     this.stunDuration = 1000; // Adjust the stun duration as needed (in milliseconds)
@@ -44,6 +48,7 @@ export class Player {
 
     this.speed = 5;
     this.diagonalSpeed = Math.cos(45) * this.speed;
+    this.facing = FacingAngles.Bottom;
   }
 
   getHealth() {
@@ -78,13 +83,27 @@ export class Player {
       throw new Error('CanvasRenderingContext2D is null.');
     }
 
+    this.context.save();
+    this.context.translate(this.x, this.y);
+    this.context.rotate(this.facing);
+
     this.context.fillStyle = this.color;
     this.context.fillRect(
-      this.x - this.width / 2,
-      this.y - this.height / 2,
+      (-1 * this.width) / 2,
+      (-1 * this.height) / 2,
       this.width,
       this.height
     );
+
+    this.context.fillStyle = this.faceColor;
+    this.context.fillRect(
+      (-1 * this.width) / 2,
+      this.height / 2 - 2,
+      this.width,
+      2
+    );
+
+    this.context.restore();
   }
 
   handleMovement(
@@ -95,6 +114,7 @@ export class Player {
     const wallCollision = collision.border(this, this.canvas);
 
     if (keysPressed['ArrowUp'] && keysPressed['ArrowLeft']) {
+      this.facing = FacingAngles.TopLeft;
       if (enemyCollision) {
         this.y += this.diagonalSpeed * 2;
         this.x += this.diagonalSpeed * 2;
@@ -112,6 +132,7 @@ export class Player {
         }
       }
     } else if (keysPressed['ArrowUp'] && keysPressed['ArrowRight']) {
+      this.facing = FacingAngles.TopRight;
       if (enemyCollision) {
         this.y += this.diagonalSpeed * 2;
         this.x -= this.diagonalSpeed * 2;
@@ -129,6 +150,7 @@ export class Player {
         }
       }
     } else if (keysPressed['ArrowDown'] && keysPressed['ArrowLeft']) {
+      this.facing = FacingAngles.BottomLeft;
       if (enemyCollision) {
         this.y -= this.diagonalSpeed * 2;
         this.x += this.diagonalSpeed * 2;
@@ -146,6 +168,7 @@ export class Player {
         }
       }
     } else if (keysPressed['ArrowDown'] && keysPressed['ArrowRight']) {
+      this.facing = FacingAngles.BottomRight;
       if (enemyCollision) {
         this.y -= this.diagonalSpeed * 2;
         this.x -= this.diagonalSpeed * 2;
@@ -163,6 +186,7 @@ export class Player {
         }
       }
     } else if (keysPressed['ArrowUp']) {
+      this.facing = FacingAngles.Top;
       if (enemyCollision) {
         this.y += this.speed * 2;
         this.takeDamage(10, true);
@@ -172,6 +196,7 @@ export class Player {
         this.y -= this.speed;
       }
     } else if (keysPressed['ArrowDown']) {
+      this.facing = FacingAngles.Bottom;
       if (enemyCollision) {
         this.y -= this.speed * 2;
         this.takeDamage(10, true);
@@ -181,6 +206,7 @@ export class Player {
         this.y += this.speed;
       }
     } else if (keysPressed['ArrowLeft']) {
+      this.facing = FacingAngles.Left;
       if (enemyCollision) {
         this.x += this.speed * 2;
         this.takeDamage(10, true);
@@ -190,6 +216,7 @@ export class Player {
         this.x -= this.speed;
       }
     } else if (keysPressed['ArrowRight']) {
+      this.facing = FacingAngles.Right;
       if (enemyCollision) {
         this.x -= this.speed * 2;
         this.takeDamage(10, true);

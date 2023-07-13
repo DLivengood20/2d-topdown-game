@@ -47,6 +47,18 @@ export class Game {
     document.addEventListener('keyup', (event) => {
       this.keysPressed[event.key] = false;
     });
+
+    document.addEventListener('mousedown', (event) => {
+      if (event.button === 0) {
+        this.keysPressed['mousedown'] = true;
+      }
+    });
+
+    document.addEventListener('mouseup', (event) => {
+      if (event.button === 0) {
+        this.keysPressed['mousedown'] = false;
+      }
+    });
   }
 
   private drawPlayerHealth() {
@@ -62,10 +74,10 @@ export class Game {
 
   update() {
     // Update game logic here
-    if (!this.player.isStunned) {
+    this.player.update();
+    if (!this.player.isStunned && !this.player.isAttacking) {
+      this.player.handleAttack(this.keysPressed, this.enemies);
       this.player.handleMovement(this.keysPressed, this.enemies);
-    } else {
-      this.player.updateStun();
     }
   }
 

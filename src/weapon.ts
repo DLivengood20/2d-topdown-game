@@ -15,12 +15,20 @@ export class Weapon {
     this.cooldown = 500; // in milliseconds
   }
 
-  draw() {
+  draw(rotate: number, distanceFromUser: number) {
     if (this.context === null) {
       throw new Error('CanvasRenderingContext2D is null.');
     }
 
+    this.context.rotate((45 * Math.PI) / 180 - rotate);
+    this.context.translate(0, this.width / 2);
+
     this.context.fillStyle = 'black';
-    this.context.fillRect((-1 * this.width) / 2, 0, this.width, this.length);
+    this.context.fillRect(
+      (-1 * this.width) / 2,
+      distanceFromUser,
+      this.width,
+      this.length
+    );
   }
 }

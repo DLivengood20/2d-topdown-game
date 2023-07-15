@@ -36,6 +36,7 @@ export class Game {
     this.enemies = new Array<Enemy>();
 
     this.enemies.push(new Enemy(this.canvas, 100, 100, 20, 20));
+    this.enemies.push(new Enemy(this.canvas, 121, 121, 20, 20));
     this.enemies.push(new Enemy(this.canvas, 600, 400, 40, 40));
   }
 
@@ -74,7 +75,7 @@ export class Game {
 
   update() {
     // Update game logic here
-    this.player.update();
+    this.player.update(this.enemies);
     if (!this.player.isStunned && !this.player.isAttacking) {
       this.player.handleAttack(this.keysPressed, this.enemies);
       this.player.handleMovement(this.keysPressed, this.enemies);

@@ -91,10 +91,29 @@ export class Player {
     this.attackTimer = Date.now();
   }
 
-  private updateAttack() {
+  private updateAttack(enemies: Array<Enemy>) {
     const elapsed = Date.now() - this.attackTimer;
     if (elapsed >= this.weapon.attackDuration) {
       this.isAttacking = false;
+    }
+    const weaponRotation =
+      this.facing +
+      Math.PI / 4 -
+      (Math.PI / 2) *
+        ((Date.now() - this.attackTimer) / this.weapon.attackDuration);
+
+    const weaponCollision = collision.weapon(
+      this.weapon,
+      weaponRotation,
+      this.x,
+      this.y,
+      this.width / 2,
+      enemies
+    );
+    if (weaponCollision.length > 0) {
+      for (let i = 0; i < weaponCollision.length; i++) {
+        enemies.splice(weaponCollision[i], 1);
+      }
     }
   }
 
@@ -127,20 +146,18 @@ export class Player {
       const weaponRotation =
         (((90 * Math.PI) / 180) * (Date.now() - this.attackTimer)) /
         this.weapon.attackDuration;
-      this.context.rotate((45 * Math.PI) / 180 - weaponRotation);
-      this.context.translate(0, this.width / 2);
-      this.weapon.draw();
+      this.weapon.draw(weaponRotation, this.width / 2);
     }
 
     this.context.restore();
   }
 
-  update() {
+  update(enemies: Array<Enemy>) {
     if (this.isStunned) {
       this.updateStun();
     }
     if (this.isAttacking) {
-      this.updateAttack();
+      this.updateAttack(enemies);
     }
   }
 

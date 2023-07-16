@@ -78,7 +78,10 @@ export class Game {
     this.player.update(this.enemies);
     if (!this.player.isStunned && !this.player.isAttacking) {
       this.player.handleAttack(this.keysPressed, this.enemies);
-      this.player.handleMovement(this.keysPressed, this.enemies);
+      // rechecks attacking flag incase player initiated an attack this loop
+      if (!this.player.isAttacking) {
+        this.player.handleMovement(this.keysPressed, this.enemies);
+      }
     }
   }
 

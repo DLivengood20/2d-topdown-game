@@ -62,6 +62,7 @@ export class CollisionCheck {
         enemiesHit.push(i);
       }
     }
+    console.log(JSON.stringify(vertex));
     return enemiesHit;
   }
 }

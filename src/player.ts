@@ -2,6 +2,7 @@ import { CollisionCheck as collision } from './collisionCheck';
 import { Enemy } from './enemy';
 import { FacingAngles } from './facingAngles';
 import { Weapon } from './weapon';
+import { Weapons } from './weapons';
 
 export class Player {
   private canvas: HTMLCanvasElement;
@@ -55,7 +56,16 @@ export class Player {
     this.facing = FacingAngles.Bottom;
 
     this.isAttacking = false;
-    this.weapon = new Weapon(this.canvas, this.width, 2);
+    const { length, weaponWidth, swingAngle, attackDuration, cooldown } =
+      Weapons.Broadsword;
+    this.weapon = new Weapon(
+      this.canvas,
+      length,
+      weaponWidth,
+      swingAngle,
+      attackDuration,
+      cooldown
+    );
     this.attackTimer = 0;
   }
 
@@ -98,8 +108,8 @@ export class Player {
     }
     const weaponRotation =
       this.facing +
-      Math.PI / 4 -
-      (Math.PI / 2) *
+      this.weapon.swingAngle / 2 -
+      this.weapon.swingAngle *
         ((Date.now() - this.attackTimer) / this.weapon.attackDuration);
 
     const weaponCollision = collision.weapon(
@@ -144,7 +154,7 @@ export class Player {
 
     if (this.isAttacking) {
       const weaponRotation =
-        (((90 * Math.PI) / 180) * (Date.now() - this.attackTimer)) /
+        (this.weapon.swingAngle * (Date.now() - this.attackTimer)) /
         this.weapon.attackDuration;
       this.weapon.draw(weaponRotation, this.width / 2);
     }

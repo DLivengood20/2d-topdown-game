@@ -36,6 +36,7 @@ export class Game {
     this.enemies = new Array<Enemy>();
 
     this.enemies.push(new Enemy(this.canvas, 100, 100, 20, 20));
+    this.enemies.push(new Enemy(this.canvas, 121, 121, 20, 20));
     this.enemies.push(new Enemy(this.canvas, 600, 400, 40, 40));
   }
 
@@ -46,6 +47,18 @@ export class Game {
 
     document.addEventListener('keyup', (event) => {
       this.keysPressed[event.key] = false;
+    });
+
+    document.addEventListener('mousedown', (event) => {
+      if (event.button === 0) {
+        this.keysPressed['mousedown'] = true;
+      }
+    });
+
+    document.addEventListener('mouseup', (event) => {
+      if (event.button === 0) {
+        this.keysPressed['mousedown'] = false;
+      }
     });
   }
 
@@ -62,10 +75,13 @@ export class Game {
 
   update() {
     // Update game logic here
-    if (!this.player.isStunned) {
-      this.player.handleMovement(this.keysPressed, this.enemies);
-    } else {
-      this.player.updateStun();
+    this.player.update(this.enemies);
+    if (!this.player.isStunned && !this.player.isAttacking) {
+      this.player.handleAttack(this.keysPressed, this.enemies);
+      // rechecks attacking flag incase player initiated an attack this loop
+      if (!this.player.isAttacking) {
+        this.player.handleMovement(this.keysPressed, this.enemies);
+      }
     }
   }
 

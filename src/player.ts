@@ -1,6 +1,8 @@
 import { CollisionCheck as collision } from './collisionCheck';
 import { Enemy } from './enemy';
 import { FacingAngles } from './facingAngles';
+import { Weapon } from './weapon';
+import { Weapons } from './weapons';
 
 export class Player {
   private canvas: HTMLCanvasElement;
@@ -20,6 +22,9 @@ export class Player {
   speed: number;
   diagonalSpeed: number;
   facing: number;
+  isAttacking: boolean;
+  weapon: Weapon;
+  attackTimer: number;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -49,6 +54,19 @@ export class Player {
     this.speed = 5;
     this.diagonalSpeed = Math.cos(Math.PI / 4) * this.speed;
     this.facing = FacingAngles.Bottom;
+
+    this.isAttacking = false;
+    const { length, weaponWidth, swingAngle, attackDuration, cooldown } =
+      Weapons.Broadsword;
+    this.weapon = new Weapon(
+      this.canvas,
+      length,
+      weaponWidth,
+      swingAngle,
+      attackDuration,
+      cooldown
+    );
+    this.attackTimer = 0;
   }
 
   getHealth() {
@@ -67,7 +85,7 @@ export class Player {
     this.stunTimer = Date.now();
   }
 
-  updateStun() {
+  private updateStun() {
     const elapsed = Date.now() - this.stunTimer;
     if (elapsed >= this.stunDuration) {
       this.isStunned = false;
@@ -75,6 +93,37 @@ export class Player {
     } else {
       // Set the player color
       this.color = this.stunColor;
+    }
+  }
+
+  private attack() {
+    this.isAttacking = true;
+    this.attackTimer = Date.now();
+  }
+
+  private updateAttack(enemies: Array<Enemy>) {
+    const elapsed = Date.now() - this.attackTimer;
+    if (elapsed >= this.weapon.attackDuration) {
+      this.isAttacking = false;
+    }
+    const weaponRotation =
+      this.facing +
+      this.weapon.swingAngle / 2 -
+      this.weapon.swingAngle *
+        ((Date.now() - this.attackTimer) / this.weapon.attackDuration);
+
+    const weaponCollision = collision.weapon(
+      this.weapon,
+      weaponRotation,
+      this.x,
+      this.y,
+      this.width / 2,
+      enemies
+    );
+    if (weaponCollision.length > 0) {
+      for (let i = 0; i < weaponCollision.length; i++) {
+        enemies.splice(weaponCollision[i], 1);
+      }
     }
   }
 
@@ -103,7 +152,23 @@ export class Player {
       2
     );
 
+    if (this.isAttacking) {
+      const weaponRotation =
+        (this.weapon.swingAngle * (Date.now() - this.attackTimer)) /
+        this.weapon.attackDuration;
+      this.weapon.draw(weaponRotation, this.width / 2);
+    }
+
     this.context.restore();
+  }
+
+  update(enemies: Array<Enemy>) {
+    if (this.isStunned) {
+      this.updateStun();
+    }
+    if (this.isAttacking) {
+      this.updateAttack(enemies);
+    }
   }
 
   handleMovement(
@@ -225,6 +290,15 @@ export class Player {
       } else {
         this.x += this.speed;
       }
+    }
+  }
+
+  handleAttack(keysPressed: { [key: string]: boolean }, enemies: Array<Enemy>) {
+    if (
+      keysPressed['mousedown'] &&
+      Date.now() - this.attackTimer >= this.weapon.cooldown
+    ) {
+      this.attack();
     }
   }
 }

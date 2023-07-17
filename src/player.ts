@@ -47,7 +47,7 @@ export class Player {
     this.stunColor = 'green'; // Color to indicate player stun
 
     this.speed = 5;
-    this.diagonalSpeed = Math.cos(45) * this.speed;
+    this.diagonalSpeed = Math.cos(Math.PI / 4) * this.speed;
     this.facing = FacingAngles.Bottom;
   }
 

@@ -45,24 +45,35 @@ export class CollisionCheck {
     distanceFromOrigin: number,
     enemies: Array<Enemy>
   ) {
-    const vertex = {
-      x: -1 * Math.sin(rotation) * (distanceFromOrigin + weapon.length) + x,
-      y: Math.cos(rotation) * (distanceFromOrigin + weapon.length) + y,
-    };
+    const vertexes: Array<{ x: number; y: number }> = [];
+    for (let i = 0; i < weapon.length / 10; i++) {
+      vertexes.push({
+        x:
+          -1 *
+            Math.sin(rotation) *
+            (distanceFromOrigin + weapon.length - 10 * i) +
+          x,
+        y:
+          Math.cos(rotation) * (distanceFromOrigin + weapon.length - 10 * i) +
+          y,
+      });
+    }
 
     const enemiesHit: Array<number> = [];
 
     for (let i = 0; i < enemies.length; i++) {
-      if (
-        vertex.x <= enemies[i].x + enemies[i].width / 2 &&
-        vertex.x >= enemies[i].x - enemies[i].width / 2 &&
-        vertex.y <= enemies[i].y + enemies[i].height / 2 &&
-        vertex.y >= enemies[i].y - enemies[i].height / 2
-      ) {
-        enemiesHit.push(i);
+      for (let j = 0; j < vertexes.length; j++) {
+        if (
+          vertexes[j].x <= enemies[i].x + enemies[i].width / 2 &&
+          vertexes[j].x >= enemies[i].x - enemies[i].width / 2 &&
+          vertexes[j].y <= enemies[i].y + enemies[i].height / 2 &&
+          vertexes[j].y >= enemies[i].y - enemies[i].height / 2
+        ) {
+          enemiesHit.push(i);
+        }
       }
     }
-    console.log(JSON.stringify(vertex));
+    console.log(JSON.stringify(vertexes));
     return enemiesHit;
   }
 }

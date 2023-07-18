@@ -31,7 +31,7 @@ export class AttackHandler {
       this.isAttacking = false;
     }
     const weaponRotation =
-      player.facing +
+      player.move.heading +
       player.weapon.swingAngle / 2 -
       player.weapon.swingAngle *
         ((Date.now() - this.attackTimer) / player.weapon.attackDuration);
@@ -39,9 +39,9 @@ export class AttackHandler {
     const weaponCollision = collision.weapon(
       player.weapon,
       weaponRotation,
-      player.x,
-      player.y,
-      player.width / 2,
+      player.move.x,
+      player.move.y,
+      player.move.width / 2,
       enemies
     );
 

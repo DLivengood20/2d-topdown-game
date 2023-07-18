@@ -1,6 +1,7 @@
 import { AttackHandler } from './attackHandler';
 import { Enemy } from './enemy';
 import { FacingAngles } from './facingAngles';
+import { Moveable } from './moveable';
 import { Weapon } from './weapon';
 import { WeaponList } from './weaponList';
 
@@ -8,10 +9,7 @@ export class Player {
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D | null;
   private attack: AttackHandler;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+  move: Moveable;
   private health: number;
   private color: string;
   isStunned: boolean;
@@ -20,9 +18,6 @@ export class Player {
   private stunColor: string;
   private defaultColor: string;
   private faceColor: string;
-  speed: number;
-  diagonalSpeed: number;
-  facing: number;
   weapon: Weapon;
 
   constructor(
@@ -37,10 +32,7 @@ export class Player {
     this.canvas = canvas;
     this.context = canvas.getContext('2d');
     this.attack = attackHandler;
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
+    this.move = new Moveable(x, y, width, height, 5, FacingAngles.Bottom);
     this.health = health;
 
     this.defaultColor = 'blue'; // Default player color
@@ -51,10 +43,6 @@ export class Player {
     this.stunDuration = 1000; // Adjust the stun duration as needed (in milliseconds)
     this.stunTimer = 0;
     this.stunColor = 'green'; // Color to indicate player stun
-
-    this.speed = 5;
-    this.diagonalSpeed = Math.cos(Math.PI / 4) * this.speed;
-    this.facing = FacingAngles.Bottom;
 
     this.weapon = WeaponList.broadsword(this.canvas);
   }
@@ -92,22 +80,22 @@ export class Player {
     }
 
     this.context.save();
-    this.context.translate(this.x, this.y);
-    this.context.rotate(this.facing);
+    this.context.translate(this.move.x, this.move.y);
+    this.context.rotate(this.move.heading);
 
     this.context.fillStyle = this.color;
     this.context.fillRect(
-      (-1 * this.width) / 2,
-      (-1 * this.height) / 2,
-      this.width,
-      this.height
+      (-1 * this.move.width) / 2,
+      (-1 * this.move.height) / 2,
+      this.move.width,
+      this.move.height
     );
 
     this.context.fillStyle = this.faceColor;
     this.context.fillRect(
-      (-1 * this.width) / 2,
-      this.height / 2 - 2,
-      this.width,
+      (-1 * this.move.width) / 2,
+      this.move.height / 2 - 2,
+      this.move.width,
       2
     );
 
@@ -115,7 +103,7 @@ export class Player {
       const weaponRotation =
         (this.weapon.swingAngle * (Date.now() - this.attack.attackTimer)) /
         this.weapon.attackDuration;
-      this.weapon.draw(weaponRotation, this.width / 2);
+      this.weapon.draw(weaponRotation, this.move.width / 2);
     }
 
     this.context.restore();

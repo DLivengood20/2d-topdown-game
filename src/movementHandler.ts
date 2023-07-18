@@ -1,7 +1,6 @@
 import { CollisionCheck as collision } from './collisionCheck';
 import { Player } from './player';
 import { Enemy } from './enemy';
-import { FacingAngles } from './facingAngles';
 
 export class MovementHandler {
   static handleMovement(
@@ -10,121 +9,48 @@ export class MovementHandler {
     enemies: Array<Enemy>,
     canvas: HTMLCanvasElement
   ) {
-    const enemyCollision = collision.enemies(player, enemies);
-    const wallCollision = collision.border(player, canvas);
+    const enemyCollision = collision.enemies(player.move, enemies);
 
     if (keysPressed['ArrowUp'] && keysPressed['ArrowLeft']) {
-      player.facing = FacingAngles.TopLeft;
       if (enemyCollision) {
-        player.y += player.diagonalSpeed * 2;
-        player.x += player.diagonalSpeed * 2;
         player.takeDamage(10, true);
-      } else {
-        if (wallCollision.top) {
-          player.y = player.height / 2;
-        } else {
-          player.y -= player.diagonalSpeed;
-        }
-        if (wallCollision.left) {
-          player.x = player.width / 2;
-        } else {
-          player.x -= player.diagonalSpeed;
-        }
       }
+      player.move.upperLeft(canvas, enemyCollision);
     } else if (keysPressed['ArrowUp'] && keysPressed['ArrowRight']) {
-      player.facing = FacingAngles.TopRight;
       if (enemyCollision) {
-        player.y += player.diagonalSpeed * 2;
-        player.x -= player.diagonalSpeed * 2;
         player.takeDamage(10, true);
-      } else {
-        if (wallCollision.top) {
-          player.y = player.height / 2;
-        } else {
-          player.y -= player.diagonalSpeed;
-        }
-        if (wallCollision.right) {
-          player.x = canvas.width - player.width / 2;
-        } else {
-          player.x += player.diagonalSpeed;
-        }
       }
+      player.move.upperRight(canvas, enemyCollision);
     } else if (keysPressed['ArrowDown'] && keysPressed['ArrowLeft']) {
-      player.facing = FacingAngles.BottomLeft;
       if (enemyCollision) {
-        player.y -= player.diagonalSpeed * 2;
-        player.x += player.diagonalSpeed * 2;
         player.takeDamage(10, true);
-      } else {
-        if (wallCollision.bottom) {
-          player.y = canvas.height - player.height / 2;
-        } else {
-          player.y += player.diagonalSpeed;
-        }
-        if (wallCollision.left) {
-          player.x = player.width / 2;
-        } else {
-          player.x -= player.diagonalSpeed;
-        }
       }
+      player.move.lowerLeft(canvas, enemyCollision);
     } else if (keysPressed['ArrowDown'] && keysPressed['ArrowRight']) {
-      player.facing = FacingAngles.BottomRight;
       if (enemyCollision) {
-        player.y -= player.diagonalSpeed * 2;
-        player.x -= player.diagonalSpeed * 2;
         player.takeDamage(10, true);
-      } else {
-        if (wallCollision.bottom) {
-          player.y = canvas.height - player.height / 2;
-        } else {
-          player.y += player.diagonalSpeed;
-        }
-        if (wallCollision.right) {
-          player.x = canvas.width - player.width / 2;
-        } else {
-          player.x += player.diagonalSpeed;
-        }
       }
+      player.move.lowerRight(canvas, enemyCollision);
     } else if (keysPressed['ArrowUp']) {
-      player.facing = FacingAngles.Top;
       if (enemyCollision) {
-        player.y += player.speed * 2;
         player.takeDamage(10, true);
-      } else if (wallCollision.top) {
-        player.y = player.height / 2;
-      } else {
-        player.y -= player.speed;
       }
+      player.move.up(canvas, enemyCollision);
     } else if (keysPressed['ArrowDown']) {
-      player.facing = FacingAngles.Bottom;
       if (enemyCollision) {
-        player.y -= player.speed * 2;
         player.takeDamage(10, true);
-      } else if (wallCollision.bottom) {
-        player.y = canvas.height - player.height / 2;
-      } else {
-        player.y += player.speed;
       }
+      player.move.down(canvas, enemyCollision);
     } else if (keysPressed['ArrowLeft']) {
-      player.facing = FacingAngles.Left;
       if (enemyCollision) {
-        player.x += player.speed * 2;
         player.takeDamage(10, true);
-      } else if (wallCollision.left) {
-        player.x = player.width / 2;
-      } else {
-        player.x -= player.speed;
       }
+      player.move.left(canvas, enemyCollision);
     } else if (keysPressed['ArrowRight']) {
-      player.facing = FacingAngles.Right;
       if (enemyCollision) {
-        player.x -= player.speed * 2;
         player.takeDamage(10, true);
-      } else if (wallCollision.right) {
-        player.x = canvas.width - player.width / 2;
-      } else {
-        player.x += player.speed;
       }
+      player.move.right(canvas, enemyCollision);
     }
   }
 }

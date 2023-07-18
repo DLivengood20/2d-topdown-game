@@ -59,7 +59,7 @@ export class CollisionCheck {
       });
     }
 
-    const enemiesHit: Array<number> = [];
+    const enemiesHit: Array<Enemy> = [];
 
     for (let i = 0; i < enemies.length; i++) {
       for (let j = 0; j < vertexes.length; j++) {
@@ -69,7 +69,7 @@ export class CollisionCheck {
           vertexes[j].y <= enemies[i].y + enemies[i].height / 2 &&
           vertexes[j].y >= enemies[i].y - enemies[i].height / 2
         ) {
-          enemiesHit.push(i);
+          enemiesHit.push(enemies[i]);
         }
       }
     }

@@ -1,5 +1,7 @@
 import { Enemy } from './enemy';
+import { MovementHandler } from './movementHandler';
 import { Player } from './player';
+import { AttackHandler } from './attackHandler';
 
 export class Game {
   private canvas: HTMLCanvasElement;
@@ -8,6 +10,7 @@ export class Game {
 
   private enemies: Array<Enemy>;
   private player: Player;
+  private attack: AttackHandler;
 
   constructor() {
     this.canvas = document.createElement('canvas');
@@ -23,9 +26,11 @@ export class Game {
     this.keysPressed = {};
     this.registerEventListeners();
 
+    this.attack = new AttackHandler();
     // Create an instance of the player
     this.player = new Player(
       this.canvas,
+      this.attack,
       this.canvas.width / 2,
       this.canvas.height / 2,
       20,
@@ -76,11 +81,16 @@ export class Game {
   update() {
     // Update game logic here
     this.player.update(this.enemies);
-    if (!this.player.isStunned && !this.player.isAttacking) {
-      this.player.handleAttack(this.keysPressed, this.enemies);
+    if (!this.player.isStunned && !this.attack.isAttacking) {
+      this.attack.handleAttack(this.keysPressed, this.player);
       // rechecks attacking flag incase player initiated an attack this loop
-      if (!this.player.isAttacking) {
-        this.player.handleMovement(this.keysPressed, this.enemies);
+      if (!this.attack.isAttacking) {
+        MovementHandler.handleMovement(
+          this.keysPressed,
+          this.player,
+          this.enemies,
+          this.canvas
+        );
       }
     }
   }

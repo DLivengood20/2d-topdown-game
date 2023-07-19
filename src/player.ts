@@ -6,8 +6,7 @@ import { Weapon } from './weapon';
 import { WeaponList } from './weaponList';
 
 export class Player {
-  private canvas: HTMLCanvasElement;
-  private context: CanvasRenderingContext2D | null;
+  private ctx: CanvasRenderingContext2D | null;
   private attack: AttackHandler;
   move: Moveable;
   private health: number;
@@ -21,7 +20,7 @@ export class Player {
   weapon: Weapon;
 
   constructor(
-    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D,
     attackHandler: AttackHandler,
     x: number,
     y: number,
@@ -29,8 +28,7 @@ export class Player {
     height: number,
     health: number
   ) {
-    this.canvas = canvas;
-    this.context = canvas.getContext('2d');
+    this.ctx = ctx;
     this.attack = attackHandler;
     this.move = new Moveable(x, y, width, height, 5, FacingAngles.Bottom);
     this.health = health;
@@ -44,7 +42,7 @@ export class Player {
     this.stunTimer = 0;
     this.stunColor = 'green'; // Color to indicate player stun
 
-    this.weapon = WeaponList.broadsword(this.canvas);
+    this.weapon = WeaponList.broadsword(this.ctx);
   }
 
   getHealth() {
@@ -75,24 +73,24 @@ export class Player {
   }
 
   draw() {
-    if (this.context === null) {
+    if (this.ctx === null) {
       throw new Error('CanvasRenderingContext2D is null.');
     }
 
-    this.context.save();
-    this.context.translate(this.move.x, this.move.y);
-    this.context.rotate(this.move.heading);
+    this.ctx.save();
+    this.ctx.translate(this.move.x, this.move.y);
+    this.ctx.rotate(this.move.heading);
 
-    this.context.fillStyle = this.color;
-    this.context.fillRect(
+    this.ctx.fillStyle = this.color;
+    this.ctx.fillRect(
       (-1 * this.move.width) / 2,
       (-1 * this.move.height) / 2,
       this.move.width,
       this.move.height
     );
 
-    this.context.fillStyle = this.faceColor;
-    this.context.fillRect(
+    this.ctx.fillStyle = this.faceColor;
+    this.ctx.fillRect(
       (-1 * this.move.width) / 2,
       this.move.height / 2 - 2,
       this.move.width,
@@ -106,7 +104,7 @@ export class Player {
       this.weapon.draw(weaponRotation, this.move.width / 2);
     }
 
-    this.context.restore();
+    this.ctx.restore();
   }
 
   update(enemies: Array<Enemy>) {

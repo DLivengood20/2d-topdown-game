@@ -1,20 +1,18 @@
 export class Enemy {
-  private canvas: HTMLCanvasElement;
-  private context: CanvasRenderingContext2D | null;
+  private ctx: CanvasRenderingContext2D | null;
   x: number;
   y: number;
   width: number;
   height: number;
 
   constructor(
-    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
     width: number,
     height: number
   ) {
-    this.canvas = canvas;
-    this.context = canvas.getContext('2d');
+    this.ctx = ctx;
     this.x = x;
     this.y = y;
     this.width = width;
@@ -22,12 +20,12 @@ export class Enemy {
   }
 
   draw() {
-    if (this.context === null) {
+    if (this.ctx === null) {
       throw new Error('CanvasRenderingContext2D is null.');
     }
 
-    this.context.fillStyle = 'red';
-    this.context.fillRect(
+    this.ctx.fillStyle = 'red';
+    this.ctx.fillRect(
       this.x - this.width / 2,
       this.y - this.height / 2,
       this.width,

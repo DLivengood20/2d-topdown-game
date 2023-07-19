@@ -1,6 +1,5 @@
 export class Weapon {
-  private canvas: HTMLCanvasElement;
-  private context: CanvasRenderingContext2D | null;
+  private ctx: CanvasRenderingContext2D | null;
   length: number;
   width: number;
   swingAngle: number;
@@ -8,15 +7,14 @@ export class Weapon {
   cooldown: number;
 
   constructor(
-    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D,
     length: number,
     width: number,
     swingAngle: number,
     attackDuration: number,
     cooldown: number
   ) {
-    this.canvas = canvas;
-    this.context = canvas.getContext('2d');
+    this.ctx = ctx;
     this.length = length;
     this.width = width;
     this.swingAngle = swingAngle;
@@ -25,15 +23,15 @@ export class Weapon {
   }
 
   draw(rotate: number, distanceFromUser: number) {
-    if (this.context === null) {
+    if (this.ctx === null) {
       throw new Error('CanvasRenderingContext2D is null.');
     }
 
-    this.context.rotate(this.swingAngle / 2 - rotate);
-    this.context.translate(0, this.width / 2);
+    this.ctx.rotate(this.swingAngle / 2 - rotate);
+    this.ctx.translate(0, this.width / 2);
 
-    this.context.fillStyle = 'black';
-    this.context.fillRect(
+    this.ctx.fillStyle = 'black';
+    this.ctx.fillRect(
       (-1 * this.width) / 2,
       distanceFromUser,
       this.width,

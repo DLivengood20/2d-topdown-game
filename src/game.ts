@@ -5,7 +5,7 @@ import { AttackHandler } from './attackHandler';
 
 export class Game {
   private canvas: HTMLCanvasElement;
-  private context: CanvasRenderingContext2D | null;
+  private ctx: CanvasRenderingContext2D | null;
   private keysPressed: { [key: string]: boolean };
 
   private enemies: Array<Enemy>;
@@ -14,12 +14,12 @@ export class Game {
 
   constructor() {
     this.canvas = document.createElement('canvas');
-    this.context = this.canvas.getContext('2d');
+    this.ctx = this.canvas.getContext('2d');
     this.canvas.width = 800; // Adjust the width as per your requirements
     this.canvas.height = 600; // Adjust the height as per your requirements
     document.body.appendChild(this.canvas);
 
-    if (this.context === null) {
+    if (this.ctx === null) {
       throw new Error('Unable to initialize CanvasRenderingContext2D.');
     }
 
@@ -29,7 +29,7 @@ export class Game {
     this.attack = new AttackHandler();
     // Create an instance of the player
     this.player = new Player(
-      this.canvas,
+      this.ctx,
       this.attack,
       this.canvas.width / 2,
       this.canvas.height / 2,
@@ -40,9 +40,9 @@ export class Game {
 
     this.enemies = new Array<Enemy>();
 
-    this.enemies.push(new Enemy(this.canvas, 100, 100, 20, 20));
-    this.enemies.push(new Enemy(this.canvas, 121, 121, 20, 20));
-    this.enemies.push(new Enemy(this.canvas, 600, 400, 40, 40));
+    this.enemies.push(new Enemy(this.ctx, 100, 100, 20, 20));
+    this.enemies.push(new Enemy(this.ctx, 121, 121, 20, 20));
+    this.enemies.push(new Enemy(this.ctx, 600, 400, 40, 40));
   }
 
   private registerEventListeners() {
@@ -68,14 +68,14 @@ export class Game {
   }
 
   private drawPlayerHealth() {
-    if (this.context === null) {
+    if (this.ctx === null) {
       throw new Error('CanvasRenderingContext2D is null.');
     }
 
     // Set the font color to black (or any color that contrasts with the background)
-    this.context.fillStyle = 'black';
-    this.context.font = '18px Arial';
-    this.context.fillText(`Health: ${this.player.getHealth()}`, 10, 30);
+    this.ctx.fillStyle = 'black';
+    this.ctx.font = '18px Arial';
+    this.ctx.fillText(`Health: ${this.player.getHealth()}`, 10, 30);
   }
 
   update() {
@@ -96,15 +96,15 @@ export class Game {
   }
 
   render() {
-    if (this.context === null) {
+    if (this.ctx === null) {
       throw new Error('CanvasRenderingContext2D is null.');
     }
 
     // Clear the canvas
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.context.fillStyle = 'yellow';
-    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillStyle = 'yellow';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     // Render game elements here
     this.player.draw();

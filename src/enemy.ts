@@ -1,22 +1,21 @@
-export class Enemy {
+import { Character } from './character';
+import { PhysObject } from './physObject';
+
+export class Enemy implements Character {
   private ctx: CanvasRenderingContext2D | null;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+  body: PhysObject;
 
   constructor(
     ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
     width: number,
-    height: number
+    height: number,
+    heading: number,
+    speed: number
   ) {
     this.ctx = ctx;
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
+    this.body = new PhysObject(x, y, heading, width, height, speed);
   }
 
   draw() {
@@ -26,10 +25,10 @@ export class Enemy {
 
     this.ctx.fillStyle = 'red';
     this.ctx.fillRect(
-      this.x - this.width / 2,
-      this.y - this.height / 2,
-      this.width,
-      this.height
+      this.body.x - this.body.width / 2,
+      this.body.y - this.body.height / 2,
+      this.body.width,
+      this.body.height
     );
   }
 }

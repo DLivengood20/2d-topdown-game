@@ -1,6 +1,6 @@
 import { Enemy } from './enemy';
 import { Player } from './player';
-import { CollisionCheck as collision } from './collisionCheck';
+import { WeaponCollision as collision } from './weaponCollision';
 
 export class AttackHandler {
   isAttacking: boolean;
@@ -31,17 +31,17 @@ export class AttackHandler {
       this.isAttacking = false;
     }
     const weaponRotation =
-      player.move.heading +
+      player.body.heading +
       player.weapon.swingAngle / 2 -
       player.weapon.swingAngle *
         ((Date.now() - this.attackTimer) / player.weapon.attackDuration);
 
-    const weaponCollision = collision.weapon(
+    const weaponCollision = collision.weaponCollision(
       player.weapon,
       weaponRotation,
-      player.move.x,
-      player.move.y,
-      player.move.width / 2,
+      player.body.x,
+      player.body.y,
+      player.body.width / 2,
       enemies
     );
 

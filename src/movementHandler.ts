@@ -1,56 +1,80 @@
-import { CollisionCheck as collision } from './collisionCheck';
-import { Player } from './player';
-import { Enemy } from './enemy';
+import { FacingAngles } from './facingAngles';
+import { PhysObject } from './physObject';
 
 export class MovementHandler {
   static handleMovement(
     keysPressed: { [key: string]: boolean },
-    player: Player,
-    enemies: Array<Enemy>,
-    canvas: HTMLCanvasElement
+    object: PhysObject,
+    wallCollision: {
+      right: boolean;
+      left: boolean;
+      top: boolean;
+      bottom: boolean;
+    }
   ) {
-    const enemyCollision = collision.enemies(player.move, enemies);
+    const move = object.move;
 
     if (keysPressed['ArrowUp'] && keysPressed['ArrowLeft']) {
-      if (enemyCollision) {
-        player.takeDamage(10, true);
+      object.heading = FacingAngles.TopLeft;
+      if (!wallCollision.top) {
+        move.up(object, move.diagonalSpeed);
       }
-      player.move.upperLeft(canvas, enemyCollision);
+      if (!wallCollision.left) {
+        move.left(object, move.diagonalSpeed);
+      }
     } else if (keysPressed['ArrowUp'] && keysPressed['ArrowRight']) {
-      if (enemyCollision) {
-        player.takeDamage(10, true);
+      object.heading = FacingAngles.TopRight;
+      if (!wallCollision.top) {
+        move.up(object, move.diagonalSpeed);
       }
-      player.move.upperRight(canvas, enemyCollision);
+      if (!wallCollision.right) {
+        move.right(object, move.diagonalSpeed);
+      }
     } else if (keysPressed['ArrowDown'] && keysPressed['ArrowLeft']) {
-      if (enemyCollision) {
-        player.takeDamage(10, true);
+      object.heading = FacingAngles.BottomLeft;
+      if (!wallCollision.bottom) {
+        move.down(object, move.diagonalSpeed);
       }
-      player.move.lowerLeft(canvas, enemyCollision);
+      if (!wallCollision.left) {
+        move.left(object, move.diagonalSpeed);
+      }
     } else if (keysPressed['ArrowDown'] && keysPressed['ArrowRight']) {
-      if (enemyCollision) {
-        player.takeDamage(10, true);
+      object.heading = FacingAngles.BottomRight;
+      if (!wallCollision.bottom) {
+        move.down(object, move.diagonalSpeed);
       }
-      player.move.lowerRight(canvas, enemyCollision);
-    } else if (keysPressed['ArrowUp']) {
-      if (enemyCollision) {
-        player.takeDamage(10, true);
+      if (!wallCollision.right) {
+        move.right(object, move.diagonalSpeed);
       }
-      player.move.up(canvas, enemyCollision);
-    } else if (keysPressed['ArrowDown']) {
-      if (enemyCollision) {
-        player.takeDamage(10, true);
-      }
-      player.move.down(canvas, enemyCollision);
-    } else if (keysPressed['ArrowLeft']) {
-      if (enemyCollision) {
-        player.takeDamage(10, true);
-      }
-      player.move.left(canvas, enemyCollision);
-    } else if (keysPressed['ArrowRight']) {
-      if (enemyCollision) {
-        player.takeDamage(10, true);
-      }
-      player.move.right(canvas, enemyCollision);
+    } else if (keysPressed['ArrowUp'] && !wallCollision.top) {
+      object.heading = FacingAngles.Top;
+      move.up(object, move.speed);
+    } else if (keysPressed['ArrowDown'] && !wallCollision.bottom) {
+      object.heading = FacingAngles.Bottom;
+      move.down(object, move.speed);
+    } else if (keysPressed['ArrowLeft'] && !wallCollision.left) {
+      object.heading = FacingAngles.Left;
+      move.left(object, move.speed);
+    } else if (keysPressed['ArrowRight'] && !wallCollision.right) {
+      object.heading = FacingAngles.Right;
+      move.right(object, move.speed);
     }
+  }
+
+  static knockback(object: PhysObject, hazard: PhysObject) {
+    const dx = object.x - hazard.x;
+    const dy = object.y - hazard.y;
+
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // Normalize the direction vector
+    const normalizedDx = dx / distance;
+    const normalizedDy = dy / distance;
+
+    // Move the player away from the enemy based on the normalized direction
+    const moveDistance = object.move.speed * 2;
+
+    object.move.right(object, normalizedDx * moveDistance);
+    object.move.down(object, normalizedDy * moveDistance);
   }
 }

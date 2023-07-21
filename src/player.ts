@@ -1,14 +1,15 @@
 import { AttackHandler } from './attackHandler';
+import { Character } from './character';
 import { Enemy } from './enemy';
 import { FacingAngles } from './facingAngles';
-import { Moveable } from './moveable';
+import { PhysObject } from './physObject';
 import { Weapon } from './weapon';
 import { WeaponList } from './weaponList';
 
-export class Player {
+export class Player implements Character {
   private ctx: CanvasRenderingContext2D | null;
+  body: PhysObject;
   private attack: AttackHandler;
-  move: Moveable;
   private health: number;
   private color: string;
   isStunned: boolean;
@@ -29,8 +30,8 @@ export class Player {
     health: number
   ) {
     this.ctx = ctx;
+    this.body = new PhysObject(x, y, FacingAngles.Bottom, width, height, 5);
     this.attack = attackHandler;
-    this.move = new Moveable(x, y, width, height, 5, FacingAngles.Bottom);
     this.health = health;
 
     this.defaultColor = 'blue'; // Default player color
@@ -76,24 +77,25 @@ export class Player {
     if (this.ctx === null) {
       throw new Error('CanvasRenderingContext2D is null.');
     }
+    const body = this.body;
 
     this.ctx.save();
-    this.ctx.translate(this.move.x, this.move.y);
-    this.ctx.rotate(this.move.heading);
+    this.ctx.translate(body.x, body.y);
+    this.ctx.rotate(body.heading);
 
     this.ctx.fillStyle = this.color;
     this.ctx.fillRect(
-      (-1 * this.move.width) / 2,
-      (-1 * this.move.height) / 2,
-      this.move.width,
-      this.move.height
+      (-1 * body.width) / 2,
+      (-1 * body.height) / 2,
+      body.width,
+      body.height
     );
 
     this.ctx.fillStyle = this.faceColor;
     this.ctx.fillRect(
-      (-1 * this.move.width) / 2,
-      this.move.height / 2 - 2,
-      this.move.width,
+      (-1 * body.width) / 2,
+      body.height / 2 - 2,
+      body.width,
       2
     );
 
@@ -101,7 +103,7 @@ export class Player {
       const weaponRotation =
         (this.weapon.swingAngle * (Date.now() - this.attack.attackTimer)) /
         this.weapon.attackDuration;
-      this.weapon.draw(weaponRotation, this.move.width / 2);
+      this.weapon.draw(weaponRotation, body.width / 2);
     }
 
     this.ctx.restore();

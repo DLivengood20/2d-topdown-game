@@ -1,7 +1,8 @@
 import { Enemy } from './enemy';
-import { MovementHandler } from './movementHandler';
 import { Player } from './player';
 import { AttackHandler } from './attackHandler';
+import { FacingAngles } from './facingAngles';
+import { PlayerHandler } from './playerHandler';
 
 export class Game {
   private canvas: HTMLCanvasElement;
@@ -11,6 +12,7 @@ export class Game {
   private enemies: Array<Enemy>;
   private player: Player;
   private attack: AttackHandler;
+  private playerHandler: PlayerHandler;
 
   constructor() {
     this.canvas = document.createElement('canvas');
@@ -27,22 +29,21 @@ export class Game {
     this.registerEventListeners();
 
     this.attack = new AttackHandler();
+    this.playerHandler = new PlayerHandler();
     // Create an instance of the player
-    this.player = new Player(
-      this.ctx,
-      this.attack,
-      this.canvas.width / 2,
-      this.canvas.height / 2,
-      20,
-      20,
-      100
-    );
+    this.player = this.playerHandler.create(this.canvas);
 
     this.enemies = new Array<Enemy>();
 
-    this.enemies.push(new Enemy(this.ctx, 100, 100, 20, 20));
-    this.enemies.push(new Enemy(this.ctx, 121, 121, 20, 20));
-    this.enemies.push(new Enemy(this.ctx, 600, 400, 40, 40));
+    this.enemies.push(
+      new Enemy(this.ctx, 100, 100, 20, 20, FacingAngles.Right, 4)
+    );
+    this.enemies.push(
+      new Enemy(this.ctx, 121, 121, 20, 20, FacingAngles.Bottom, 3)
+    );
+    this.enemies.push(
+      new Enemy(this.ctx, 600, 400, 40, 40, FacingAngles.Left, 2)
+    );
   }
 
   private registerEventListeners() {
@@ -80,19 +81,12 @@ export class Game {
 
   update() {
     // Update game logic here
-    this.player.update(this.enemies);
-    if (!this.player.isStunned && !this.attack.isAttacking) {
-      this.attack.handleAttack(this.keysPressed, this.player);
-      // rechecks attacking flag incase player initiated an attack this loop
-      if (!this.attack.isAttacking) {
-        MovementHandler.handleMovement(
-          this.keysPressed,
-          this.player,
-          this.enemies,
-          this.canvas
-        );
-      }
-    }
+    this.playerHandler.update(
+      this.keysPressed,
+      this.canvas,
+      this.player,
+      this.enemies
+    );
   }
 
   render() {

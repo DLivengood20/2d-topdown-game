@@ -68,6 +68,16 @@ export class Game {
     });
   }
 
+  startGameLoop() {
+    const update = () => {
+      this.update();
+      this.render();
+      requestAnimationFrame(update);
+    };
+
+    requestAnimationFrame(update);
+  }
+
   private drawPlayerHealth() {
     if (this.ctx === null) {
       throw new Error('CanvasRenderingContext2D is null.');

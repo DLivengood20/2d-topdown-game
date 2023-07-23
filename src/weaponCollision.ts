@@ -1,4 +1,4 @@
-import { Enemy } from './enemy';
+import { Character } from './character';
 import { Weapon } from './weapon';
 
 export class WeaponCollision {
@@ -8,7 +8,7 @@ export class WeaponCollision {
     x: number,
     y: number,
     distanceFromOrigin: number,
-    enemies: Array<Enemy>
+    defenders: Array<Character>
   ) {
     const vertexes: Array<{ x: number; y: number }> = [];
     for (let i = 0; i < weapon.length / 10; i++) {
@@ -24,17 +24,17 @@ export class WeaponCollision {
       });
     }
 
-    const enemiesHit: Array<Enemy> = [];
+    const enemiesHit: Array<Character> = [];
 
-    for (let i = 0; i < enemies.length; i++) {
+    for (let i = 0; i < defenders.length; i++) {
       for (let j = 0; j < vertexes.length; j++) {
         if (
-          vertexes[j].x <= enemies[i].body.x + enemies[i].body.width / 2 &&
-          vertexes[j].x >= enemies[i].body.x - enemies[i].body.width / 2 &&
-          vertexes[j].y <= enemies[i].body.y + enemies[i].body.height / 2 &&
-          vertexes[j].y >= enemies[i].body.y - enemies[i].body.height / 2
+          vertexes[j].x <= defenders[i].body.x + defenders[i].body.width / 2 &&
+          vertexes[j].x >= defenders[i].body.x - defenders[i].body.width / 2 &&
+          vertexes[j].y <= defenders[i].body.y + defenders[i].body.height / 2 &&
+          vertexes[j].y >= defenders[i].body.y - defenders[i].body.height / 2
         ) {
-          enemiesHit.push(enemies[i]);
+          enemiesHit.push(defenders[i]);
         }
       }
     }

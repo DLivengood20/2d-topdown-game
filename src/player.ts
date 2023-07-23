@@ -9,7 +9,8 @@ import { WeaponList } from './weaponList';
 export class Player implements Character {
   private ctx: CanvasRenderingContext2D | null;
   body: PhysObject;
-  private attack: AttackHandler;
+  isAttacking: boolean;
+  attackTimer: number;
   private health: number;
   private color: string;
   isStunned: boolean;
@@ -22,7 +23,6 @@ export class Player implements Character {
 
   constructor(
     ctx: CanvasRenderingContext2D,
-    attackHandler: AttackHandler,
     x: number,
     y: number,
     width: number,
@@ -31,7 +31,8 @@ export class Player implements Character {
   ) {
     this.ctx = ctx;
     this.body = new PhysObject(x, y, FacingAngles.Bottom, width, height, 5);
-    this.attack = attackHandler;
+    this.isAttacking = false;
+    this.attackTimer = 0;
     this.health = health;
 
     this.defaultColor = 'blue'; // Default player color
@@ -99,9 +100,9 @@ export class Player implements Character {
       2
     );
 
-    if (this.attack.isAttacking) {
+    if (this.isAttacking) {
       const weaponRotation =
-        (this.weapon.swingAngle * (Date.now() - this.attack.attackTimer)) /
+        (this.weapon.swingAngle * (Date.now() - this.attackTimer)) /
         this.weapon.attackDuration;
       this.weapon.draw(weaponRotation, body.width / 2);
     }
@@ -113,8 +114,8 @@ export class Player implements Character {
     if (this.isStunned) {
       this.updateStun();
     }
-    if (this.attack.isAttacking) {
-      this.attack.update(this, enemies);
+    if (this.isAttacking) {
+      AttackHandler.update(this, enemies);
     }
   }
 }

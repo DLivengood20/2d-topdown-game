@@ -1,8 +1,8 @@
 import { Enemy } from './enemy';
 import { Player } from './player';
-import { AttackHandler } from './attackHandler';
 import { FacingAngles } from './facingAngles';
 import { PlayerHandler } from './playerHandler';
+import { PlayerController } from './playerController';
 
 export class Game {
   private canvas: HTMLCanvasElement;
@@ -11,8 +11,6 @@ export class Game {
 
   private enemies: Array<Enemy>;
   private player: Player;
-  private attack: AttackHandler;
-  private playerHandler: PlayerHandler;
 
   constructor() {
     this.canvas = document.createElement('canvas');
@@ -28,10 +26,8 @@ export class Game {
     this.keysPressed = {};
     this.registerEventListeners();
 
-    this.attack = new AttackHandler();
-    this.playerHandler = new PlayerHandler();
     // Create an instance of the player
-    this.player = this.playerHandler.create(this.canvas);
+    this.player = PlayerHandler.create(this.canvas);
 
     this.enemies = new Array<Enemy>();
 
@@ -91,12 +87,8 @@ export class Game {
 
   update() {
     // Update game logic here
-    this.playerHandler.update(
-      this.keysPressed,
-      this.canvas,
-      this.player,
-      this.enemies
-    );
+    PlayerController.playerInput(this.keysPressed, this.player);
+    PlayerHandler.update(this.player, this.enemies);
   }
 
   render() {

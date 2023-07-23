@@ -1,14 +1,11 @@
-import { Collidable } from './collidable';
-import { Movement } from './movement';
-
 export class PhysObject {
   x: number;
   y: number;
   heading: number;
   width: number;
   height: number;
-  collidable: Collidable;
-  move: Movement;
+  speed: number;
+  diagonalSpeed: number;
 
   constructor(
     x: number,
@@ -23,7 +20,7 @@ export class PhysObject {
     this.heading = heading;
     this.width = width;
     this.height = height;
-    this.collidable = new Collidable();
-    this.move = new Movement(speed);
+    this.speed = speed;
+    this.diagonalSpeed = Math.cos(Math.PI / 4) * speed;
   }
 }

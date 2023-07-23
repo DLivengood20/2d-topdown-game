@@ -4,6 +4,8 @@ import { PhysObject } from './physObject';
 export class Enemy implements Character {
   private ctx: CanvasRenderingContext2D | null;
   body: PhysObject;
+  isAttacking: boolean;
+  attackTimer: number;
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -16,6 +18,8 @@ export class Enemy implements Character {
   ) {
     this.ctx = ctx;
     this.body = new PhysObject(x, y, heading, width, height, speed);
+    this.isAttacking = false;
+    this.attackTimer = 0;
   }
 
   draw() {

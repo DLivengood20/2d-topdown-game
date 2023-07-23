@@ -1,5 +1,9 @@
 import { PhysObject } from './physObject';
+import { Weapon } from './weapon';
 
 export interface Character {
-  body?: PhysObject;
+  body: PhysObject;
+  weapon?: Weapon;
+  isAttacking: boolean;
+  attackTimer: number;
 }

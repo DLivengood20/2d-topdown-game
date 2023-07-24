@@ -1,5 +1,5 @@
 import { Character } from './character';
-import { WeaponCollision as collision } from './weaponCollision';
+import { weaponCollision } from './weaponCollision';
 
 export function attackHandler(
   attacker: Character,
@@ -24,7 +24,7 @@ export function attackHandler(
     attacker.weapon.swingAngle *
       ((Date.now() - attacker.attackTimer) / attacker.weapon.attackDuration);
 
-  const weaponCollision = collision.weaponCollision(
+  const weaponCollisions = weaponCollision(
     attacker.weapon,
     weaponRotation,
     attacker.body.x,
@@ -33,10 +33,10 @@ export function attackHandler(
     defenders
   );
 
-  if (weaponCollision.length > 0) {
+  if (weaponCollisions.length > 0) {
     for (let i = 0; i < defenders.length; i++) {
-      for (let j = 0; j < weaponCollision.length; j++) {
-        if (defenders[i] === weaponCollision[j]) {
+      for (let j = 0; j < weaponCollisions.length; j++) {
+        if (defenders[i] === weaponCollisions[j]) {
           defenders.splice(i, 1);
         }
       }

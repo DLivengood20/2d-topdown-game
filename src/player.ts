@@ -1,4 +1,4 @@
-import { AttackHandler } from './attackHandler';
+import { attackHandler } from './attackHandler';
 import { Character } from './character';
 import { Enemy } from './enemy';
 import { FacingAngles } from './facingAngles';
@@ -115,7 +115,7 @@ export class Player implements Character {
       this.updateStun();
     }
     if (this.isAttacking) {
-      AttackHandler.update(this, enemies);
+      attackHandler(this, enemies);
     }
   }
 }

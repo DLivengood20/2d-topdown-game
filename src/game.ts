@@ -1,8 +1,9 @@
 import { Enemy } from './enemy';
 import { Player } from './player';
 import { FacingAngles } from './facingAngles';
-import { PlayerHandler } from './playerHandler';
-import { PlayerController } from './playerController';
+import { createPlayer, updatePlayer } from './playerHandler';
+import { playerInput } from './playerController';
+import { CanvasValues } from './constants';
 
 export class Game {
   private canvas: HTMLCanvasElement;
@@ -15,8 +16,8 @@ export class Game {
   constructor() {
     this.canvas = document.createElement('canvas');
     this.ctx = this.canvas.getContext('2d');
-    this.canvas.width = 800; // Adjust the width as per your requirements
-    this.canvas.height = 600; // Adjust the height as per your requirements
+    this.canvas.width = CanvasValues.Width; // Adjust the width as per your requirements
+    this.canvas.height = CanvasValues.Height; // Adjust the height as per your requirements
     document.body.appendChild(this.canvas);
 
     if (this.ctx === null) {
@@ -27,7 +28,7 @@ export class Game {
     this.registerEventListeners();
 
     // Create an instance of the player
-    this.player = PlayerHandler.create(this.canvas);
+    this.player = createPlayer(this.canvas);
 
     this.enemies = new Array<Enemy>();
 
@@ -87,8 +88,8 @@ export class Game {
 
   update() {
     // Update game logic here
-    PlayerController.playerInput(this.keysPressed, this.player);
-    PlayerHandler.update(this.player, this.enemies);
+    playerInput(this.keysPressed, this.player, this.enemies);
+    updatePlayer(this.player, this.enemies);
   }
 
   render() {

@@ -1,7 +1,7 @@
 import { PhysObject } from './physObject';
 import { CanvasValues } from './constants';
 
-export function willCollide(
+export function getCollidedWith(
   object: PhysObject,
   objects: Array<PhysObject>
 ): Array<PhysObject> {
@@ -19,7 +19,12 @@ export function willCollide(
   return results;
 }
 
-export function borderCollision(object: PhysObject) {
+export function getCanvasEdgeCollision(object: PhysObject): {
+  right: boolean;
+  left: boolean;
+  top: boolean;
+  bottom: boolean;
+} {
   const results = { right: false, left: false, top: false, bottom: false };
   // right edge
   if (object.x + object.speed + object.width / 2 > CanvasValues.Width) {

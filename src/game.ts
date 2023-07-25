@@ -1,7 +1,7 @@
 import { Enemy } from './enemy';
 import { Player } from './player';
 import { FacingAngles } from './facingAngles';
-import { createPlayer, updatePlayer } from './playerHandler';
+import { createPlayer, updatePlayer } from './playerUtility';
 import { playerInput } from './playerController';
 import { CanvasValues } from './constants';
 

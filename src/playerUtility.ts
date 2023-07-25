@@ -1,6 +1,6 @@
-import { willCollide } from './collidable';
+import { getCollidedWith } from './collisionUtility';
 import { Enemy } from './enemy';
-import { knockback } from './movementHandler';
+import { knockback } from './movementUtility';
 import { PhysObject } from './physObject';
 import { Player } from './player';
 
@@ -15,7 +15,7 @@ export function createPlayer(canvas: HTMLCanvasElement) {
 export function updatePlayer(player: Player, enemies: Array<Enemy>) {
   player.update(enemies);
   const enemyBodies: Array<PhysObject> = enemies.map((enemy) => enemy.body);
-  const collision = willCollide(player.body, enemyBodies);
+  const collision = getCollidedWith(player.body, enemyBodies);
 
   for (const enemy of collision) {
     knockback(player.body, enemy);

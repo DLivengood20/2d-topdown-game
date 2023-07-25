@@ -7,7 +7,7 @@ import {
   moveUp,
   moveUpLeft,
   moveUpRight,
-} from './movementHandler';
+} from './movementUtility';
 import { Player } from './player';
 import { attackHandler } from './attackHandler';
 import { Enemy } from './enemy';

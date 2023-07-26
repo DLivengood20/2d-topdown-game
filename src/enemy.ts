@@ -22,6 +22,10 @@ export class Enemy implements Character {
     this.attackTimer = 0;
   }
 
+  startAttackTimer(): void {
+    return;
+  }
+
   draw() {
     if (this.ctx === null) {
       throw new Error('CanvasRenderingContext2D is null.');

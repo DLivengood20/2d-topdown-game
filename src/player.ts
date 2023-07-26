@@ -74,29 +74,35 @@ export class Player implements Character {
     }
   }
 
+  startAttackTimer() {
+    if (Date.now() - this.attackTimer >= this.weapon.cooldown) {
+      this.isAttacking = true;
+      this.attackTimer = Date.now();
+      setTimeout(() => (this.isAttacking = false), this.weapon.attackDuration);
+    }
+  }
+
   draw() {
     if (this.ctx === null) {
       throw new Error('CanvasRenderingContext2D is null.');
     }
-    const body = this.body;
-
     this.ctx.save();
-    this.ctx.translate(body.x, body.y);
-    this.ctx.rotate(body.heading);
+    this.ctx.translate(this.body.x, this.body.y);
+    this.ctx.rotate(this.body.heading);
 
     this.ctx.fillStyle = this.color;
     this.ctx.fillRect(
-      (-1 * body.width) / 2,
-      (-1 * body.height) / 2,
-      body.width,
-      body.height
+      (-1 * this.body.width) / 2,
+      (-1 * this.body.height) / 2,
+      this.body.width,
+      this.body.height
     );
 
     this.ctx.fillStyle = this.faceColor;
     this.ctx.fillRect(
-      (-1 * body.width) / 2,
-      body.height / 2 - 2,
-      body.width,
+      (-1 * this.body.width) / 2,
+      this.body.height / 2 - 2,
+      this.body.width,
       2
     );
 
@@ -104,7 +110,7 @@ export class Player implements Character {
       const weaponRotation =
         (this.weapon.swingAngle * (Date.now() - this.attackTimer)) /
         this.weapon.attackDuration;
-      this.weapon.draw(weaponRotation, body.width / 2);
+      this.weapon.draw(weaponRotation, this.body.width / 2);
     }
 
     this.ctx.restore();

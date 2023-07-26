@@ -6,4 +6,5 @@ export interface Character {
   weapon?: Weapon;
   isAttacking: boolean;
   attackTimer: number;
+  startAttackTimer(): void;
 }

@@ -1,5 +1,7 @@
 import { PhysObject } from './physObject';
 import { CanvasValues } from './constants';
+import { Weapon } from './weapon';
+import { Character } from './character';
 
 export function getCollidedWith(
   object: PhysObject,
@@ -43,4 +45,41 @@ export function getCanvasEdgeCollision(object: PhysObject): {
     results.top = true;
   }
   return results;
+}
+
+export function getCollidedWithWeapon(
+  weapon: Weapon,
+  rotation: number,
+  x: number,
+  y: number,
+  distanceFromOrigin: number,
+  defenders: Array<Character>
+): Array<Character> {
+  const vertexes: Array<{ x: number; y: number }> = [];
+  for (let i = 0; i < weapon.length / 10; i++) {
+    vertexes.push({
+      x:
+        -1 *
+          Math.sin(rotation) *
+          (distanceFromOrigin + weapon.length - 10 * i) +
+        x,
+      y: Math.cos(rotation) * (distanceFromOrigin + weapon.length - 10 * i) + y,
+    });
+  }
+
+  const enemiesHit: Array<Character> = [];
+
+  for (const defender of defenders) {
+    for (const vertex of vertexes) {
+      if (
+        vertex.x <= defender.body.x + defender.body.width / 2 &&
+        vertex.x >= defender.body.x - defender.body.width / 2 &&
+        vertex.y <= defender.body.y + defender.body.height / 2 &&
+        vertex.y >= defender.body.y - defender.body.height / 2
+      ) {
+        enemiesHit.push(defender);
+      }
+    }
+  }
+  return enemiesHit;
 }

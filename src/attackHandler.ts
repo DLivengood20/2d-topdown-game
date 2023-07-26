@@ -1,5 +1,5 @@
 import { Character } from './character';
-import { weaponCollision } from './weaponCollision';
+import { getCollidedWithWeapon } from './collisionUtility';
 
 export function attackHandler(
   attacker: Character,
@@ -9,22 +9,15 @@ export function attackHandler(
     return;
   }
 
-  if (Date.now() - attacker.attackTimer >= attacker.weapon.cooldown) {
-    attacker.isAttacking = true;
-    attacker.attackTimer = Date.now();
-  }
+  attacker.startAttackTimer();
 
-  const elapsed = Date.now() - attacker.attackTimer;
-  if (elapsed >= attacker.weapon.attackDuration) {
-    attacker.isAttacking = false;
-  }
   const weaponRotation =
     attacker.body.heading +
     attacker.weapon.swingAngle / 2 -
     attacker.weapon.swingAngle *
       ((Date.now() - attacker.attackTimer) / attacker.weapon.attackDuration);
 
-  const weaponCollisions = weaponCollision(
+  const weaponCollisions: Array<Character> = getCollidedWithWeapon(
     attacker.weapon,
     weaponRotation,
     attacker.body.x,

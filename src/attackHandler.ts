@@ -28,8 +28,8 @@ export function attackHandler(
 
   if (weaponCollisions.length > 0) {
     for (let i = 0; i < defenders.length; i++) {
-      for (let j = 0; j < weaponCollisions.length; j++) {
-        if (defenders[i] === weaponCollisions[j]) {
+      for (const character of weaponCollisions) {
+        if (defenders[i] === character) {
           defenders.splice(i, 1);
         }
       }

@@ -26,13 +26,9 @@ export function attackHandler(
     defenders
   );
 
-  if (weaponCollisions.length > 0) {
-    for (let i = 0; i < defenders.length; i++) {
-      for (const character of weaponCollisions) {
-        if (defenders[i] === character) {
-          defenders.splice(i, 1);
-        }
-      }
+  for (const character of weaponCollisions) {
+    if (defenders.includes(character)) {
+      defenders.splice(defenders.indexOf(character), 1);
     }
   }
 }

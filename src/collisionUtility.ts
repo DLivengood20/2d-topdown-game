@@ -70,12 +70,12 @@ export function getCollidedWithWeapon(
   const enemiesHit: Array<Character> = [];
 
   for (const defender of defenders) {
-    for (const vertex of vertexes) {
+    for (const { x, y } of vertexes) {
       if (
-        vertex.x <= defender.body.x + defender.body.width / 2 &&
-        vertex.x >= defender.body.x - defender.body.width / 2 &&
-        vertex.y <= defender.body.y + defender.body.height / 2 &&
-        vertex.y >= defender.body.y - defender.body.height / 2
+        x <= defender.body.x + defender.body.width / 2 &&
+        x >= defender.body.x - defender.body.width / 2 &&
+        y <= defender.body.y + defender.body.height / 2 &&
+        y >= defender.body.y - defender.body.height / 2
       ) {
         enemiesHit.push(defender);
       }

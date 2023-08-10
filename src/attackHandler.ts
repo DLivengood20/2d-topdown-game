@@ -1,15 +1,19 @@
 import { Character } from './character';
 import { getCollidedWithWeapon } from './collisionUtility';
 
-export function attackHandler(
-  attacker: Character,
-  defenders: Array<Character>
-) {
+export function initiateAttack(character: Character) {
+  if (
+    character.weapon !== undefined &&
+    Date.now() - character.attackTimer >= character.weapon.cooldown
+  ) {
+    character.startAttackTimer();
+  }
+}
+
+export function attackUpdate(attacker: Character, defenders: Array<Character>) {
   if (attacker.weapon === undefined) {
     return;
   }
-
-  attacker.startAttackTimer();
 
   const weaponRotation =
     attacker.body.heading +

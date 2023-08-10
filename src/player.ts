@@ -1,6 +1,4 @@
-import { attackHandler } from './attackHandler';
 import { Character } from './character';
-import { Enemy } from './enemy';
 import { FacingAngles } from './facingAngles';
 import { PhysObject } from './physObject';
 import { Weapon } from './weapon';
@@ -75,11 +73,9 @@ export class Player implements Character {
   }
 
   startAttackTimer() {
-    if (Date.now() - this.attackTimer >= this.weapon.cooldown) {
-      this.isAttacking = true;
-      this.attackTimer = Date.now();
-      setTimeout(() => (this.isAttacking = false), this.weapon.attackDuration);
-    }
+    this.isAttacking = true;
+    this.attackTimer = Date.now();
+    setTimeout(() => (this.isAttacking = false), this.weapon.attackDuration);
   }
 
   draw() {
@@ -116,12 +112,9 @@ export class Player implements Character {
     this.ctx.restore();
   }
 
-  update(enemies: Array<Enemy>) {
+  update() {
     if (this.isStunned) {
       this.updateStun();
-    }
-    if (this.isAttacking) {
-      attackHandler(this, enemies);
     }
   }
 }

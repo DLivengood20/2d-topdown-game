@@ -9,13 +9,11 @@ import {
   moveUpRight,
 } from './movementUtility';
 import { Player } from './player';
-import { attackHandler } from './attackHandler';
-import { Enemy } from './enemy';
+import { initiateAttack } from './attackHandler';
 
 export function playerInput(
   keysPressed: { [key: string]: boolean },
-  player: Player,
-  enemies: Array<Enemy>
+  player: Player
 ) {
   if (player.isStunned || player.isAttacking) {
     return;
@@ -39,6 +37,6 @@ export function playerInput(
   }
 
   if (keysPressed['mousedown']) {
-    attackHandler(player, enemies);
+    initiateAttack(player);
   }
 }

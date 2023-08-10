@@ -2,6 +2,9 @@ import { PhysObject } from './physObject';
 import { CanvasValues } from './constants';
 import { Weapon } from './weapon';
 import { Character } from './character';
+import { Player } from './player';
+import { Enemy } from './enemy';
+import { knockback } from './movementUtility';
 
 export function getCollidedWith(
   object: PhysObject,
@@ -82,4 +85,14 @@ export function getCollidedWithWeapon(
     }
   }
   return enemiesHit;
+}
+
+export function applyCollisionReactions(player: Player, enemies: Array<Enemy>) {
+  const enemyBodies: Array<PhysObject> = enemies.map((enemy) => enemy.body);
+  const collision = getCollidedWith(player.body, enemyBodies);
+
+  for (const enemy of collision) {
+    knockback(player.body, enemy);
+    player.takeDamage(10, true);
+  }
 }

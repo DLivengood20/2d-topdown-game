@@ -30,24 +30,12 @@ export function getCanvasEdgeCollision(object: PhysObject): {
   top: boolean;
   bottom: boolean;
 } {
-  const results = { right: false, left: false, top: false, bottom: false };
-  // right edge
-  if (object.x + object.speed + object.width / 2 > CanvasValues.Width) {
-    results.right = true;
-  }
-  // left edge
-  if (object.x - object.width / 2 - object.speed < 0) {
-    results.left = true;
-  }
-  // bottom edge
-  if (object.y + object.speed + object.height / 2 > CanvasValues.Height) {
-    results.bottom = true;
-  }
-  // top edge
-  if (object.y - object.height / 2 - object.speed < 0) {
-    results.top = true;
-  }
-  return results;
+  return {
+    right: object.x + object.speed + object.width / 2 > CanvasValues.Width,
+    left: object.x - object.width / 2 - object.speed < 0,
+    top: object.y - object.height / 2 - object.speed < 0,
+    bottom: object.y + object.speed + object.height / 2 > CanvasValues.Height,
+  };
 }
 
 export function getCollidedWithWeapon(

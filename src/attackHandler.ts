@@ -10,8 +10,8 @@ export function initiateAttack(character: Character) {
   }
 }
 
-export function attackUpdate(attacker: Character, defenders: Array<Character>) {
-  if (attacker.weapon === undefined) {
+export function updateAttack(attacker: Character, defenders: Array<Character>) {
+  if (!attacker.weapon || !attacker.isAttacking) {
     return;
   }
 

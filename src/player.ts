@@ -5,29 +5,26 @@ import { Weapon } from './weapon';
 import { WeaponList } from './weaponList';
 
 export class Player implements Character {
-  private ctx: CanvasRenderingContext2D | null;
   body: PhysObject;
   isAttacking: boolean;
   attackTimer: number;
   private health: number;
-  private color: string;
+  color: string;
   isStunned: boolean;
   private stunDuration: number;
   private stunTimer: number;
   private stunColor: string;
   private defaultColor: string;
-  private faceColor: string;
+  faceColor: string;
   weapon: Weapon;
 
   constructor(
-    ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
     width: number,
     height: number,
     health: number
   ) {
-    this.ctx = ctx;
     this.body = new PhysObject(x, y, FacingAngles.Bottom, width, height, 5);
     this.isAttacking = false;
     this.attackTimer = 0;
@@ -42,7 +39,7 @@ export class Player implements Character {
     this.stunTimer = 0;
     this.stunColor = 'green'; // Color to indicate player stun
 
-    this.weapon = WeaponList.broadsword(this.ctx);
+    this.weapon = WeaponList.broadsword();
   }
 
   getHealth() {
@@ -76,40 +73,6 @@ export class Player implements Character {
     this.isAttacking = true;
     this.attackTimer = Date.now();
     setTimeout(() => (this.isAttacking = false), this.weapon.attackDuration);
-  }
-
-  draw() {
-    if (this.ctx === null) {
-      throw new Error('CanvasRenderingContext2D is null.');
-    }
-    this.ctx.save();
-    this.ctx.translate(this.body.x, this.body.y);
-    this.ctx.rotate(this.body.heading);
-
-    this.ctx.fillStyle = this.color;
-    this.ctx.fillRect(
-      (-1 * this.body.width) / 2,
-      (-1 * this.body.height) / 2,
-      this.body.width,
-      this.body.height
-    );
-
-    this.ctx.fillStyle = this.faceColor;
-    this.ctx.fillRect(
-      (-1 * this.body.width) / 2,
-      this.body.height / 2 - 2,
-      this.body.width,
-      2
-    );
-
-    if (this.isAttacking) {
-      const weaponRotation =
-        (this.weapon.swingAngle * (Date.now() - this.attackTimer)) /
-        this.weapon.attackDuration;
-      this.weapon.draw(weaponRotation, this.body.width / 2);
-    }
-
-    this.ctx.restore();
   }
 
   update() {

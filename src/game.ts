@@ -4,11 +4,13 @@ import { FacingAngles } from './facingAngles';
 import { createPlayer } from './playerUtility';
 import { playerInput } from './playerController';
 import { CanvasValues } from './constants';
+import { CanvasController } from './canvasController';
 import { updateCharacters } from './characterManager';
 
 export class Game {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D | null;
+  private canvasController: CanvasController;
   private keysPressed: { [key: string]: boolean };
 
   private enemies: Array<Enemy>;
@@ -25,23 +27,19 @@ export class Game {
       throw new Error('Unable to initialize CanvasRenderingContext2D.');
     }
 
+    this.canvasController = new CanvasController(this.ctx);
+
     this.keysPressed = {};
     this.registerEventListeners();
 
     // Create an instance of the player
-    this.player = createPlayer(this.canvas);
+    this.player = createPlayer();
 
     this.enemies = new Array<Enemy>();
 
-    this.enemies.push(
-      new Enemy(this.ctx, 100, 100, 20, 20, FacingAngles.Right, 4)
-    );
-    this.enemies.push(
-      new Enemy(this.ctx, 121, 121, 20, 20, FacingAngles.Bottom, 3)
-    );
-    this.enemies.push(
-      new Enemy(this.ctx, 600, 400, 40, 40, FacingAngles.Left, 2)
-    );
+    this.enemies.push(new Enemy(100, 100, 20, 20, FacingAngles.Right, 4));
+    this.enemies.push(new Enemy(121, 121, 20, 20, FacingAngles.Bottom, 3));
+    this.enemies.push(new Enemy(600, 400, 40, 40, FacingAngles.Left, 2));
   }
 
   private registerEventListeners() {
@@ -76,17 +74,6 @@ export class Game {
     requestAnimationFrame(update);
   }
 
-  private drawPlayerHealth() {
-    if (this.ctx === null) {
-      throw new Error('CanvasRenderingContext2D is null.');
-    }
-
-    // Set the font color to black (or any color that contrasts with the background)
-    this.ctx.fillStyle = 'black';
-    this.ctx.font = '18px Arial';
-    this.ctx.fillText(`Health: ${this.player.getHealth()}`, 10, 30);
-  }
-
   update() {
     // Update game logic here
     playerInput(this.keysPressed, this.player);
@@ -94,25 +81,6 @@ export class Game {
   }
 
   render() {
-    if (this.ctx === null) {
-      throw new Error('CanvasRenderingContext2D is null.');
-    }
-
-    // Clear the canvas
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-    this.ctx.fillStyle = 'yellow';
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-    // Render game elements here
-    this.player.draw();
-
-    for (let i = 0; i < this.enemies.length; i++) {
-      // Render the enemy
-      this.enemies[i].draw();
-    }
-
-    // Render the player health
-    this.drawPlayerHealth();
+    this.canvasController.draw(this.player, this.enemies);
   }
 }

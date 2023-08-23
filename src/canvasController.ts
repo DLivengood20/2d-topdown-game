@@ -76,13 +76,12 @@ export class CanvasController {
     this.ctx.fillRect(0, 0, CanvasValues.Width, CanvasValues.Height);
   }
 
-  draw(player: Player, enemies: Array<Character>) {
+  draw(player: Player, enemies: Array<Enemy>) {
     this.drawBackground();
     for (const enemy of enemies) {
-      if (enemy instanceof Enemy) {
-        this.drawEnemy(enemy);
-      }
+      this.drawEnemy(enemy);
     }
+
     this.drawPlayer(player);
 
     // Set the font color to black (or any color that contrasts with the background)

@@ -1,26 +1,20 @@
-import { Enemy } from './enemy';
-import { Player } from './player';
-import { FacingAngles } from './facingAngles';
-import { createPlayer } from './playerUtility';
 import { playerInput } from './playerController';
 import { CanvasValues } from './constants';
 import { CanvasController } from './canvasController';
-import { updateCharacters } from './characterManager';
+import { CharacterManager } from './characterManager';
 
 export class Game {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D | null;
   private canvasController: CanvasController;
   private keysPressed: { [key: string]: boolean };
-
-  private enemies: Array<Enemy>;
-  private player: Player;
+  private characterManager: CharacterManager;
 
   constructor() {
     this.canvas = document.createElement('canvas');
     this.ctx = this.canvas.getContext('2d');
-    this.canvas.width = CanvasValues.Width; // Adjust the width as per your requirements
-    this.canvas.height = CanvasValues.Height; // Adjust the height as per your requirements
+    this.canvas.width = CanvasValues.WIDTH; // Adjust the width as per your requirements
+    this.canvas.height = CanvasValues.HEIGHT; // Adjust the height as per your requirements
     document.body.appendChild(this.canvas);
 
     if (this.ctx === null) {
@@ -32,14 +26,7 @@ export class Game {
     this.keysPressed = {};
     this.registerEventListeners();
 
-    // Create an instance of the player
-    this.player = createPlayer();
-
-    this.enemies = new Array<Enemy>();
-
-    this.enemies.push(new Enemy(100, 100, 20, 20, FacingAngles.Right, 4));
-    this.enemies.push(new Enemy(121, 121, 20, 20, FacingAngles.Bottom, 3));
-    this.enemies.push(new Enemy(600, 400, 40, 40, FacingAngles.Left, 2));
+    this.characterManager = new CharacterManager();
   }
 
   private registerEventListeners() {
@@ -76,11 +63,15 @@ export class Game {
 
   update() {
     // Update game logic here
-    playerInput(this.keysPressed, this.player);
-    updateCharacters(this.player, this.enemies);
+    const player = this.characterManager.getPlayer();
+    playerInput(this.keysPressed, player);
+    this.characterManager.updateCharacters();
   }
 
   render() {
-    this.canvasController.draw(this.player, this.enemies);
+    this.canvasController.draw(
+      this.characterManager.getPlayer(),
+      this.characterManager.getEnemies()
+    );
   }
 }

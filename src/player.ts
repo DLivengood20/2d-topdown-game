@@ -1,8 +1,7 @@
 import { Character } from './character';
-import { FacingAngles } from './facingAngles';
+import { FacingAngles, Weapons } from './constants';
 import { PhysObject } from './physObject';
 import { Weapon } from './weapon';
-import { WeaponList } from './weaponList';
 
 export class Player implements Character {
   body: PhysObject;
@@ -25,7 +24,7 @@ export class Player implements Character {
     height: number,
     health: number
   ) {
-    this.body = new PhysObject(x, y, FacingAngles.Bottom, width, height, 5);
+    this.body = new PhysObject(x, y, FacingAngles.BOTTOM, width, height, 5);
     this.isAttacking = false;
     this.attackTimer = 0;
     this.health = health;
@@ -39,7 +38,7 @@ export class Player implements Character {
     this.stunTimer = 0;
     this.stunColor = 'green'; // Color to indicate player stun
 
-    this.weapon = WeaponList.broadsword();
+    this.weapon = Weapons.BROADSWORD;
   }
 
   getHealth() {

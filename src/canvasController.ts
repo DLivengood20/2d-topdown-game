@@ -1,4 +1,3 @@
-import { Character } from './character';
 import { CanvasValues } from './constants';
 import { Enemy } from './enemy';
 import { Player } from './player';
@@ -70,10 +69,10 @@ export class CanvasController {
 
   private drawBackground() {
     // Clear the canvas
-    this.ctx.clearRect(0, 0, CanvasValues.Width, CanvasValues.Height);
+    this.ctx.clearRect(0, 0, CanvasValues.WIDTH, CanvasValues.HEIGHT);
 
     this.ctx.fillStyle = 'yellow';
-    this.ctx.fillRect(0, 0, CanvasValues.Width, CanvasValues.Height);
+    this.ctx.fillRect(0, 0, CanvasValues.WIDTH, CanvasValues.HEIGHT);
   }
 
   draw(player: Player, enemies: Array<Enemy>) {

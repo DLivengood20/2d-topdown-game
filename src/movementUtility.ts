@@ -1,5 +1,5 @@
 import { getCanvasEdgeCollision } from './collisionUtility';
-import { FacingAngles } from './facingAngles';
+import { FacingAngles } from './constants';
 import { PhysObject } from './physObject';
 
 export function knockback(object: PhysObject, hazard: PhysObject) {
@@ -25,7 +25,7 @@ export function moveUpLeft(
   changeHeading?: boolean
 ) {
   if (changeHeading) {
-    object.heading = FacingAngles.TopLeft;
+    object.heading = FacingAngles.TOP_LEFT;
   }
   const wallCollision = getCanvasEdgeCollision(object);
   if (!wallCollision.top) {
@@ -43,7 +43,7 @@ export function moveUpRight(
 ) {
   const wallCollision = getCanvasEdgeCollision(object);
   if (changeHeading) {
-    object.heading = FacingAngles.TopRight;
+    object.heading = FacingAngles.TOP_RIGHT;
   }
   if (!wallCollision.top) {
     object.y -= speed;
@@ -60,7 +60,7 @@ export function moveBottomLeft(
 ) {
   const wallCollision = getCanvasEdgeCollision(object);
   if (changeHeading) {
-    object.heading = FacingAngles.BottomLeft;
+    object.heading = FacingAngles.BOTTOM_LEFT;
   }
   if (!wallCollision.bottom) {
     object.y += speed;
@@ -77,7 +77,7 @@ export function moveBottomRight(
 ) {
   const wallCollision = getCanvasEdgeCollision(object);
   if (changeHeading) {
-    object.heading = FacingAngles.BottomRight;
+    object.heading = FacingAngles.BOTTOM_RIGHT;
   }
   if (!wallCollision.bottom) {
     object.y += speed;
@@ -94,7 +94,7 @@ export function moveUp(
 ) {
   const wallCollision = getCanvasEdgeCollision(object);
   if (changeHeading) {
-    object.heading = FacingAngles.Top;
+    object.heading = FacingAngles.TOP;
   }
   if (!wallCollision.top) {
     object.y -= speed;
@@ -108,7 +108,7 @@ export function moveDown(
 ) {
   const wallCollision = getCanvasEdgeCollision(object);
   if (changeHeading) {
-    object.heading = FacingAngles.Bottom;
+    object.heading = FacingAngles.BOTTOM;
   }
   if (!wallCollision.bottom) {
     object.y += speed;
@@ -122,7 +122,7 @@ export function moveLeft(
 ) {
   const wallCollision = getCanvasEdgeCollision(object);
   if (changeHeading) {
-    object.heading = FacingAngles.Left;
+    object.heading = FacingAngles.LEFT;
   }
   if (!wallCollision.left) {
     object.x -= speed;
@@ -136,7 +136,7 @@ export function moveRight(
 ) {
   const wallCollision = getCanvasEdgeCollision(object);
   if (changeHeading) {
-    object.heading = FacingAngles.Right;
+    object.heading = FacingAngles.RIGHT;
   }
   if (!wallCollision.right) {
     object.x += speed;

@@ -16,15 +16,15 @@ export class CanvasController {
 
     this.ctx.fillStyle = player.color;
     this.ctx.fillRect(
-      (-1 * player.body.width) / 2,
-      (-1 * player.body.height) / 2,
+      -player.body.width / 2,
+      -player.body.height / 2,
       player.body.width,
       player.body.height
     );
 
     this.ctx.fillStyle = player.faceColor;
     this.ctx.fillRect(
-      (-1 * player.body.width) / 2,
+      -player.body.width / 2,
       player.body.height / 2 - 2,
       player.body.width,
       2
@@ -60,7 +60,7 @@ export class CanvasController {
 
     this.ctx.fillStyle = 'black';
     this.ctx.fillRect(
-      (-1 * weapon.width) / 2,
+      -weapon.width / 2,
       distanceFromUser,
       weapon.width,
       weapon.length

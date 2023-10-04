@@ -15,15 +15,23 @@ export function updateAttack(attacker: Character, defenders: Array<Character>) {
     return;
   }
 
-  const weaponRotation =
-    attacker.body.heading +
-    attacker.weapon.swingAngle / 2 -
-    attacker.weapon.swingAngle *
-      ((Date.now() - attacker.attackTimer) / attacker.weapon.attackDuration);
+  // Copy the current angle of the attacker's body.
+  const bodyAngle = attacker.body.heading;
+
+  // Calculate the angle offset needed to center the weapon swing area.
+  const swingAngleOffset = attacker.weapon.swingAngle / 2;
+
+  // Calculate the angle offset due to the progression of the swing animation.
+  const timeBasedAngleOffset =
+    (attacker.weapon.swingAngle * (Date.now() - attacker.attackTimer)) /
+    attacker.weapon.attackDuration;
+
+  // Combine these angles to determine the current weapon swing angle.
+  const weaponAngle = bodyAngle + swingAngleOffset - timeBasedAngleOffset;
 
   const weaponCollisions: Array<Character> = getCollidedWithWeapon(
     attacker.weapon,
-    weaponRotation,
+    weaponAngle,
     attacker.body.x,
     attacker.body.y,
     attacker.body.width / 2,

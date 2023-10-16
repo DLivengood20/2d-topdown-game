@@ -63,8 +63,7 @@ export class Game {
 
   update() {
     // Update game logic here
-    const player = this.characterManager.getPlayer();
-    playerInput(this.keysPressed, player);
+    playerInput(this.keysPressed, this.characterManager.getPlayer());
     this.characterManager.updateCharacters();
   }
 

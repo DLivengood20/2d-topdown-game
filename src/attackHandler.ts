@@ -2,10 +2,8 @@ import { Character } from './character';
 import { getCollidedWithWeapon } from './collisionUtility';
 
 export function initiateAttack(character: Character) {
-  if (
-    character.weapon !== undefined &&
-    Date.now() - character.attackTimer >= character.weapon.cooldown
-  ) {
+  const { weapon, attackTimer } = character;
+  if (weapon && Date.now() - attackTimer >= weapon.cooldown) {
     character.startAttackTimer();
   }
 }

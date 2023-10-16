@@ -1,20 +1,18 @@
 import { Character } from './character';
 import { FacingAngles, Weapons } from './constants';
 import { PhysObject } from './physObject';
+import { RenderComponent } from './render.component';
 import { Weapon } from './weapon';
 
 export class Player implements Character {
+  renderComponent: RenderComponent;
   body: PhysObject;
   isAttacking: boolean;
   attackTimer: number;
   private health: number;
-  color: string;
   isStunned: boolean;
   private stunDuration: number;
   private stunTimer: number;
-  private stunColor: string;
-  private defaultColor: string;
-  faceColor: string;
   weapon: Weapon;
 
   constructor(
@@ -24,19 +22,15 @@ export class Player implements Character {
     height: number,
     health: number
   ) {
+    this.renderComponent = new RenderComponent('blue', 'orange', 'green');
     this.body = new PhysObject(x, y, FacingAngles.BOTTOM, width, height, 5);
     this.isAttacking = false;
     this.attackTimer = 0;
     this.health = health;
 
-    this.defaultColor = 'blue'; // Default player color
-    this.color = this.defaultColor;
-    this.faceColor = 'orange';
-
     this.isStunned = false;
     this.stunDuration = 1000; // Adjust the stun duration as needed (in milliseconds)
     this.stunTimer = 0;
-    this.stunColor = 'green'; // Color to indicate player stun
 
     this.weapon = Weapons.BROADSWORD;
   }
@@ -59,12 +53,13 @@ export class Player implements Character {
 
   private updateStun() {
     const elapsed = Date.now() - this.stunTimer;
+    let { currentColor, defaultColor, stunColor } = this.renderComponent;
     if (elapsed >= this.stunDuration) {
       this.isStunned = false;
-      this.color = this.defaultColor;
+      currentColor = defaultColor;
     } else {
       // Set the player color
-      this.color = this.stunColor;
+      currentColor = stunColor;
     }
   }
 

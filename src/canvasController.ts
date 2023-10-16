@@ -1,3 +1,4 @@
+import { Character } from './character';
 import { CanvasValues } from './constants';
 import { Enemy } from './enemy';
 import { Player } from './player';
@@ -9,45 +10,29 @@ export class CanvasController {
     this.ctx = ctx;
   }
 
-  private drawPlayer(player: Player) {
+  private drawCharacter(character: Character) {
+    const { x, y, width, height, heading } = character.body;
+    const { currentColor, facingColor } = character.renderComponent;
+    const { weapon } = character;
+
     this.ctx.save();
-    this.ctx.translate(player.body.x, player.body.y);
-    this.ctx.rotate(player.body.heading);
+    this.ctx.translate(x, y);
+    this.ctx.rotate(heading);
 
-    this.ctx.fillStyle = player.color;
-    this.ctx.fillRect(
-      -player.body.width / 2,
-      -player.body.height / 2,
-      player.body.width,
-      player.body.height
-    );
+    this.ctx.fillStyle = currentColor;
+    this.ctx.fillRect(-width / 2, -height / 2, width, height);
 
-    this.ctx.fillStyle = player.faceColor;
-    this.ctx.fillRect(
-      -player.body.width / 2,
-      player.body.height / 2 - 2,
-      player.body.width,
-      2
-    );
+    this.ctx.fillStyle = facingColor;
+    this.ctx.fillRect(-width / 2, height / 2 - 2, width, 2);
 
-    if (player.isAttacking) {
+    if (weapon && character.isAttacking) {
       const weaponRotation =
-        (player.weapon.swingAngle * (Date.now() - player.attackTimer)) /
-        player.weapon.attackDuration;
-      this.drawWeapon(player.weapon, weaponRotation, player.body.width / 2);
+        (weapon.swingAngle * (Date.now() - character.attackTimer)) /
+        weapon.attackDuration;
+      this.drawWeapon(weapon, weaponRotation, character.body.width / 2);
     }
 
     this.ctx.restore();
-  }
-
-  private drawEnemy(enemy: Enemy) {
-    this.ctx.fillStyle = 'red';
-    this.ctx.fillRect(
-      enemy.body.x - enemy.body.width / 2,
-      enemy.body.y - enemy.body.height / 2,
-      enemy.body.width,
-      enemy.body.height
-    );
   }
 
   private drawWeapon(
@@ -78,10 +63,10 @@ export class CanvasController {
   draw(player: Player, enemies: Array<Enemy>) {
     this.drawBackground();
     for (const enemy of enemies) {
-      this.drawEnemy(enemy);
+      this.drawCharacter(enemy);
     }
 
-    this.drawPlayer(player);
+    this.drawCharacter(player);
 
     // Set the font color to black (or any color that contrasts with the background)
     this.ctx.fillStyle = 'black';

@@ -1,26 +1,9 @@
 import { getCanvasEdgeCollision } from './collisionUtility';
 import { FacingAngles } from './constants';
-import { PhysObject } from './physObject';
-
-export function knockback(object: PhysObject, hazard: PhysObject) {
-  const dx = object.x - hazard.x;
-  const dy = object.y - hazard.y;
-
-  const distance = Math.sqrt(dx * dx + dy * dy);
-
-  // Normalize the direction vector
-  const normalizedDx = dx / distance;
-  const normalizedDy = dy / distance;
-
-  // Move the player away from the enemy based on the normalized direction
-  const moveDistance = object.speed * 2;
-
-  moveRight(object, normalizedDx * moveDistance);
-  moveDown(object, normalizedDy * moveDistance);
-}
+import { PhysicalComponent } from './physical.component';
 
 export function moveUpLeft(
-  object: PhysObject,
+  object: PhysicalComponent,
   speed: number,
   changeHeading?: boolean
 ) {
@@ -37,7 +20,7 @@ export function moveUpLeft(
 }
 
 export function moveUpRight(
-  object: PhysObject,
+  object: PhysicalComponent,
   speed: number,
   changeHeading?: boolean
 ) {
@@ -54,7 +37,7 @@ export function moveUpRight(
 }
 
 export function moveBottomLeft(
-  object: PhysObject,
+  object: PhysicalComponent,
   speed: number,
   changeHeading?: boolean
 ) {
@@ -71,7 +54,7 @@ export function moveBottomLeft(
 }
 
 export function moveBottomRight(
-  object: PhysObject,
+  object: PhysicalComponent,
   speed: number,
   changeHeading?: boolean
 ) {
@@ -88,7 +71,7 @@ export function moveBottomRight(
 }
 
 export function moveUp(
-  object: PhysObject,
+  object: PhysicalComponent,
   speed: number,
   changeHeading?: boolean
 ) {
@@ -102,7 +85,7 @@ export function moveUp(
 }
 
 export function moveDown(
-  object: PhysObject,
+  object: PhysicalComponent,
   speed: number,
   changeHeading?: boolean
 ) {
@@ -116,7 +99,7 @@ export function moveDown(
 }
 
 export function moveLeft(
-  object: PhysObject,
+  object: PhysicalComponent,
   speed: number,
   changeHeading?: boolean
 ) {
@@ -130,7 +113,7 @@ export function moveLeft(
 }
 
 export function moveRight(
-  object: PhysObject,
+  object: PhysicalComponent,
   speed: number,
   changeHeading?: boolean
 ) {

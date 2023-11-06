@@ -3,10 +3,10 @@ export class RenderComponent {
   currentColor: string;
   facingColor: string;
   stunColor: string;
-  constructor(color: string, facingColor: string, stunColor: string) {
-    this.defaultColor = color;
+  constructor(defaultColor: string, facingColor: string, stunColor: string) {
+    this.defaultColor = defaultColor;
     this.facingColor = facingColor;
-    this.currentColor = color;
+    this.currentColor = defaultColor;
     this.stunColor = stunColor;
   }
 }

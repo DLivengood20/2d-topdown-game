@@ -1,6 +1,9 @@
-import { Enemy } from './enemy';
-import { Player } from './player';
-import { Weapon } from './weapon';
+import { EnemyEntity } from './enemy.entity';
+import { PhysicalComponent } from './physical.component';
+import { PlayerEntity } from './player.entity';
+import { RenderComponent } from './render.component';
+import { StatusComponent } from './status.component';
+import { WeaponComponent } from './weapon.component';
 
 export enum CanvasValues {
   WIDTH = 800,
@@ -19,21 +22,50 @@ export enum FacingAngles {
 }
 
 export const Weapons = {
-  BROADSWORD: new Weapon(20, 2, (90 * Math.PI) / 180, 200, 500),
-  GLAIVE: new Weapon(30, 2, (30 * Math.PI) / 180, 300, 600),
-  DAGGER: new Weapon(10, 4, Math.PI, 200, 300),
+  BROADSWORD: new WeaponComponent(
+    20,
+    2,
+    (90 * Math.PI) / 180,
+    200,
+    500,
+    'black'
+  ),
+  GLAIVE: new WeaponComponent(30, 2, (30 * Math.PI) / 180, 300, 600, 'black'),
+  DAGGER: new WeaponComponent(10, 4, Math.PI, 200, 300, 'black'),
 };
 
 export const Characters = {
-  DEFAULT_PLAYER: new Player(
-    CanvasValues.WIDTH / 2,
-    CanvasValues.HEIGHT / 2,
-    20,
-    20,
-    100
+  DEFAULT_PLAYER: new PlayerEntity(
+    'PLAYER',
+    new PhysicalComponent(
+      CanvasValues.WIDTH / 2,
+      CanvasValues.HEIGHT / 2,
+      FacingAngles.BOTTOM,
+      20,
+      20,
+      5
+    ),
+    new RenderComponent('blue', 'orange', 'green'),
+    Weapons.BROADSWORD,
+    new StatusComponent(100, 1000, 0)
   ),
 
-  ENEMY_1: new Enemy(100, 100, 20, 20, FacingAngles.RIGHT, 4),
-  ENEMY_2: new Enemy(121, 121, 20, 20, FacingAngles.BOTTOM, 3),
-  ENEMY_3: new Enemy(600, 400, 40, 40, FacingAngles.LEFT, 2),
+  ENEMY_1: new EnemyEntity(
+    'ENEMY_1',
+    new PhysicalComponent(100, 100, FacingAngles.RIGHT, 20, 20, 4),
+    new RenderComponent('red', 'green', 'blue'),
+    new StatusComponent(10, 0, 10)
+  ),
+  ENEMY_2: new EnemyEntity(
+    'ENEMY_2',
+    new PhysicalComponent(121, 121, FacingAngles.BOTTOM, 20, 20, 3),
+    new RenderComponent('red', 'green', 'blue'),
+    new StatusComponent(10, 0, 10)
+  ),
+  ENEMY_3: new EnemyEntity(
+    'ENEMY_3',
+    new PhysicalComponent(600, 400, FacingAngles.LEFT, 40, 40, 2),
+    new RenderComponent('red', 'green', 'blue'),
+    new StatusComponent(10, 0, 10)
+  ),
 };

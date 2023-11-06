@@ -1,4 +1,6 @@
-export class PhysObject {
+import { Component } from './component';
+
+export class PhysicalComponent implements Component {
   x: number;
   y: number;
   heading: number;

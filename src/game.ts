@@ -1,76 +1,64 @@
-import { playerInput } from './playerController';
-import { CanvasValues } from './constants';
-import { CanvasController } from './canvasController';
-import { CharacterManager } from './characterManager';
+import { CanvasValues, Characters } from './constants';
+import { Entity } from './entity';
+import { System } from './system';
+import { RenderSystem } from './render.system';
+import { InputSystem } from './input.system';
+import { StatusSystem } from './status.system';
+import { AttackSystem } from './attack.system';
+import { CollisionSystem } from './collision.system';
+import { RemoveEntityComponent } from './removeEntity.component';
 
 export class Game {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D | null;
-  private canvasController: CanvasController;
-  private keysPressed: { [key: string]: boolean };
-  private characterManager: CharacterManager;
+  private entities: Entity[] = [];
+  private systems: System[] = [];
 
   constructor() {
     this.canvas = document.createElement('canvas');
     this.ctx = this.canvas.getContext('2d');
-    this.canvas.width = CanvasValues.WIDTH; // Adjust the width as per your requirements
-    this.canvas.height = CanvasValues.HEIGHT; // Adjust the height as per your requirements
+    this.canvas.width = CanvasValues.WIDTH;
+    this.canvas.height = CanvasValues.HEIGHT;
     document.body.appendChild(this.canvas);
 
     if (this.ctx === null) {
       throw new Error('Unable to initialize CanvasRenderingContext2D.');
     }
 
-    this.canvasController = new CanvasController(this.ctx);
+    const { DEFAULT_PLAYER, ENEMY_1, ENEMY_2, ENEMY_3 } = Characters;
 
-    this.keysPressed = {};
-    this.registerEventListeners();
+    this.entities.push(DEFAULT_PLAYER, ENEMY_1, ENEMY_2, ENEMY_3);
 
-    this.characterManager = new CharacterManager();
-  }
-
-  private registerEventListeners() {
-    document.addEventListener('keydown', (event) => {
-      this.keysPressed[event.key] = true;
-    });
-
-    document.addEventListener('keyup', (event) => {
-      this.keysPressed[event.key] = false;
-    });
-
-    document.addEventListener('mousedown', (event) => {
-      if (event.button === 0) {
-        this.keysPressed['mousedown'] = true;
-      }
-    });
-
-    document.addEventListener('mouseup', (event) => {
-      if (event.button === 0) {
-        this.keysPressed['mousedown'] = false;
-      }
-    });
+    this.systems.push(
+      new InputSystem(), // should be first system in array
+      new CollisionSystem(),
+      new AttackSystem(),
+      new StatusSystem(),
+      new RenderSystem(this.ctx) // should be last system in array
+    );
   }
 
   startGameLoop() {
-    const update = () => {
+    const gameLoop = () => {
       this.update();
-      this.render();
-      requestAnimationFrame(update);
+      requestAnimationFrame(gameLoop);
     };
 
-    requestAnimationFrame(update);
+    requestAnimationFrame(gameLoop);
   }
 
   update() {
     // Update game logic here
-    playerInput(this.keysPressed, this.characterManager.getPlayer());
-    this.characterManager.updateCharacters();
-  }
-
-  render() {
-    this.canvasController.draw(
-      this.characterManager.getPlayer(),
-      this.characterManager.getEnemies()
-    );
+    for (const system of this.systems) {
+      system.update(this.entities);
+    }
+    for (const entity of this.entities) {
+      if (
+        entity.getComponent<RemoveEntityComponent>(RemoveEntityComponent) !==
+        undefined
+      ) {
+        this.entities = this.entities.filter((keep) => keep !== entity);
+      }
+    }
   }
 }

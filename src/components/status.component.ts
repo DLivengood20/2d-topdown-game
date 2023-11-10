@@ -1,5 +1,5 @@
 import { Component } from './component';
-import { Entity } from './entity';
+import { Entity } from '../entities/entity';
 
 export class StatusComponent implements Component {
   health: number;

@@ -1,7 +1,7 @@
 import { Characters } from './constants';
-import { Entity } from './entity';
-import { PlayerEntity } from './player.entity';
-import { RemoveEntityComponent } from './removeEntity.component';
+import { Entity } from './entities/entity';
+import { PlayerEntity } from './entities/player.entity';
+import { RemoveEntityComponent } from './components/removeEntity.component';
 
 export class EntityManager {
   private entities: Entity[] = [];

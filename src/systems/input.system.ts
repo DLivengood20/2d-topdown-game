@@ -1,4 +1,4 @@
-import { Entity } from './entity';
+import { Entity } from '../entities/entity';
 import {
   moveBottomLeft,
   moveBottomRight,
@@ -8,12 +8,12 @@ import {
   moveUp,
   moveUpLeft,
   moveUpRight,
-} from './movementUtility';
-import { PhysicalComponent } from './physical.component';
-import { PlayerEntity } from './player.entity';
-import { StatusComponent } from './status.component';
+} from '../movementUtility';
+import { PhysicalComponent } from '../components/physical.component';
+import { PlayerEntity } from '../entities/player.entity';
+import { StatusComponent } from '../components/status.component';
 import { System } from './system';
-import { WeaponComponent } from './weapon.component';
+import { WeaponComponent } from '../components/weapon.component';
 
 export class InputSystem implements System {
   keysPressed: { [key: string]: boolean } = {};

@@ -1,8 +1,8 @@
 import { Entity } from './entity';
-import { PhysicalComponent } from './physical.component';
-import { RenderComponent } from './render.component';
-import { StatusComponent } from './status.component';
-import { WeaponComponent } from './weapon.component';
+import { PhysicalComponent } from '../components/physical.component';
+import { RenderComponent } from '../components/render.component';
+import { StatusComponent } from '../components/status.component';
+import { WeaponComponent } from '../components/weapon.component';
 
 export class PlayerEntity extends Entity {
   constructor(

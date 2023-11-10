@@ -1,6 +1,6 @@
-import { Entity } from './entity';
-import { PhysicalComponent } from './physical.component';
-import { StatusComponent } from './status.component';
+import { Entity } from '../entities/entity';
+import { PhysicalComponent } from '../components/physical.component';
+import { StatusComponent } from '../components/status.component';
 import { System } from './system';
 
 export class CollisionSystem implements System {

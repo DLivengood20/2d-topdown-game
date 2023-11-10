@@ -1,10 +1,10 @@
-import { CanvasValues } from './constants';
-import { Entity } from './entity';
-import { PhysicalComponent } from './physical.component';
-import { RenderComponent } from './render.component';
-import { StatusComponent } from './status.component';
+import { CanvasValues } from '../constants';
+import { Entity } from '../entities/entity';
+import { PhysicalComponent } from '../components/physical.component';
+import { RenderComponent } from '../components/render.component';
+import { StatusComponent } from '../components/status.component';
 import { System } from './system';
-import { WeaponComponent } from './weapon.component';
+import { WeaponComponent } from '../components/weapon.component';
 
 export class RenderSystem implements System {
   private ctx: CanvasRenderingContext2D;

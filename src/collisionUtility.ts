@@ -1,5 +1,5 @@
 import { CanvasValues } from './constants';
-import { PhysicalComponent } from './physical.component';
+import { PhysicalComponent } from './components/physical.component';
 
 export function getCanvasEdgeCollision(object: PhysicalComponent): {
   right: boolean;

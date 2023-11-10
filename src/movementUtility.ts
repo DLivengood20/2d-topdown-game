@@ -1,6 +1,6 @@
 import { getCanvasEdgeCollision } from './collisionUtility';
 import { FacingAngles } from './constants';
-import { PhysicalComponent } from './physical.component';
+import { PhysicalComponent } from './components/physical.component';
 
 export function moveUpLeft(
   object: PhysicalComponent,

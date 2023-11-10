@@ -1,9 +1,9 @@
-import { EnemyEntity } from './enemy.entity';
-import { PhysicalComponent } from './physical.component';
-import { PlayerEntity } from './player.entity';
-import { RenderComponent } from './render.component';
-import { StatusComponent } from './status.component';
-import { WeaponComponent } from './weapon.component';
+import { EnemyEntity } from './entities/enemy.entity';
+import { PhysicalComponent } from './components/physical.component';
+import { PlayerEntity } from './entities/player.entity';
+import { RenderComponent } from './components/render.component';
+import { StatusComponent } from './components/status.component';
+import { WeaponComponent } from './components/weapon.component';
 
 export enum CanvasValues {
   WIDTH = 800,

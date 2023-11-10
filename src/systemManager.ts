@@ -1,10 +1,10 @@
-import { AttackSystem } from './attack.system';
-import { CollisionSystem } from './collision.system';
-import { Entity } from './entity';
-import { InputSystem } from './input.system';
-import { RenderSystem } from './render.system';
-import { StatusSystem } from './status.system';
-import { System } from './system';
+import { AttackSystem } from './systems/attack.system';
+import { CollisionSystem } from './systems/collision.system';
+import { Entity } from './entities/entity';
+import { InputSystem } from './systems/input.system';
+import { RenderSystem } from './systems/render.system';
+import { StatusSystem } from './systems/status.system';
+import { System } from './systems/system';
 
 export class SystemManager {
   private systems: System[] = [];

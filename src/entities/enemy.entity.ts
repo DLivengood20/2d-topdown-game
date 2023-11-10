@@ -1,7 +1,7 @@
 import { Entity } from './entity';
-import { PhysicalComponent } from './physical.component';
-import { RenderComponent } from './render.component';
-import { StatusComponent } from './status.component';
+import { PhysicalComponent } from '../components/physical.component';
+import { RenderComponent } from '../components/render.component';
+import { StatusComponent } from '../components/status.component';
 
 export class EnemyEntity extends Entity {
   constructor(

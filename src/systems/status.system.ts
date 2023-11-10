@@ -1,9 +1,9 @@
-import { Entity } from './entity';
-import { moveDown, moveRight } from './movementUtility';
-import { PhysicalComponent } from './physical.component';
-import { RemoveEntityComponent } from './removeEntity.component';
-import { RenderComponent } from './render.component';
-import { StatusComponent } from './status.component';
+import { Entity } from '../entities/entity';
+import { moveDown, moveRight } from '../movementUtility';
+import { PhysicalComponent } from '../components/physical.component';
+import { RemoveEntityComponent } from '../components/removeEntity.component';
+import { RenderComponent } from '../components/render.component';
+import { StatusComponent } from '../components/status.component';
 import { System } from './system';
 
 export class StatusSystem implements System {

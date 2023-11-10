@@ -1,4 +1,4 @@
-import { CanvasValues, Characters } from './constants';
+import { Characters } from './constants';
 import { Entity } from './entity';
 import { System } from './system';
 import { RenderSystem } from './render.system';
@@ -7,23 +7,16 @@ import { StatusSystem } from './status.system';
 import { AttackSystem } from './attack.system';
 import { CollisionSystem } from './collision.system';
 import { RemoveEntityComponent } from './removeEntity.component';
+import { CanvasInitialization } from './canvasInitialization';
 
 export class Game {
-  private canvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D | null;
+  private canvasInitialization: CanvasInitialization;
   private entities: Entity[] = [];
   private systems: System[] = [];
 
   constructor() {
-    this.canvas = document.createElement('canvas');
-    this.ctx = this.canvas.getContext('2d');
-    this.canvas.width = CanvasValues.WIDTH;
-    this.canvas.height = CanvasValues.HEIGHT;
-    document.body.appendChild(this.canvas);
-
-    if (this.ctx === null) {
-      throw new Error('Unable to initialize CanvasRenderingContext2D.');
-    }
+    this.canvasInitialization = new CanvasInitialization();
+    document.body.appendChild(this.canvasInitialization.getCanvas());
 
     const { DEFAULT_PLAYER, ENEMY_1, ENEMY_2, ENEMY_3 } = Characters;
 
@@ -34,7 +27,7 @@ export class Game {
       new CollisionSystem(),
       new AttackSystem(),
       new StatusSystem(),
-      new RenderSystem(this.ctx) // should be last system in array
+      new RenderSystem(this.canvasInitialization.getContext()) // should be last system in array
     );
   }
 

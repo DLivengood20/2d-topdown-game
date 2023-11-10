@@ -1,13 +1,18 @@
 import { Characters } from './constants';
 import { Entity } from './entity';
 import { PlayerEntity } from './player.entity';
+import { RemoveEntityComponent } from './removeEntity.component';
 
 export class EntityManager {
   private entities: Entity[] = [];
 
   createDefaultPlayer(): PlayerEntity {
     const player = Characters.DEFAULT_PLAYER;
-    this.entities.push(player);
+    if (!this.entities.includes(player)) {
+      this.entities.push(player);
+    } else {
+      console.error('Player already in array');
+    }
     return player;
   }
 
@@ -20,7 +25,19 @@ export class EntityManager {
   }
 
   removeEntity(entity: Entity): void {
-    this.entities = this.entities.filter((e) => e !== entity);
+    const index = this.entities.indexOf(entity);
+    if (index !== -1) {
+      this.entities.splice(index, 1);
+    }
+  }
+
+  removeMarkedEntities(): void {
+    this.entities = this.entities.filter((entity) => {
+      return (
+        entity.getComponent<RemoveEntityComponent>(RemoveEntityComponent) ===
+        undefined
+      );
+    });
   }
 
   getAllEntities(): Entity[] {

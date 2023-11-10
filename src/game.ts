@@ -1,5 +1,4 @@
 import { Characters } from './constants';
-import { Entity } from './entity';
 import { System } from './system';
 import { RenderSystem } from './render.system';
 import { InputSystem } from './input.system';
@@ -8,10 +7,11 @@ import { AttackSystem } from './attack.system';
 import { CollisionSystem } from './collision.system';
 import { RemoveEntityComponent } from './removeEntity.component';
 import { CanvasInitialization } from './canvasInitialization';
+import { EntityManager } from './entityManager';
 
 export class Game {
   private canvasInitialization: CanvasInitialization;
-  private entities: Entity[] = [];
+  private entityManager: EntityManager = new EntityManager();
   private systems: System[] = [];
 
   constructor() {
@@ -20,7 +20,7 @@ export class Game {
 
     const { DEFAULT_PLAYER, ENEMY_1, ENEMY_2, ENEMY_3 } = Characters;
 
-    this.entities.push(DEFAULT_PLAYER, ENEMY_1, ENEMY_2, ENEMY_3);
+    this.entityManager.addEntities([DEFAULT_PLAYER, ENEMY_1, ENEMY_2, ENEMY_3]);
 
     this.systems.push(
       new InputSystem(), // should be first system in array
@@ -43,14 +43,14 @@ export class Game {
   update() {
     // Update game logic here
     for (const system of this.systems) {
-      system.update(this.entities);
+      system.update(this.entityManager.getAllEntities());
     }
-    for (const entity of this.entities) {
+    for (const entity of this.entityManager.getAllEntities()) {
       if (
         entity.getComponent<RemoveEntityComponent>(RemoveEntityComponent) !==
         undefined
       ) {
-        this.entities = this.entities.filter((keep) => keep !== entity);
+        this.entityManager.removeEntity(entity);
       }
     }
   }

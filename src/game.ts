@@ -14,6 +14,16 @@ class GameUpdateError extends Error {
 }
 
 /**
+ * Custom error class for game update errors.
+ */
+class GameLoopError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'GameLoopError';
+  }
+}
+
+/**
  * The main game class responsible for initializing, updating, and rendering the game.
  */
 export class Game {
@@ -34,18 +44,31 @@ export class Game {
    * Starts the game loop.
    */
   public startGameLoop(): void {
-    // Ensure initialization is called before starting the loop.
-    initializeGameComponents(
-      this.canvasInitialization,
-      this.entityManager,
-      this.systemManager
-    );
+    try {
+      // Ensure initialization is called before starting the loop.
+      initializeGameComponents(
+        this.canvasInitialization,
+        this.entityManager,
+        this.systemManager
+      );
 
-    const gameLoop = () => {
-      this.update();
+      const gameLoop = () => {
+        this.update();
+        requestAnimationFrame(gameLoop);
+      };
       requestAnimationFrame(gameLoop);
-    };
-    requestAnimationFrame(gameLoop);
+    } catch (error: any) {
+      console.log('Error during game loop:', error);
+      this.handleLoopError(error);
+    }
+  }
+
+  /**
+   * Handles errors during loops.
+   */
+  private handleLoopError(error: Error): void {
+    console.error('Error during game loop:', error);
+    throw new GameLoopError(`Game loop failed: ${error.message}`);
   }
 
   /**

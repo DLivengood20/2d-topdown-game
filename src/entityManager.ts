@@ -6,6 +6,11 @@ import { RemoveEntityComponent } from './components/removeEntity.component';
 export class EntityManager {
   private entities: Entity[] = [];
 
+  initiateEntities(): void {
+    const { DEFAULT_PLAYER, ENEMY_1, ENEMY_2, ENEMY_3 } = Characters;
+    this.addEntities([DEFAULT_PLAYER, ENEMY_1, ENEMY_2, ENEMY_3]);
+  }
+
   createDefaultPlayer(): PlayerEntity {
     const player = Characters.DEFAULT_PLAYER;
     if (!this.entities.includes(player)) {

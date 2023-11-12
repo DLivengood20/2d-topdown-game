@@ -14,7 +14,7 @@ class GameUpdateError extends Error {
 }
 
 /**
- * Custom error class for game update errors.
+ * Custom error class for game loop errors.
  */
 class GameLoopError extends Error {
   constructor(message: string) {
@@ -45,7 +45,9 @@ export class Game {
    */
   public startGameLoop(): void {
     try {
-      // Ensure initialization is called before starting the loop.
+      /**
+       * Ensure initialization is called before starting the loop.
+       */
       initializeGameComponents(
         this.canvasInitialization,
         this.entityManager,
@@ -58,13 +60,15 @@ export class Game {
       };
       requestAnimationFrame(gameLoop);
     } catch (error: any) {
-      console.log('Error during game loop:', error);
       this.handleLoopError(error);
     }
   }
 
   /**
    * Handles errors during loops.
+   * @param {Error} error - The error that occurred.
+   * @throws {GameLoopError} Always thrown to indicate the error.
+   * @private
    */
   private handleLoopError(error: Error): void {
     console.error('Error during game loop:', error);
@@ -87,6 +91,9 @@ export class Game {
 
   /**
    * Handles errors during updates.
+   * @param {Error} error - The error that occurred.
+   * @throws {GameUpdateError} Always thrown to indicate the error.
+   * @private
    */
   private handleUpdateError(error: Error): void {
     console.error('Error during game update:', error);

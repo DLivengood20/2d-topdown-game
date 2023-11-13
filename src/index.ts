@@ -2,7 +2,11 @@
 import { Game } from './game';
 
 // Create an instance of the game
-const game = new Game();
+const game = Game.createGame();
 
-// Start the game loop
-game.startGameLoop();
+if (game) {
+  // Start the game loop
+  game.startGameLoop();
+} else {
+  console.error('Game is null');
+}

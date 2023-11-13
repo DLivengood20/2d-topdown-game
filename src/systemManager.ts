@@ -7,16 +7,16 @@ import { StatusSystem } from './systems/status.system';
 import { System } from './systems/system';
 
 export class SystemManager {
-  private systems: System[] = [];
+  private systems: System[];
 
-  initiateSystems(ctx: CanvasRenderingContext2D): void {
-    this.systems.push(
+  constructor(ctx: CanvasRenderingContext2D) {
+    this.systems = [
       new InputSystem(), // should be first system in array
       new CollisionSystem(),
       new AttackSystem(),
       new StatusSystem(),
-      new RenderSystem(ctx) // should be last system in array
-    );
+      new RenderSystem(ctx), // should be last system in array
+    ];
   }
 
   update(entities: Entity[]): void {

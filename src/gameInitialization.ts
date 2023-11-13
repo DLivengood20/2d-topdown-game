@@ -1,6 +1,5 @@
-import { CanvasInitialization } from './canvasInitialization';
+import { CanvasManager } from './canvasManager';
 import { EntityManager } from './entityManager';
-import { SystemManager } from './systemManager';
 
 /**
  * Custom error class for game initialization errors.
@@ -14,25 +13,20 @@ class GameInitializationError extends Error {
 
 /**
  * Initializes the game components.
- * @param {CanvasInitialization} canvasInitialization - The canvas initialization instance.
+ * @param {CanvasManager} canvasManager - The canvas initialization instance.
  * @param {EntityManager} entityManager - The entity manager instance.
- * @param {SystemManager} systemManager - The system manager instance.
  * @throws {GameInitializationError} Throws an error if initialization fails.
  */
 export function initializeGameComponents(
-  canvasInitialization: CanvasInitialization,
-  entityManager: EntityManager,
-  systemManager: SystemManager
+  canvasManager: CanvasManager,
+  entityManager: EntityManager
 ): void {
   try {
-    // Initialize the canvas and game systems
-    document.body.appendChild(canvasInitialization.getCanvas());
+    // Initialize the canvas
+    document.body.appendChild(canvasManager.getCanvas());
 
     // Initialize entities to the entity manager
     entityManager.initiateEntities();
-
-    // Initialize game systems with the canvas context
-    systemManager.initiateSystems(canvasInitialization.getContext());
   } catch (error: any) {
     handleInitializationError(error);
   }

@@ -3,7 +3,7 @@ import { CanvasValues } from './constants';
 /**
  * Class representing the initialization of a canvas for rendering graphics.
  */
-export class CanvasInitialization {
+export class CanvasManager {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D | null;
 

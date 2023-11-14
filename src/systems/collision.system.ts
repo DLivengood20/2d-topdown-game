@@ -3,7 +3,17 @@ import { PhysicalComponent } from '../components/physical.component';
 import { StatusComponent } from '../components/status.component';
 import { System } from './system';
 
+/**
+ * Represents a system responsible for detecting and handling collisions between entities.
+ * @implements {System}
+ */
 export class CollisionSystem implements System {
+  /**
+   * Checks for collisions with a specific entity among a set of collidables.
+   * @param {Entity} entity - The entity for which collisions are checked.
+   * @param {Entity[]} collidables - An array of entities that could potentially collide with the specified entity.
+   * @returns {Entity[]} An array of entities collided with the specified entity.
+   */
   private checkCollisionWith(
     entity: Entity,
     collidables: Array<Entity>
@@ -24,6 +34,8 @@ export class CollisionSystem implements System {
           y - height / 2 < entityComponent.y + entityComponent.height / 2
         ) {
           collidedWith.push(collidable);
+
+          // Inflict damage based on collision settings
           const entityStatus =
             entity.getComponent<StatusComponent>(StatusComponent);
           const collidedStatus =
@@ -37,13 +49,20 @@ export class CollisionSystem implements System {
     return collidedWith;
   }
 
+  /**
+   * Updates the collision status for each entity in the game.
+   * @param {Entity[]} entities - An array of entities in the game.
+   */
   update(entities: Entity[]): void {
     for (const entity of entities) {
       const statusComponent =
         entity.getComponent<StatusComponent>(StatusComponent);
       if (statusComponent) {
+        // Reset collidedWith array for the current entity
         statusComponent.collidedWith = [];
+        // Filter out the current entity from the collidables
         const collidables = entities.filter((other) => other !== entity);
+        // Check for collisions and update collidedWith array
         statusComponent.collidedWith = this.checkCollisionWith(
           entity,
           collidables

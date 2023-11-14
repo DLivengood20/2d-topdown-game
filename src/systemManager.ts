@@ -45,8 +45,8 @@ export class SystemManager {
    * @param {Entity[]} entities - An array of game entities.
    */
   update(entities: Entity[]): void {
-    this.systems.forEach((system) => {
+    for (const system of this.systems) {
       system.update(entities);
-    });
+    }
   }
 }

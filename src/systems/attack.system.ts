@@ -4,7 +4,20 @@ import { StatusComponent } from '../components/status.component';
 import { System } from './system';
 import { WeaponComponent } from '../components/weapon.component';
 
+/**
+ * Represents a system responsible for handling attacks within the game.
+ * @implements {System}
+ */
 export class AttackSystem implements System {
+  /**
+   * Handles collisions between the weapon and defending entities.
+   * @param {WeaponComponent} weaponComponent - The weapon component of the attacking entity.
+   * @param {number} rotation - The rotation angle of the attacking entity.
+   * @param {number} x - The x-coordinate of the attacking entity.
+   * @param {number} y - The y-coordinate of the attacking entity.
+   * @param {number} distanceFromOrigin - The distance from the origin of the weapon swing.
+   * @param {Entity[]} defenders - An array of entities potentially being attacked.
+   */
   private getCollidedWithWeapon(
     weaponComponent: WeaponComponent,
     rotation: number,
@@ -42,7 +55,7 @@ export class AttackSystem implements System {
           const statusComponent =
             defender.getComponent<StatusComponent>(StatusComponent);
           if (statusComponent) {
-            // TODO: replace with damage value from
+            // TODO: replace with damage value from weapon when it's implemented
             statusComponent.damageTaken += 10;
           }
         }
@@ -50,6 +63,35 @@ export class AttackSystem implements System {
     }
   }
 
+  /**
+   * Calculates the current angle of the weapon swing.
+   * @param {PhysicalComponent} physicalComponent - The physical component of the attacking entity.
+   * @param {StatusComponent} statusComponent - The status component of the attacking entity.
+   * @param {WeaponComponent} weaponComponent - The weapon component of the attacking entity.
+   * @returns {number} The current angle of the weapon swing.
+   */
+  private getWeaponAngle(
+    physicalComponent: PhysicalComponent,
+    statusComponent: StatusComponent,
+    weaponComponent: WeaponComponent
+  ): number {
+    // Copy the current angle of the attacker's body.
+    const bodyAngle = physicalComponent.heading;
+    // Calculate the angle offset needed to center the weapon swing area.
+    const swingAngleOffset = weaponComponent.swingAngle / 2;
+    // Calculate the angle offset due to the progression of the swing animation.
+    const timeBasedAngleOffset =
+      (weaponComponent.swingAngle *
+        (Date.now() - statusComponent.attackTimer)) /
+      weaponComponent.attackDuration;
+    // Combine these angles to determine the current weapon swing angle.
+    return bodyAngle + swingAngleOffset - timeBasedAngleOffset;
+  }
+
+  /**
+   * Updates the state of entities based on their attack status.
+   * @param {Entity[]} entities - An array of entities in the game.
+   */
   update(entities: Entity[]): void {
     for (const entity of entities) {
       const statusComponent =
@@ -60,18 +102,11 @@ export class AttackSystem implements System {
         const physicalComponent =
           entity.getComponent<PhysicalComponent>(PhysicalComponent);
         if (physicalComponent && weaponComponent) {
-          // Copy the current angle of the attacker's body.
-          const bodyAngle = physicalComponent.heading;
-          // Calculate the angle offset needed to center the weapon swing area.
-          const swingAngleOffset = weaponComponent.swingAngle / 2;
-          // Calculate the angle offset due to the progression of the swing animation.
-          const timeBasedAngleOffset =
-            (weaponComponent.swingAngle *
-              (Date.now() - statusComponent.attackTimer)) /
-            weaponComponent.attackDuration;
-          // Combine these angles to determine the current weapon swing angle.
-          const weaponAngle =
-            bodyAngle + swingAngleOffset - timeBasedAngleOffset;
+          const weaponAngle = this.getWeaponAngle(
+            physicalComponent,
+            statusComponent,
+            weaponComponent
+          );
 
           const defenders = entities.filter((defender) => defender !== entity);
           this.getCollidedWithWeapon(

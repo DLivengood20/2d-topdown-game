@@ -28,12 +28,15 @@ export class SystemManager {
      * @type {System[]}
      * @private
      */
+    // The order of the systems is critical. Systems will access and modify shared component data.
     this.systems = [
-      new InputSystem(), // should be first system in array
+      // First system: User inputs are prioritized as they are a response to the last game tick.
+      new InputSystem(),
       new CollisionSystem(),
       new AttackSystem(),
       new StatusSystem(),
-      new RenderSystem(ctx), // should be last system in array
+      // Last system: Rendering needs to be the final step for accurate visual representation.
+      new RenderSystem(ctx),
     ];
   }
 

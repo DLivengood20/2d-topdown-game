@@ -20,9 +20,9 @@ export class Entity {
   id: string;
 
   /**
-   * A record of components associated with the entity.
+   * A map of components associated with the entity.
    */
-  components: Record<string, Component> = {};
+  components: Map<string, Component> = new Map<string, Component>();
 
   /**
    * Creates a new entity with the given identifier.
@@ -39,10 +39,10 @@ export class Entity {
    */
   addComponent(component: Component): void {
     const componentName = component.constructor.name;
-    if (this.components[componentName]) {
+    if (this.components.has(componentName)) {
       this.handleDuplicateComponentError(component);
     }
-    this.components[component.constructor.name] = component;
+    this.components.set(component.constructor.name, component);
   }
 
   /**
@@ -68,6 +68,6 @@ export class Entity {
   getComponent<T>(
     componentConstructor: new (...args: any[]) => T
   ): T | undefined {
-    return this.components[componentConstructor.name] as T;
+    return this.components.get(componentConstructor.name) as T;
   }
 }

@@ -70,10 +70,7 @@ export class EntityManager {
    */
   removeMarkedEntities(): void {
     this.entities = this.entities.filter((entity) => {
-      return (
-        entity.getComponent<RemoveEntityComponent>(RemoveEntityComponent) ===
-        undefined
-      );
+      return entity.getComponent(RemoveEntityComponent) === undefined;
     });
   }
 

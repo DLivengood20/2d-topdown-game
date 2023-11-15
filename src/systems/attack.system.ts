@@ -42,8 +42,7 @@ export class AttackSystem implements System {
     }
 
     for (const defender of defenders) {
-      const physicalComponent =
-        defender.getComponent<PhysicalComponent>(PhysicalComponent);
+      const physicalComponent = defender.getComponent(PhysicalComponent);
       for (const { x, y } of vertexes) {
         if (
           physicalComponent &&
@@ -52,8 +51,7 @@ export class AttackSystem implements System {
           y <= physicalComponent.y + physicalComponent.height / 2 &&
           y >= physicalComponent.y - physicalComponent.height / 2
         ) {
-          const statusComponent =
-            defender.getComponent<StatusComponent>(StatusComponent);
+          const statusComponent = defender.getComponent(StatusComponent);
           if (statusComponent) {
             // TODO: replace with damage value from weapon when it's implemented
             statusComponent.damageTaken += 10;
@@ -94,13 +92,10 @@ export class AttackSystem implements System {
    */
   update(entities: Entity[]): void {
     for (const entity of entities) {
-      const statusComponent =
-        entity.getComponent<StatusComponent>(StatusComponent);
+      const statusComponent = entity.getComponent(StatusComponent);
       if (statusComponent?.isAttacking) {
-        const weaponComponent =
-          entity.getComponent<WeaponComponent>(WeaponComponent);
-        const physicalComponent =
-          entity.getComponent<PhysicalComponent>(PhysicalComponent);
+        const weaponComponent = entity.getComponent(WeaponComponent);
+        const physicalComponent = entity.getComponent(PhysicalComponent);
         if (physicalComponent && weaponComponent) {
           const weaponAngle = this.getWeaponAngle(
             physicalComponent,

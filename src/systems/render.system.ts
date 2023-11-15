@@ -74,14 +74,10 @@ export class RenderSystem implements System {
     this.drawBackground();
 
     for (const entity of entities) {
-      const physicalComponent =
-        entity.getComponent<PhysicalComponent>(PhysicalComponent);
-      const renderComponent =
-        entity.getComponent<RenderComponent>(RenderComponent);
-      const weaponComponent =
-        entity.getComponent<WeaponComponent>(WeaponComponent);
-      const statusComponent =
-        entity.getComponent<StatusComponent>(StatusComponent);
+      const physicalComponent = entity.getComponent(PhysicalComponent);
+      const renderComponent = entity.getComponent(RenderComponent);
+      const weaponComponent = entity.getComponent(WeaponComponent);
+      const statusComponent = entity.getComponent(StatusComponent);
 
       if (renderComponent && physicalComponent) {
         this.ctx.save();
@@ -93,8 +89,7 @@ export class RenderSystem implements System {
       }
 
       if (entity.id === 'PLAYER') {
-        const playerStatus =
-          entity.getComponent<StatusComponent>(StatusComponent);
+        const playerStatus = entity.getComponent(StatusComponent);
         if (playerStatus) {
           this.drawHealth(playerStatus);
         }

@@ -19,12 +19,10 @@ export class CollisionSystem implements System {
     collidables: Array<Entity>
   ): Entity[] {
     const collidedWith = [];
-    const entityComponent =
-      entity.getComponent<PhysicalComponent>(PhysicalComponent);
+    const entityComponent = entity.getComponent(PhysicalComponent);
 
     for (const collidable of collidables) {
-      const collidableComponent =
-        collidable.getComponent<PhysicalComponent>(PhysicalComponent);
+      const collidableComponent = collidable.getComponent(PhysicalComponent);
       if (collidableComponent && entityComponent) {
         const { x, y, width, height } = collidableComponent;
         if (
@@ -36,10 +34,8 @@ export class CollisionSystem implements System {
           collidedWith.push(collidable);
 
           // Inflict damage based on collision settings
-          const entityStatus =
-            entity.getComponent<StatusComponent>(StatusComponent);
-          const collidedStatus =
-            collidable.getComponent<StatusComponent>(StatusComponent);
+          const entityStatus = entity.getComponent(StatusComponent);
+          const collidedStatus = collidable.getComponent(StatusComponent);
           if (entityStatus && collidedStatus) {
             entityStatus.damageTaken += collidedStatus.collisionDamage;
           }
@@ -55,8 +51,7 @@ export class CollisionSystem implements System {
    */
   update(entities: Entity[]): void {
     for (const entity of entities) {
-      const statusComponent =
-        entity.getComponent<StatusComponent>(StatusComponent);
+      const statusComponent = entity.getComponent(StatusComponent);
       if (statusComponent) {
         // Reset collidedWith array for the current entity
         statusComponent.collidedWith = [];

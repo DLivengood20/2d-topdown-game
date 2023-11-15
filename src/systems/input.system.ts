@@ -49,16 +49,13 @@ export class InputSystem implements System {
   }
 
   private applyInputs(player: PlayerEntity): void {
-    const statusComponent =
-      player.getComponent<StatusComponent>(StatusComponent);
+    const statusComponent = player.getComponent(StatusComponent);
     if (!statusComponent || this.shouldSkipInput(statusComponent)) {
       return;
     }
 
-    const physicalComponent =
-      player.getComponent<PhysicalComponent>(PhysicalComponent);
-    const weaponComponent =
-      player.getComponent<WeaponComponent>(WeaponComponent);
+    const physicalComponent = player.getComponent(PhysicalComponent);
+    const weaponComponent = player.getComponent(WeaponComponent);
 
     if (physicalComponent && this.shouldApplyMovement(statusComponent)) {
       this.applyMovement(physicalComponent);

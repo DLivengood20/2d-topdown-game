@@ -26,19 +26,15 @@ export class StatusSystem implements System {
 
   update(entities: Entity[]): void {
     for (const entity of entities) {
-      const statusComponent =
-        entity.getComponent<StatusComponent>(StatusComponent);
-      const renderComponent =
-        entity.getComponent<RenderComponent>(RenderComponent);
-      const physicalComponent =
-        entity.getComponent<PhysicalComponent>(PhysicalComponent);
+      const statusComponent = entity.getComponent(StatusComponent);
+      const renderComponent = entity.getComponent(RenderComponent);
+      const physicalComponent = entity.getComponent(PhysicalComponent);
       if (statusComponent && renderComponent) {
         statusComponent.health -= statusComponent.damageTaken;
         statusComponent.damageTaken = 0;
         if (physicalComponent) {
           for (const hazard of statusComponent.collidedWith) {
-            const hazardComponent =
-              hazard.getComponent<PhysicalComponent>(PhysicalComponent);
+            const hazardComponent = hazard.getComponent(PhysicalComponent);
             if (hazardComponent && entity.id === 'PLAYER') {
               statusComponent.isStunned = true;
               this.applyknockback(physicalComponent, hazardComponent);

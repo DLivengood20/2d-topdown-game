@@ -11,8 +11,8 @@ export class EnemyEntity extends Entity {
     statusComponent: StatusComponent
   ) {
     super(id);
-    this.addComponent(physicalComponent);
-    this.addComponent(renderComponent);
-    this.addComponent(statusComponent);
+    this.addComponent(physicalComponent)
+      .addComponent(renderComponent)
+      .addComponent(statusComponent);
   }
 }

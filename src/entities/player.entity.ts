@@ -13,9 +13,9 @@ export class PlayerEntity extends Entity {
     statusComponent: StatusComponent
   ) {
     super(id);
-    this.addComponent(physicalComponent);
-    this.addComponent(renderComponent);
-    this.addComponent(weaponComponent);
-    this.addComponent(statusComponent);
+    this.addComponent(physicalComponent)
+      .addComponent(renderComponent)
+      .addComponent(weaponComponent)
+      .addComponent(statusComponent);
   }
 }

@@ -37,12 +37,13 @@ export class Entity {
    * @param {Component} component - The component to be added.
    * @throws {DuplicateComponentError} If a component of the same type already exists.
    */
-  addComponent(component: Component): void {
+  addComponent(component: Component) {
     const componentName = component.constructor.name;
     if (this.components.has(componentName)) {
       this.handleDuplicateComponentError(component);
     }
-    this.components.set(component.constructor.name, component);
+    this.components.set(componentName, component);
+    return this;
   }
 
   /**

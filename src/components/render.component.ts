@@ -1,4 +1,6 @@
-export class RenderComponent {
+import { Component } from './component';
+
+export class RenderComponent implements Component {
   defaultColor: string;
   currentColor: string;
   facingColor: string;

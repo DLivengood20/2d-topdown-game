@@ -11,8 +11,6 @@ export class CharacterEntity extends Entity {
     statusComponent: StatusComponent
   ) {
     super(id);
-    this.addComponent(physicalComponent)
-      .addComponent(renderComponent)
-      .addComponent(statusComponent);
+    this.addComponents([physicalComponent, renderComponent, statusComponent]);
   }
 }

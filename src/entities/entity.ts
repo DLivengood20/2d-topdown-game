@@ -1,15 +1,5 @@
 import { Component } from '../components/component';
 
-/*
- * Custom error class for duplicate component errors.
- */
-class DuplicateComponentError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'DuplicateComponentError';
-  }
-}
-
 /**
  * Represents an entity in the system.
  */
@@ -35,29 +25,25 @@ export class Entity {
   /**
    * Adds a component to the entity.
    * @param {Component} component - The component to be added.
-   * @throws {DuplicateComponentError} If a component of the same type already exists.
+   * @returns {Entity} The entity with the added component.
    */
-  addComponent(component: Component) {
+  addComponent(component: Component): Entity {
     const componentName = component.constructor.name;
     if (this.components.has(componentName)) {
-      this.handleDuplicateComponentError(component);
+      return this;
     }
     this.components.set(componentName, component);
     return this;
   }
 
   /**
-   * Handles the error when attempting to add a duplicate component.
-   * @param {Component} component - The component that caused the error.
-   * @throws {DuplicateComponentError} Always thrown to indicate the error.
-   * @private
+   * Adds an array of components to the entity.
+   * @param {Component[]} components - An array of components to be added.
    */
-  private handleDuplicateComponentError(component: Component): void {
-    const componentName = component.constructor.name;
-    console.error(`Can't add duplicate component: ${componentName}`);
-    throw new DuplicateComponentError(
-      `Can't add duplicate component: ${componentName}`
-    );
+  addComponents(components: Component[]): void {
+    for (const component of components) {
+      this.addComponent(component);
+    }
   }
 
   /**

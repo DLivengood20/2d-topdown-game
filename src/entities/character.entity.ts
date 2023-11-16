@@ -1,15 +1,18 @@
 import { PhysicalComponent } from '../components/physical.component';
 import { RenderComponent } from '../components/render.component';
 import { StatusComponent } from '../components/status.component';
-import { CharacterEntity } from './character.entity';
+import { Entity } from './entity';
 
-export class EnemyEntity extends CharacterEntity {
+export class CharacterEntity extends Entity {
   constructor(
     id: string,
     physicalComponent: PhysicalComponent,
     renderComponent: RenderComponent,
     statusComponent: StatusComponent
   ) {
-    super(id, physicalComponent, renderComponent, statusComponent);
+    super(id);
+    this.addComponent(physicalComponent)
+      .addComponent(renderComponent)
+      .addComponent(statusComponent);
   }
 }

@@ -46,8 +46,8 @@ export const Characters = {
       5
     ),
     new RenderComponent('blue', 'orange', 'green'),
-    Weapons.BROADSWORD,
-    new StatusComponent(100, 1000, 0)
+    new StatusComponent(100, 1000, 0),
+    Weapons.BROADSWORD
   ),
 
   ENEMY_1: new EnemyEntity(

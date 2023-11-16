@@ -1,21 +1,18 @@
-import { Entity } from './entity';
 import { PhysicalComponent } from '../components/physical.component';
 import { RenderComponent } from '../components/render.component';
 import { StatusComponent } from '../components/status.component';
 import { WeaponComponent } from '../components/weapon.component';
+import { CharacterEntity } from './character.entity';
 
-export class PlayerEntity extends Entity {
+export class PlayerEntity extends CharacterEntity {
   constructor(
     id: string,
     physicalComponent: PhysicalComponent,
     renderComponent: RenderComponent,
-    weaponComponent: WeaponComponent,
-    statusComponent: StatusComponent
+    statusComponent: StatusComponent,
+    weaponComponent: WeaponComponent
   ) {
-    super(id);
-    this.addComponent(physicalComponent)
-      .addComponent(renderComponent)
-      .addComponent(weaponComponent)
-      .addComponent(statusComponent);
+    super(id, physicalComponent, renderComponent, statusComponent);
+    this.addComponent(weaponComponent);
   }
 }

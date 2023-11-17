@@ -18,8 +18,11 @@ export class Entity {
    * Creates a new entity with the given identifier.
    * @param {string} id - The unique identifier for the entity.
    */
-  constructor(id: string) {
+  constructor(id: string, components?: Component[]) {
     this.id = id;
+    if (components) {
+      this.addComponents(components);
+    }
   }
 
   /**

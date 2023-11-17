@@ -1,3 +1,4 @@
+import { Component } from '../components/component';
 import { PhysicalComponent } from '../components/physical.component';
 import { RenderComponent } from '../components/render.component';
 import { StatusComponent } from '../components/status.component';
@@ -8,9 +9,14 @@ export class CharacterEntity extends Entity {
     id: string,
     physicalComponent: PhysicalComponent,
     renderComponent: RenderComponent,
-    statusComponent: StatusComponent
+    statusComponent: StatusComponent,
+    ...additionalComponents: Component[]
   ) {
-    super(id);
-    this.addComponents([physicalComponent, renderComponent, statusComponent]);
+    super(id, [
+      physicalComponent,
+      renderComponent,
+      statusComponent,
+      ...additionalComponents,
+    ]);
   }
 }

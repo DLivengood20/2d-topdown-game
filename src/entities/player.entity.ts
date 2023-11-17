@@ -12,7 +12,12 @@ export class PlayerEntity extends CharacterEntity {
     statusComponent: StatusComponent,
     weaponComponent: WeaponComponent
   ) {
-    super(id, physicalComponent, renderComponent, statusComponent);
-    this.addComponent(weaponComponent);
+    super(
+      id,
+      physicalComponent,
+      renderComponent,
+      statusComponent,
+      weaponComponent
+    );
   }
 }

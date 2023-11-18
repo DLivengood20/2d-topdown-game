@@ -1,4 +1,4 @@
-import { Characters } from './constants';
+import { Entities } from './entities/entities';
 import { Entity } from './entities/entity';
 import { PlayerEntity } from './entities/player.entity';
 import { RemoveEntityComponent } from './components/removeEntity.component';
@@ -16,7 +16,7 @@ export class EntityManager {
    * @returns {void}
    */
   initiateEntities(): void {
-    const { DEFAULT_PLAYER, ENEMY_1, ENEMY_2, ENEMY_3 } = Characters;
+    const { DEFAULT_PLAYER, ENEMY_1, ENEMY_2, ENEMY_3 } = Entities;
     this.addEntities([DEFAULT_PLAYER, ENEMY_1, ENEMY_2, ENEMY_3]);
   }
 
@@ -26,7 +26,7 @@ export class EntityManager {
    * @returns {PlayerEntity} The created default player entity.
    */
   createDefaultPlayer(): PlayerEntity {
-    const player = Characters.DEFAULT_PLAYER;
+    const player = Entities.DEFAULT_PLAYER;
     if (!this.entities.has(player)) {
       this.entities.add(player);
     } else {

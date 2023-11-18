@@ -22,7 +22,7 @@ export enum CanvasValues {
  *
  * @enum {number}
  */
-export enum FacingAngles {
+export enum Directions {
   /**
    * The facing angle pointing towards the top direction.
    * @type {number}

@@ -1,10 +1,11 @@
 import { Entity } from '../entities/entity';
-import { moveDown, moveRight } from '../movementUtility';
+import { move } from '../movementUtility';
 import { PhysicalComponent } from '../components/physical.component';
 import { RemoveEntityComponent } from '../components/removeEntity.component';
 import { RenderComponent } from '../components/render.component';
 import { StatusComponent } from '../components/status.component';
 import { System } from './system';
+import { Directions } from '../constants';
 
 /**
  * Represents a system responsible for updating the status of entities.
@@ -59,8 +60,8 @@ export class StatusSystem implements System {
 
     // Move the player away from the enemy based on the normalized direction
     const moveDistance = object.speed * 2;
-    moveRight(object, normalizedDx * moveDistance);
-    moveDown(object, normalizedDy * moveDistance);
+    move(object, normalizedDx * moveDistance, Directions.RIGHT);
+    move(object, normalizedDy * moveDistance, Directions.BOTTOM);
   }
 
   /**

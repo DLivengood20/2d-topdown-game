@@ -1,19 +1,11 @@
 import { Entity } from '../entities/entity';
-import {
-  moveBottomLeft,
-  moveBottomRight,
-  moveDown,
-  moveLeft,
-  moveRight,
-  moveUp,
-  moveUpLeft,
-  moveUpRight,
-} from '../movementUtility';
+import { move } from '../movementUtility';
 import { PhysicalComponent } from '../components/physical.component';
 import { PlayerEntity } from '../entities/player.entity';
 import { StatusComponent } from '../components/status.component';
 import { System } from './system';
 import { WeaponComponent } from '../components/weapon.component';
+import { Directions } from '../constants';
 
 /**
  * System handling user input for player entities.
@@ -141,24 +133,44 @@ export class InputSystem implements System {
    */
   private applyMovement(physicalComponent: PhysicalComponent): void {
     if (this.keysPressed['ArrowUp'] && this.keysPressed['ArrowLeft']) {
-      moveUpLeft(physicalComponent, physicalComponent.diagonalSpeed, true);
+      move(
+        physicalComponent,
+        physicalComponent.diagonalSpeed,
+        Directions.TOP_LEFT,
+        true
+      );
     } else if (this.keysPressed['ArrowUp'] && this.keysPressed['ArrowRight']) {
-      moveUpRight(physicalComponent, physicalComponent.diagonalSpeed, true);
+      move(
+        physicalComponent,
+        physicalComponent.diagonalSpeed,
+        Directions.TOP_RIGHT,
+        true
+      );
     } else if (this.keysPressed['ArrowDown'] && this.keysPressed['ArrowLeft']) {
-      moveBottomLeft(physicalComponent, physicalComponent.diagonalSpeed, true);
+      move(
+        physicalComponent,
+        physicalComponent.diagonalSpeed,
+        Directions.BOTTOM_LEFT,
+        true
+      );
     } else if (
       this.keysPressed['ArrowDown'] &&
       this.keysPressed['ArrowRight']
     ) {
-      moveBottomRight(physicalComponent, physicalComponent.diagonalSpeed, true);
+      move(
+        physicalComponent,
+        physicalComponent.diagonalSpeed,
+        Directions.BOTTOM_RIGHT,
+        true
+      );
     } else if (this.keysPressed['ArrowUp']) {
-      moveUp(physicalComponent, physicalComponent.speed, true);
+      move(physicalComponent, physicalComponent.speed, Directions.TOP, true);
     } else if (this.keysPressed['ArrowDown']) {
-      moveDown(physicalComponent, physicalComponent.speed, true);
+      move(physicalComponent, physicalComponent.speed, Directions.BOTTOM, true);
     } else if (this.keysPressed['ArrowRight']) {
-      moveRight(physicalComponent, physicalComponent.speed, true);
+      move(physicalComponent, physicalComponent.speed, Directions.RIGHT, true);
     } else if (this.keysPressed['ArrowLeft']) {
-      moveLeft(physicalComponent, physicalComponent.speed, true);
+      move(physicalComponent, physicalComponent.speed, Directions.LEFT, true);
     }
   }
 

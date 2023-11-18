@@ -60,29 +60,37 @@ export function move(
 
   switch (direction) {
     case Directions.TOP_LEFT:
-      if (!wallCollision.top && !wallCollision.left) {
+      if (!wallCollision.top) {
         object.y -= speed;
+      }
+      if (!wallCollision.left) {
         object.x -= speed;
       }
       break;
 
     case Directions.TOP_RIGHT:
-      if (!wallCollision.top && !wallCollision.right) {
+      if (!wallCollision.top) {
         object.y -= speed;
+      }
+      if (!wallCollision.right) {
         object.x += speed;
       }
       break;
 
     case Directions.BOTTOM_LEFT:
-      if (!wallCollision.bottom && !wallCollision.left) {
+      if (!wallCollision.bottom) {
         object.y += speed;
+      }
+      if (!wallCollision.left) {
         object.x -= speed;
       }
       break;
 
     case Directions.BOTTOM_RIGHT:
-      if (!wallCollision.bottom && !wallCollision.right) {
+      if (!wallCollision.bottom) {
         object.y += speed;
+      }
+      if (!wallCollision.right) {
         object.x += speed;
       }
       break;

@@ -44,9 +44,13 @@ export class SystemManager {
    * Updates all game systems with the provided entities.
    * @param {Entity[]} entities - An array of game entities.
    */
-  update(entities: Entity[]): void {
+  update(entities: Entity[], keysPressed: { [key: string]: boolean }): void {
     for (const system of this.systems) {
-      system.update(entities);
+      if (system instanceof InputSystem) {
+        system.update(entities, keysPressed);
+      } else {
+        system.update(entities);
+      }
     }
   }
 }

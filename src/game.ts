@@ -2,6 +2,8 @@ import { CanvasManager } from './canvasManager';
 import { EntityManager } from './entityManager';
 import { SystemManager } from './systemManager';
 import { initializeGameComponents } from './gameInitialization';
+import { ScreenManager } from './screenManager';
+import { InputService } from './inputService';
 
 /**
  * Custom error class for game initialization errors.
@@ -44,6 +46,8 @@ export class Game {
   private canvasManager: CanvasManager;
   private entityManager: EntityManager;
   private systemManager: SystemManager;
+  private screenManager: ScreenManager;
+  private inputService: InputService;
 
   /**
    * Constructs a new Game instance.
@@ -55,11 +59,14 @@ export class Game {
   private constructor(
     canvasManager: CanvasManager,
     entityManager: EntityManager,
-    systemManager: SystemManager
+    systemManager: SystemManager,
+    screenManager: ScreenManager
   ) {
     this.canvasManager = canvasManager;
     this.entityManager = entityManager;
     this.systemManager = systemManager;
+    this.screenManager = screenManager;
+    this.inputService = new InputService();
   }
 
   /**
@@ -72,10 +79,16 @@ export class Game {
       const canvasManager = new CanvasManager();
       const entityManager = new EntityManager();
       const systemManager = new SystemManager(canvasManager.getContext());
+      const screenManager = new ScreenManager(canvasManager.getCanvas());
 
       initializeGameComponents(canvasManager, entityManager);
 
-      return new Game(canvasManager, entityManager, systemManager);
+      return new Game(
+        canvasManager,
+        entityManager,
+        systemManager,
+        screenManager
+      );
     } catch (error: any) {
       Game.prototype.handleInitializationError(error);
       return null;
@@ -127,9 +140,19 @@ export class Game {
    * - Removes entities marked for removal.
    */
   private update(): void {
+    const { start, itemWorld } = this.screenManager;
+
     try {
-      this.systemManager.update(this.entityManager.getAllEntities());
-      this.entityManager.removeMarkedEntities();
+      this.screenManager.update(this.inputService.keysPressed);
+      if (start.isActive) {
+        start.render();
+      } else if (itemWorld.isActive) {
+        this.systemManager.update(
+          this.entityManager.getAllEntities(),
+          this.inputService.keysPressed
+        );
+        this.entityManager.removeMarkedEntities();
+      }
     } catch (error: any) {
       this.handleUpdateError(error);
     }

@@ -1,10 +1,11 @@
 import { CanvasValues } from './constants';
+import { InputService } from './inputService';
 
 class UIElement {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
   isHovered: boolean = false;
 
   constructor(x: number, y: number, width: number, height: number) {
@@ -24,7 +25,7 @@ class UIElement {
   }
 }
 
-const UIElements = {
+const UIElements: Record<string, UIElement> = {
   start: new UIElement(
     CanvasValues.WIDTH / 2 - 100,
     CanvasValues.HEIGHT / 2,
@@ -33,38 +34,106 @@ const UIElements = {
   ),
 };
 
+interface Screen {
+  isActive: boolean;
+  getElements(): UIElement[];
+  render(ctx: CanvasRenderingContext2D): void;
+}
+
+class StartScreen implements Screen {
+  isActive: boolean = false;
+  startButton: UIElement;
+
+  constructor() {
+    this.startButton = UIElements.start;
+  }
+
+  getElements(): UIElement[] {
+    return [this.startButton];
+  }
+
+  render(ctx: CanvasRenderingContext2D): void {
+    this.clearCanvas(ctx);
+    this.drawStartButton(ctx);
+  }
+
+  private clearCanvas(ctx: CanvasRenderingContext2D): void {
+    ctx?.clearRect(0, 0, CanvasValues.WIDTH, CanvasValues.HEIGHT);
+  }
+
+  private drawStartButton(ctx: CanvasRenderingContext2D): void {
+    const { x, y, width, height, isHovered } = this.startButton;
+    if (!ctx) return;
+    const offset = isHovered ? 3 : 0;
+
+    // Draw the title
+    this.drawText(
+      ctx,
+      'Game Title',
+      this.startButton.x,
+      this.startButton.y - 20
+    );
+
+    // Draw the start button with different color based on hover state
+    const buttonColor = isHovered ? '#0066cc' : '#00f';
+    ctx.fillStyle = buttonColor;
+    ctx.fillRect(x + offset, y + offset, width, height);
+
+    // Draw the start button text
+    this.drawText(
+      ctx,
+      'Start',
+      this.startButton.x + 20 + offset,
+      this.startButton.y + 40 + offset,
+      '#fff'
+    );
+  }
+
+  private drawText(
+    ctx: CanvasRenderingContext2D,
+    text: string,
+    x: number,
+    y: number,
+    color: string = 'black'
+  ): void {
+    ctx.fillStyle = color;
+    ctx.font = '48px Arial';
+    ctx.fillText(text, x, y);
+  }
+}
+
+class ItemWorldScreen implements Screen {
+  isActive: boolean = true;
+
+  getElements(): UIElement[] {
+    return [];
+  }
+
+  render(ctx: CanvasRenderingContext2D): void {
+    // Implement rendering for ItemWorldScreen
+  }
+}
+
 export class ScreenManager {
-  canvas: HTMLCanvasElement;
   start: StartScreen;
   itemWorld: ItemWorldScreen;
 
-  mouseX: number = 0;
-  mouseY: number = 0;
-
-  constructor(canvas: HTMLCanvasElement) {
-    this.canvas = canvas;
-    this.start = new StartScreen(this.canvas);
+  constructor(private inputService: InputService) {
+    this.start = new StartScreen();
     this.itemWorld = new ItemWorldScreen();
-
-    // Use arrow function for event listener
-    canvas.addEventListener('mousemove', (event) =>
-      this.handleMouseMove(event)
-    );
-    // Prevent the default context menu on right-click
-    canvas.addEventListener('contextmenu', (event) => event.preventDefault());
   }
 
-  private handleMouseMove(event: MouseEvent) {
-    this.mouseX = event.offsetX;
-    this.mouseY = event.offsetY;
-
+  private updateElements(): void {
+    const { x, y } = this.inputService.mousePosition;
     const elements: UIElement[] = [...this.start.getElements()];
     for (const element of elements) {
-      element.checkMouseHover(this.mouseX, this.mouseY);
+      element.checkMouseHover(x, y);
     }
   }
 
-  update(keysPressed: { [key: string]: boolean }) {
+  update(): void {
+    this.updateElements();
+    const { keysPressed } = this.inputService;
     if (this.start.isActive) {
       if (
         keysPressed['Enter'] ||
@@ -78,76 +147,5 @@ export class ScreenManager {
       this.start.isActive = true;
       this.itemWorld.isActive = false;
     }
-  }
-}
-
-interface Screen {
-  isActive: boolean;
-  getElements(): UIElement[];
-}
-
-class StartScreen implements Screen {
-  isActive: boolean;
-  canvas: HTMLCanvasElement;
-  ctx: CanvasRenderingContext2D | null;
-
-  startButton: UIElement;
-
-  constructor(canvas: HTMLCanvasElement) {
-    this.isActive = false;
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    this.startButton = UIElements.start;
-  }
-
-  getElements(): UIElement[] {
-    return [this.startButton];
-  }
-
-  render() {
-    // Clear the canvas
-    this.ctx?.clearRect(0, 0, CanvasValues.WIDTH, CanvasValues.HEIGHT);
-    this.drawStartButton();
-  }
-
-  drawStartButton() {
-    const { x, y, width, height, isHovered } = this.startButton;
-    if (this.ctx === null) {
-      return;
-    }
-    let offset = isHovered ? 3 : 0;
-
-    // Draw the title
-    this.ctx.fillStyle = 'black';
-    this.ctx.font = '48px Arial';
-    this.ctx.fillText(
-      'Game Title',
-      CanvasValues.WIDTH / 2 - 200,
-      CanvasValues.HEIGHT / 3
-    );
-
-    // Draw the start button with different color based on hover state
-    this.ctx.fillStyle = isHovered ? '#0066cc' : '#00f';
-    this.ctx.fillRect(x + offset, y + offset, width, height);
-
-    // Draw the start button text
-    this.ctx.fillStyle = '#fff';
-    this.ctx.font = '24px Arial';
-    this.ctx.fillText(
-      'Start',
-      CanvasValues.WIDTH / 2 - 80 + offset,
-      CanvasValues.HEIGHT / 2 + 35 + offset
-    );
-  }
-}
-
-class ItemWorldScreen implements Screen {
-  isActive: boolean;
-
-  constructor() {
-    this.isActive = true;
-  }
-  getElements(): UIElement[] {
-    throw new Error('Method not implemented.');
   }
 }

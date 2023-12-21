@@ -1,6 +1,17 @@
+class MousePosition {
+  x: number;
+  y: number;
+
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
 export class InputService {
   /** Stores the keys currently pressed. */
   keysPressed: { [key: string]: boolean } = {};
+  mousePosition: MousePosition = new MousePosition(0, 0);
   /**
    * Constructs the InputService and sets up event listeners for keyboard and mouse input.
    */
@@ -17,6 +28,7 @@ export class InputService {
     document.addEventListener('keyup', this.handleKeyUp.bind(this));
     document.addEventListener('mousedown', this.handleMouseDown.bind(this));
     document.addEventListener('mouseup', this.handleMouseUp.bind(this));
+    document.addEventListener('mousemove', this.handleMouseMove.bind(this));
   }
 
   /**
@@ -56,6 +68,12 @@ export class InputService {
   private handleMouseUp(event: MouseEvent): void {
     if (event.button === 0) {
       this.keysPressed['mousedown'] = false;
+    }
+  }
+
+  handleMouseMove(event: MouseEvent) {
+    if (event.type === 'mousemove') {
+      this.mousePosition = new MousePosition(event.offsetX, event.offsetY);
     }
   }
 }

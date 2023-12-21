@@ -43,11 +43,11 @@ class GameLoopError extends Error {
  * @class
  */
 export class Game {
+  private inputService: InputService;
   private canvasManager: CanvasManager;
   private entityManager: EntityManager;
   private systemManager: SystemManager;
   private screenManager: ScreenManager;
-  private inputService: InputService;
 
   /**
    * Constructs a new Game instance.
@@ -57,16 +57,17 @@ export class Game {
    * @param {SystemManager} systemManager - The system manager for game systems.
    */
   private constructor(
+    inputService: InputService,
     canvasManager: CanvasManager,
     entityManager: EntityManager,
     systemManager: SystemManager,
     screenManager: ScreenManager
   ) {
+    this.inputService = inputService;
     this.canvasManager = canvasManager;
     this.entityManager = entityManager;
     this.systemManager = systemManager;
     this.screenManager = screenManager;
-    this.inputService = new InputService();
   }
 
   /**
@@ -76,14 +77,16 @@ export class Game {
    */
   static createGame(): Game | null {
     try {
+      const inputService = new InputService();
       const canvasManager = new CanvasManager();
       const entityManager = new EntityManager();
       const systemManager = new SystemManager(canvasManager.getContext());
-      const screenManager = new ScreenManager(canvasManager.getCanvas());
+      const screenManager = new ScreenManager(inputService);
 
       initializeGameComponents(canvasManager, entityManager);
 
       return new Game(
+        inputService,
         canvasManager,
         entityManager,
         systemManager,
@@ -143,9 +146,9 @@ export class Game {
     const { start, itemWorld } = this.screenManager;
 
     try {
-      this.screenManager.update(this.inputService.keysPressed);
+      this.screenManager.update();
       if (start.isActive) {
-        start.render();
+        start.render(this.canvasManager.getContext());
       } else if (itemWorld.isActive) {
         this.systemManager.update(
           this.entityManager.getAllEntities(),

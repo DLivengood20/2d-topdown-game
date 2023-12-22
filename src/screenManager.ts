@@ -1,6 +1,6 @@
 import { InputService } from './inputService';
+import { GameScreen } from './screens/gameScreen';
 import { ItemWorldScreen } from './screens/itemWorldScreen';
-import { ScreenElement } from './screens/screenElement';
 import { StartScreen } from './screens/startScreen';
 
 /**
@@ -18,28 +18,41 @@ export class ScreenManager {
   readonly itemWorldScreen: ItemWorldScreen;
 
   /**
+   * Array of game screens managed by the ScreenManager.
+   * @type {GameScreen[]}
+   */
+  readonly gameScreens: GameScreen[];
+
+  /**
    * Creates a new ScreenManager instance.
    * @param inputService - The input service used for handling user input.
    */
   constructor(private inputService: InputService) {
     this.startScreen = new StartScreen();
     this.itemWorldScreen = new ItemWorldScreen();
+    this.gameScreens = [this.startScreen, this.itemWorldScreen];
   }
 
   /**
    * Updates the mouse hover state for screen elements.
    * @private
+   * @returns {void}
    */
   private updateScreenElements(): void {
     const { x, y } = this.inputService.mousePosition;
-    const elements: ScreenElement[] = [...this.startScreen.getElements()];
-    for (const element of elements) {
-      element.checkMouseHover(x, y);
+    for (const screen of this.gameScreens) {
+      if (screen.isActive) {
+        for (const element of screen.getElements()) {
+          element.checkMouseHover(x, y);
+        }
+      }
     }
   }
 
   /**
    * Updates the screen manager based on user input.
+   * @public
+   * @returns {void}
    */
   update(): void {
     this.updateScreenElements();

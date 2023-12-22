@@ -1,7 +1,26 @@
+/**
+ * Represents the coordinates of the mouse position.
+ * @class
+ */
 class MousePosition {
+  /**
+   * The x-coordinate of the mouse position.
+   * @type {number}
+   */
   x: number;
+
+  /**
+   * The y-coordinate of the mouse position.
+   * @type {number}
+   */
   y: number;
 
+  /**
+   * Creates a new instance of the MousePosition class with the specified coordinates.
+   * @constructor
+   * @param {number} x - The x-coordinate of the mouse position.
+   * @param {number} y - The y-coordinate of the mouse position.
+   */
   constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
@@ -11,6 +30,7 @@ class MousePosition {
 export class InputService {
   /** Stores the keys currently pressed. */
   keysPressed: { [key: string]: boolean } = {};
+  /** Stores current mouse position */
   mousePosition: MousePosition = new MousePosition(0, 0);
   /**
    * Constructs the InputService and sets up event listeners for keyboard and mouse input.
@@ -71,8 +91,20 @@ export class InputService {
     }
   }
 
-  handleMouseMove(event: MouseEvent) {
+  /**
+   * Handles the 'mousemove' event and updates the mouse position accordingly.
+   * @private
+   * @param {MouseEvent} event - The 'mousemove' event object.
+   */
+  private handleMouseMove(event: MouseEvent): void {
+    /**
+     * Check if the event type is 'mousemove' and update the mouse position.
+     */
     if (event.type === 'mousemove') {
+      /**
+       * The new mouse position.
+       * @type {MousePosition}
+       */
       this.mousePosition = new MousePosition(event.offsetX, event.offsetY);
     }
   }

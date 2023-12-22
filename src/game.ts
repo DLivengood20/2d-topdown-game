@@ -143,7 +143,8 @@ export class Game {
    * - Removes entities marked for removal.
    */
   private update(): void {
-    const { start, itemWorld } = this.screenManager;
+    const { startScreen: start, itemWorldScreen: itemWorld } =
+      this.screenManager;
 
     try {
       this.screenManager.update();

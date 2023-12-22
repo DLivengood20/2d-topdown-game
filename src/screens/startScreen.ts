@@ -19,10 +19,16 @@ export class StartScreen implements GameScreen {
   startButton: ScreenElement;
 
   /**
+   * The screen element representing the quit button.
+   */
+  quitButton: ScreenElement;
+
+  /**
    * Creates a new StartScreen instance.
    */
   constructor() {
     this.startButton = ScreenElements.startButton;
+    this.quitButton = ScreenElements.quitButton;
   }
 
   /**
@@ -30,7 +36,7 @@ export class StartScreen implements GameScreen {
    * @returns {ScreenElement[]} An array of ScreenElement objects.
    */
   getElements(): ScreenElement[] {
-    return [this.startButton];
+    return [this.startButton, this.quitButton];
   }
 
   /**
@@ -39,7 +45,9 @@ export class StartScreen implements GameScreen {
    */
   render(ctx: CanvasRenderingContext2D): void {
     this.clearCanvas(ctx);
-    this.drawStartButton(ctx);
+    this.drawTitle(ctx);
+    this.drawButton(ctx, this.startButton, 'Start');
+    this.drawButton(ctx, this.quitButton, 'Quit');
   }
 
   /**
@@ -52,15 +60,11 @@ export class StartScreen implements GameScreen {
   }
 
   /**
-   * Draws the start button on the canvas.
+   * Draws game title.
    * @private
    * @param {CanvasRenderingContext2D} ctx - The CanvasRenderingContext2D used for rendering.
    */
-  private drawStartButton(ctx: CanvasRenderingContext2D): void {
-    const { x, y, width, height, isHovered } = this.startButton;
-    if (!ctx) return;
-    const offset = isHovered ? 3 : 0;
-
+  private drawTitle(ctx: CanvasRenderingContext2D) {
     // Draw the title
     this.drawText(
       ctx,
@@ -68,18 +72,34 @@ export class StartScreen implements GameScreen {
       this.startButton.x,
       this.startButton.y - 20
     );
+  }
 
-    // Draw the start button with different color based on hover state
+  /**
+   * Draws a button on the canvas.
+   * @private
+   * @param {CanvasRenderingContext2D} ctx - The CanvasRenderingContext2D used for rendering.
+   * @param {ScreenElement} button - The button to be drawn.
+   */
+  private drawButton(
+    ctx: CanvasRenderingContext2D,
+    button: ScreenElement,
+    text: string
+  ): void {
+    const { x, y, width, height, isHovered } = button;
+    if (!ctx) return;
+    const offset = isHovered ? 3 : 0;
+
+    // Draw the button with different color based on hover state
     const buttonColor = isHovered ? '#0066cc' : '#00f';
     ctx.fillStyle = buttonColor;
     ctx.fillRect(x + offset, y + offset, width, height);
 
-    // Draw the start button text
+    // Draw the button text
     this.drawText(
       ctx,
-      'Start',
-      this.startButton.x + 20 + offset,
-      this.startButton.y + 40 + offset,
+      text,
+      button.x + 20 + offset,
+      button.y + 40 + offset,
       '#fff'
     );
   }

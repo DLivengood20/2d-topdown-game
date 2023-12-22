@@ -16,4 +16,14 @@ export const ScreenElements: Record<string, ScreenElement> = {
     200,
     50
   ),
+  /**
+   * The quit button screen element.
+   * @type {ScreenElement}
+   */
+  quitButton: new ScreenElement(
+    CanvasValues.WIDTH / 2 - 100,
+    CanvasValues.HEIGHT / 2 + 60,
+    200,
+    50
+  ),
 };

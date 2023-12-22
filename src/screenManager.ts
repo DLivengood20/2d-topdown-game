@@ -66,6 +66,9 @@ export class ScreenManager {
         this.startScreen.isActive = false;
         this.itemWorldScreen.isActive = true;
       }
+      if (keysPressed['mousedown'] && this.startScreen.quitButton.isHovered) {
+        window.close();
+      }
     }
 
     if (keysPressed['Escape']) {

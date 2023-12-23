@@ -12,6 +12,12 @@ export interface GameScreen {
   isActive: boolean;
 
   /**
+   * Indicates whether the game screen is currently displayed.
+   * @type {boolean}
+   */
+  isDisplayed: boolean;
+
+  /**
    * Retrieves an array of screen elements associated with the game screen.
    * @returns {ScreenElement[]} An array of ScreenElement objects.
    */

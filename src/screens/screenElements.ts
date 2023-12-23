@@ -22,7 +22,27 @@ export const ScreenElements: Record<string, ScreenElement> = {
    */
   quitButton: new ScreenElement(
     CanvasValues.WIDTH / 2 - 100,
+    CanvasValues.HEIGHT / 2 + 120,
+    200,
+    50
+  ),
+  /**
+   * The load game button screen element.
+   * @type {ScreenElement}
+   */
+  loadGameButton: new ScreenElement(
+    CanvasValues.WIDTH / 2 - 100,
     CanvasValues.HEIGHT / 2 + 60,
+    200,
+    50
+  ),
+  /**
+   * The close load game button screen element.
+   * @type {ScreenElement}
+   */
+  closeLoadGameButton: new ScreenElement(
+    CanvasValues.WIDTH / 2 - 100,
+    CanvasValues.HEIGHT / 2 - 60,
     200,
     50
   ),

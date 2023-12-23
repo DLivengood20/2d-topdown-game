@@ -1,6 +1,7 @@
 import { InputService } from './inputService';
 import { GameScreen } from './screens/gameScreen';
 import { ItemWorldScreen } from './screens/itemWorldScreen';
+import { LoadGameScreen } from './screens/loadGameScreen';
 import { StartScreen } from './screens/startScreen';
 
 /**
@@ -18,6 +19,11 @@ export class ScreenManager {
   readonly itemWorldScreen: ItemWorldScreen;
 
   /**
+   * The LoadGameScreen instance managed by the ScreenManager.
+   */
+  readonly loadGameScreen: LoadGameScreen;
+
+  /**
    * Array of game screens managed by the ScreenManager.
    * @type {GameScreen[]}
    */
@@ -30,7 +36,12 @@ export class ScreenManager {
   constructor(private inputService: InputService) {
     this.startScreen = new StartScreen();
     this.itemWorldScreen = new ItemWorldScreen();
-    this.gameScreens = [this.startScreen, this.itemWorldScreen];
+    this.loadGameScreen = new LoadGameScreen();
+    this.gameScreens = [
+      this.startScreen,
+      this.itemWorldScreen,
+      this.loadGameScreen,
+    ];
   }
 
   /**
@@ -64,16 +75,41 @@ export class ScreenManager {
         (keysPressed['mousedown'] && this.startScreen.startButton.isHovered)
       ) {
         this.startScreen.isActive = false;
+        this.startScreen.isDisplayed = false;
         this.itemWorldScreen.isActive = true;
+        this.itemWorldScreen.isDisplayed = true;
+      }
+      if (
+        keysPressed['mousedown'] &&
+        this.startScreen.loadGameButton.isHovered
+      ) {
+        this.startScreen.isActive = false;
+        this.startScreen.loadGameButton.isHovered = false;
+        this.loadGameScreen.isActive = true;
+        this.loadGameScreen.isDisplayed = true;
       }
       if (keysPressed['mousedown'] && this.startScreen.quitButton.isHovered) {
         window.close();
       }
     }
 
+    if (this.loadGameScreen.isActive) {
+      if (
+        keysPressed['Escape'] ||
+        (keysPressed['mousedown'] &&
+          this.loadGameScreen.closeLoadGameButton.isHovered)
+      ) {
+        this.loadGameScreen.shutScreen();
+        this.startScreen.isActive = true;
+        this.startScreen.isDisplayed = true;
+      }
+    }
+
     if (keysPressed['Escape']) {
       this.startScreen.isActive = true;
+      this.startScreen.isDisplayed = true;
       this.itemWorldScreen.isActive = false;
+      this.itemWorldScreen.isDisplayed = false;
     }
   }
 }

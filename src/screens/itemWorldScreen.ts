@@ -12,6 +12,11 @@ export class ItemWorldScreen implements GameScreen {
   isActive: boolean = true;
 
   /**
+   * Indicates whether the item world screen is currently active.
+   */
+  isDisplayed: boolean = true;
+
+  /**
    * Gets an array of screen elements for the item world.
    * @returns {ScreenElement[]} An array of ScreenElement objects.
    */

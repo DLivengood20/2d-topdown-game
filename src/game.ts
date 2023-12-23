@@ -143,19 +143,21 @@ export class Game {
    * - Removes entities marked for removal.
    */
   private update(): void {
-    const { startScreen: start, itemWorldScreen: itemWorld } =
-      this.screenManager;
+    const { startScreen, itemWorldScreen, loadGameScreen } = this.screenManager;
 
     try {
       this.screenManager.update();
-      if (start.isActive) {
-        start.render(this.canvasManager.getContext());
-      } else if (itemWorld.isActive) {
+      if (startScreen.isDisplayed) {
+        startScreen.render(this.canvasManager.getContext());
+      } else if (itemWorldScreen.isDisplayed) {
         this.systemManager.update(
           this.entityManager.getAllEntities(),
           this.inputService.keysPressed
         );
         this.entityManager.removeMarkedEntities();
+      }
+      if (loadGameScreen.isDisplayed) {
+        loadGameScreen.render(this.canvasManager.getContext());
       }
     } catch (error: any) {
       this.handleUpdateError(error);

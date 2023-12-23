@@ -4,86 +4,64 @@ import { ScreenElement } from './screenElement';
 import { ScreenElements } from './screenElements';
 
 /**
- * Represents the starting screen in the game.
+ * Represents the load game screen in the game.
  * @implements {GameScreen}
  */
-export class StartScreen implements GameScreen {
+export class LoadGameScreen implements GameScreen {
   /**
-   * Indicates whether the start screen is currently active.
+   * Indicates whether the load game screen is currently active.
    */
   isActive: boolean = false;
 
   /**
-   * Indicates whether the start screen is currently displayed.
+   * Indicates whether the load game screen is currently displayed.
    */
   isDisplayed: boolean = false;
 
   /**
-   * The screen element representing the start button.
+   * The screen element representing the close load game button.
    */
-  startButton: ScreenElement;
+  closeLoadGameButton: ScreenElement;
 
   /**
-   * The screen element representing the load game button.
-   */
-  loadGameButton: ScreenElement;
-
-  /**
-   * The screen element representing the quit button.
-   */
-  quitButton: ScreenElement;
-
-  /**
-   * Creates a new StartScreen instance.
+   * Creates a new LoadGameScreen instance.
    */
   constructor() {
-    this.startButton = ScreenElements.startButton;
-    this.loadGameButton = ScreenElements.loadGameButton;
-    this.quitButton = ScreenElements.quitButton;
+    this.closeLoadGameButton = ScreenElements.closeLoadGameButton;
   }
 
   /**
-   * Gets an array of screen elements associated with the start screen.
+   * Gets an array of screen elements associated with the load game screen.
    * @returns {ScreenElement[]} An array of ScreenElement objects.
    */
   getElements(): ScreenElement[] {
-    return [this.startButton, this.loadGameButton, this.quitButton];
+    return [this.closeLoadGameButton];
   }
 
   /**
-   * Renders the start screen on the canvas.
+   * Renders the load game screen on the canvas.
    * @param {CanvasRenderingContext2D} ctx - The CanvasRenderingContext2D used for rendering.
    */
   render(ctx: CanvasRenderingContext2D): void {
-    this.clearCanvas(ctx);
-    this.drawTitle(ctx);
-    this.drawButton(ctx, this.startButton, 'Start');
-    this.drawButton(ctx, this.loadGameButton, 'Load');
-    this.drawButton(ctx, this.quitButton, 'Quit');
+    this.drawBackground(ctx);
+    this.drawText(ctx, 'Load', this.closeLoadGameButton.x, 40);
+    this.drawButton(ctx, this.closeLoadGameButton, 'Close');
   }
 
   /**
-   * Clears the entire canvas.
+   * Draws a semi-transparent background on the canvas.
+   *
    * @private
    * @param {CanvasRenderingContext2D} ctx - The CanvasRenderingContext2D used for rendering.
+   * @returns {void}
    */
-  private clearCanvas(ctx: CanvasRenderingContext2D): void {
-    ctx?.clearRect(0, 0, CanvasValues.WIDTH, CanvasValues.HEIGHT);
-  }
-
-  /**
-   * Draws game title.
-   * @private
-   * @param {CanvasRenderingContext2D} ctx - The CanvasRenderingContext2D used for rendering.
-   */
-  private drawTitle(ctx: CanvasRenderingContext2D) {
-    // Draw the title
-    this.drawText(
-      ctx,
-      'Game Title',
-      this.startButton.x,
-      this.startButton.y - 20
-    );
+  private drawBackground(ctx: CanvasRenderingContext2D): void {
+    /**
+     * Sets the fill style of the canvas context to a semi-transparent black color.
+     * @type {string}
+     */
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    ctx.fillRect(0, 0, CanvasValues.WIDTH, CanvasValues.HEIGHT);
   }
 
   /**
@@ -135,5 +113,17 @@ export class StartScreen implements GameScreen {
     ctx.fillStyle = color;
     ctx.font = '48px Arial';
     ctx.fillText(text, x, y);
+  }
+
+  /**
+   * Closes or shuts down the current screen by updating its state properties.
+   *
+   * @public
+   * @returns {void}
+   */
+  shutScreen(): void {
+    this.isActive = false;
+    this.isDisplayed = false;
+    this.closeLoadGameButton.isHovered = false;
   }
 }

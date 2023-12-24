@@ -2,7 +2,6 @@ import { AttackSystem } from './systems/attack.system';
 import { CollisionSystem } from './systems/collision.system';
 import { Entity } from './entities/entity';
 import { InputSystem } from './systems/input.system';
-import { RenderSystem } from './systems/render.system';
 import { StatusSystem } from './systems/status.system';
 import { System } from './systems/system';
 
@@ -35,8 +34,6 @@ export class SystemManager {
       new CollisionSystem(),
       new AttackSystem(),
       new StatusSystem(),
-      // Last system: Rendering needs to be the final step for accurate visual representation.
-      new RenderSystem(ctx),
     ];
   }
 

@@ -37,10 +37,10 @@ export const ScreenElements: Record<string, ScreenElement> = {
     50
   ),
   /**
-   * The close load game button screen element.
+   * The 1st button in menu screen element.
    * @type {ScreenElement}
    */
-  closeLoadGameButton: new ScreenElement(
+  Button_1: new ScreenElement(
     CanvasValues.WIDTH / 2 - 100,
     CanvasValues.HEIGHT / 2 - 60,
     200,

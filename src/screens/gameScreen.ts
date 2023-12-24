@@ -1,3 +1,4 @@
+import { Entity } from '../entities/entity';
 import { ScreenElement } from './screenElement';
 
 /**
@@ -26,7 +27,8 @@ export interface GameScreen {
   /**
    * Renders the game screen on the canvas.
    * @param {CanvasRenderingContext2D} ctx - The CanvasRenderingContext2D used for rendering.
+   * @param {Entity[]} [entities] - An optional array of entities relevant to the game screen.
    * @returns {void}
    */
-  render(ctx: CanvasRenderingContext2D): void;
+  render(ctx: CanvasRenderingContext2D, entities?: Entity[]): void;
 }

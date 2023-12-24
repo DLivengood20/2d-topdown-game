@@ -1,4 +1,4 @@
-import { CanvasValues } from '../constants';
+import { RenderUtility } from '../renderUtility';
 import { GameScreen } from './gameScreen';
 import { ScreenElement } from './screenElement';
 import { ScreenElements } from './screenElements';
@@ -10,26 +10,31 @@ import { ScreenElements } from './screenElements';
 export class StartScreen implements GameScreen {
   /**
    * Indicates whether the start screen is currently active.
+   * @type {boolean}
    */
-  isActive: boolean = false;
+  isActive: boolean = true;
 
   /**
    * Indicates whether the start screen is currently displayed.
+   * @type {boolean}
    */
-  isDisplayed: boolean = false;
+  isDisplayed: boolean = true;
 
   /**
    * The screen element representing the start button.
+   * @type {ScreenElement}
    */
   startButton: ScreenElement;
 
   /**
    * The screen element representing the load game button.
+   * @type {ScreenElement}
    */
   loadGameButton: ScreenElement;
 
   /**
    * The screen element representing the quit button.
+   * @type {ScreenElement}
    */
   quitButton: ScreenElement;
 
@@ -53,87 +58,14 @@ export class StartScreen implements GameScreen {
   /**
    * Renders the start screen on the canvas.
    * @param {CanvasRenderingContext2D} ctx - The CanvasRenderingContext2D used for rendering.
+   * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D): void {
-    this.clearCanvas(ctx);
-    this.drawTitle(ctx);
-    this.drawButton(ctx, this.startButton, 'Start');
-    this.drawButton(ctx, this.loadGameButton, 'Load');
-    this.drawButton(ctx, this.quitButton, 'Quit');
-  }
-
-  /**
-   * Clears the entire canvas.
-   * @private
-   * @param {CanvasRenderingContext2D} ctx - The CanvasRenderingContext2D used for rendering.
-   */
-  private clearCanvas(ctx: CanvasRenderingContext2D): void {
-    ctx?.clearRect(0, 0, CanvasValues.WIDTH, CanvasValues.HEIGHT);
-  }
-
-  /**
-   * Draws game title.
-   * @private
-   * @param {CanvasRenderingContext2D} ctx - The CanvasRenderingContext2D used for rendering.
-   */
-  private drawTitle(ctx: CanvasRenderingContext2D) {
-    // Draw the title
-    this.drawText(
+    RenderUtility.renderStartScreen(
       ctx,
-      'Game Title',
-      this.startButton.x,
-      this.startButton.y - 20
+      this.startButton,
+      this.loadGameButton,
+      this.quitButton
     );
-  }
-
-  /**
-   * Draws a button on the canvas.
-   * @private
-   * @param {CanvasRenderingContext2D} ctx - The CanvasRenderingContext2D used for rendering.
-   * @param {ScreenElement} button - The button to be drawn.
-   */
-  private drawButton(
-    ctx: CanvasRenderingContext2D,
-    button: ScreenElement,
-    text: string
-  ): void {
-    const { x, y, width, height, isHovered } = button;
-    if (!ctx) return;
-    const offset = isHovered ? 3 : 0;
-
-    // Draw the button with different color based on hover state
-    const buttonColor = isHovered ? '#0066cc' : '#00f';
-    ctx.fillStyle = buttonColor;
-    ctx.fillRect(x + offset, y + offset, width, height);
-
-    // Draw the button text
-    this.drawText(
-      ctx,
-      text,
-      button.x + 20 + offset,
-      button.y + 40 + offset,
-      '#fff'
-    );
-  }
-
-  /**
-   * Draws text on the canvas.
-   * @private
-   * @param {CanvasRenderingContext2D} ctx - The CanvasRenderingContext2D used for rendering.
-   * @param {string} text - The text to be drawn.
-   * @param {number} x - The x-coordinate of the text.
-   * @param {number} y - The y-coordinate of the text.
-   * @param {string} [color='black'] - The color of the text.
-   */
-  private drawText(
-    ctx: CanvasRenderingContext2D,
-    text: string,
-    x: number,
-    y: number,
-    color: string = 'black'
-  ): void {
-    ctx.fillStyle = color;
-    ctx.font = '48px Arial';
-    ctx.fillText(text, x, y);
   }
 }

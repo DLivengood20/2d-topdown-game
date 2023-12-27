@@ -164,11 +164,11 @@ export class Game {
         );
         this.entityManager.removeMarkedEntities();
       }
-      if (loadGameScreen.isDisplayed) {
-        loadGameScreen.render(this.canvasManager.getContext());
-      }
       if (gameMenuScreen.isDisplayed) {
         gameMenuScreen.render(this.canvasManager.getContext());
+      }
+      if (loadGameScreen.isDisplayed) {
+        loadGameScreen.render(this.canvasManager.getContext());
       }
     } catch (error: any) {
       this.handleUpdateError(error);

@@ -58,6 +58,5 @@ export class LoadGameScreen implements GameScreen {
   shutScreen(): void {
     this.isActive = false;
     this.isDisplayed = false;
-    this.closeLoadGameButton.isHovered = false;
   }
 }

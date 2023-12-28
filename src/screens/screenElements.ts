@@ -46,4 +46,14 @@ export const ScreenElements: Record<string, ScreenElement> = {
     200,
     50
   ),
+  /**
+   * The 2nd button in menu screen element.
+   * @type {ScreenElement}
+   */
+  Button_2: new ScreenElement(
+    CanvasValues.WIDTH / 2 - 100,
+    CanvasValues.HEIGHT / 2,
+    200,
+    50
+  ),
 };

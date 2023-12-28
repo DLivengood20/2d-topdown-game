@@ -48,6 +48,14 @@ export class ScreenManager {
   private escapeKeyPressed: boolean = false;
 
   /**
+   * Indicates whether the left mouse button is currently pressed.
+   * Used to prevent repeated actions when the button is held down.
+   * @type {boolean}
+   * @private
+   */
+  private leftMousePressed: boolean = false;
+
+  /**
    * Creates a new ScreenManager instance.
    * @param inputService - The input service used for handling user input.
    */
@@ -111,27 +119,45 @@ export class ScreenManager {
     const { keysPressed } = this.inputService;
     if (
       keysPressed['Enter'] ||
-      (keysPressed['mousedown'] && this.startScreen.startButton.isHovered)
+      (keysPressed['mousedown'] &&
+        !this.leftMousePressed &&
+        this.startScreen.startButton.isHovered)
     ) {
+      this.leftMousePressed = true;
       this.startScreen.isActive = false;
       this.startScreen.isDisplayed = false;
       this.itemWorldScreen.isActive = true;
       this.itemWorldScreen.isDisplayed = true;
+    } else if (!keysPressed['mousedown']) {
+      this.leftMousePressed = false;
     }
     /**
      * Transition to the load game screen when the load game button is clicked.
      */
-    if (keysPressed['mousedown'] && this.startScreen.loadGameButton.isHovered) {
+    if (
+      keysPressed['mousedown'] &&
+      !this.leftMousePressed &&
+      this.startScreen.loadGameButton.isHovered
+    ) {
+      this.leftMousePressed = true;
       this.startScreen.isActive = false;
       this.startScreen.loadGameButton.isHovered = false;
       this.loadGameScreen.isActive = true;
       this.loadGameScreen.isDisplayed = true;
+    } else if (!keysPressed['mousedown']) {
+      this.leftMousePressed = false;
     }
     /**
      * Close the application when the quit button is clicked.
      */
-    if (keysPressed['mousedown'] && this.startScreen.quitButton.isHovered) {
+    if (
+      keysPressed['mousedown'] &&
+      !this.leftMousePressed &&
+      this.startScreen.quitButton.isHovered
+    ) {
       window.close();
+    } else if (!keysPressed['mousedown']) {
+      this.leftMousePressed = false;
     }
   }
 
@@ -144,7 +170,6 @@ export class ScreenManager {
   private handleItemWorldScreenInput(): void {
     const { keysPressed } = this.inputService;
 
-    // Check if the Escape key was just pressed
     if (keysPressed['Escape'] && !this.escapeKeyPressed) {
       this.escapeKeyPressed = true;
 
@@ -152,7 +177,6 @@ export class ScreenManager {
       this.gameMenuScreen.isDisplayed = true;
       this.itemWorldScreen.isActive = false;
     } else if (!keysPressed['Escape']) {
-      // Reset the flag when the Escape key is released
       this.escapeKeyPressed = false;
     }
   }
@@ -166,19 +190,38 @@ export class ScreenManager {
   private handleGameMenuScreenInput(): void {
     const { keysPressed } = this.inputService;
 
-    // Check if the Escape key was just pressed
     if (
       (keysPressed['Escape'] && !this.escapeKeyPressed) ||
       (keysPressed['mousedown'] &&
+        !this.leftMousePressed &&
         this.gameMenuScreen.closeMenuButton.isHovered)
     ) {
       this.escapeKeyPressed = true;
+      this.leftMousePressed = true;
 
       this.gameMenuScreen.shutScreen();
       this.itemWorldScreen.isActive = true;
-    } else if (!keysPressed['Escape']) {
-      // Reset the flag when the Escape key is released
-      this.escapeKeyPressed = false;
+    } else {
+      if (!keysPressed['Escape']) {
+        this.escapeKeyPressed = false;
+      }
+      if (!keysPressed['mousedown']) {
+        this.leftMousePressed = false;
+      }
+    }
+
+    if (
+      keysPressed['mousedown'] &&
+      !this.leftMousePressed &&
+      this.gameMenuScreen.loadGameButton.isHovered
+    ) {
+      this.leftMousePressed = true;
+
+      this.gameMenuScreen.isActive = false;
+      this.loadGameScreen.isDisplayed = true;
+      this.loadGameScreen.isActive = true;
+    } else if (!keysPressed['mousedown']) {
+      this.leftMousePressed = false;
     }
   }
 
@@ -191,20 +234,25 @@ export class ScreenManager {
   private handleLoadGameScreenInput(): void {
     const { keysPressed } = this.inputService;
 
-    // Check if the Escape key was just pressed
     if (
       (keysPressed['Escape'] && !this.escapeKeyPressed) ||
       (keysPressed['mousedown'] &&
+        !this.leftMousePressed &&
         this.loadGameScreen.closeLoadGameButton.isHovered)
     ) {
       this.escapeKeyPressed = true;
+      this.leftMousePressed = true;
 
       this.loadGameScreen.shutScreen();
-      this.startScreen.isActive = true;
-      this.startScreen.isDisplayed = true;
-    } else if (!keysPressed['Escape']) {
-      // Reset the flag when the Escape key is released
-      this.escapeKeyPressed = false;
+      this.startScreen.isActive = this.startScreen.isDisplayed;
+      this.gameMenuScreen.isActive = this.gameMenuScreen.isDisplayed;
+    } else {
+      if (!keysPressed['Escape']) {
+        this.escapeKeyPressed = false;
+      }
+      if (!keysPressed['mousedown']) {
+        this.leftMousePressed = false;
+      }
     }
   }
 }

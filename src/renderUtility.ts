@@ -79,6 +79,25 @@ export class RenderUtility {
     drawButton(ctx, loadGameButton, 'Load');
     drawButton(ctx, quitButton, 'Quit');
   }
+
+  /**
+   * Renders the game menu screen on the canvas.
+   *
+   * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
+   * @param {ScreenElement} closeButton - The screen element representing the close button.
+   * @param {ScreenElement} loadButton - The screen element representing the load button.
+   * @returns {void}
+   */
+  static renderGameMenuScreen(
+    ctx: CanvasRenderingContext2D,
+    closeButton: ScreenElement,
+    loadButton: ScreenElement
+  ): void {
+    drawOverlayBackground(ctx);
+    drawText(ctx, 'Game Menu', closeButton.x, 40);
+    drawButton(ctx, closeButton, 'Close');
+    drawButton(ctx, loadButton, 'Load');
+  }
 }
 
 /**

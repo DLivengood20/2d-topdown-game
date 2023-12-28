@@ -3,6 +3,7 @@ import { GameMenuScreen } from './screens/gameMenuScreen';
 import { GameScreen } from './screens/gameScreen';
 import { ItemWorldScreen } from './screens/itemWorldScreen';
 import { LoadGameScreen } from './screens/loadGameScreen';
+import { SettingsScreen } from './screens/settingsScreen';
 import { StartScreen } from './screens/startScreen';
 
 /**
@@ -32,6 +33,12 @@ export class ScreenManager {
    * @type {GameMenuScreen}
    */
   readonly gameMenuScreen: GameMenuScreen;
+
+  /**
+   * The SettingsScreen instance managed by the ScreenManager.
+   * @type {GameMenuScreen}
+   */
+  readonly settingsScreen: SettingsScreen;
 
   /**
    * Array of game screens managed by the ScreenManager.
@@ -64,11 +71,13 @@ export class ScreenManager {
     this.itemWorldScreen = new ItemWorldScreen();
     this.loadGameScreen = new LoadGameScreen();
     this.gameMenuScreen = new GameMenuScreen();
+    this.settingsScreen = new SettingsScreen();
     this.gameScreens = [
       this.startScreen,
       this.itemWorldScreen,
       this.loadGameScreen,
       this.gameMenuScreen,
+      this.settingsScreen,
     ];
   }
 
@@ -103,6 +112,8 @@ export class ScreenManager {
       this.handleGameMenuScreenInput();
     } else if (this.loadGameScreen.isActive) {
       this.handleLoadGameScreenInput();
+    } else if (this.settingsScreen.isActive) {
+      this.handleSettingsScreenInput();
     }
   }
 
@@ -124,8 +135,7 @@ export class ScreenManager {
         this.startScreen.startButton.isHovered)
     ) {
       this.leftMousePressed = true;
-      this.startScreen.isActive = false;
-      this.startScreen.isDisplayed = false;
+      this.startScreen.shutScreen();
       this.itemWorldScreen.isActive = true;
       this.itemWorldScreen.isDisplayed = true;
     } else if (!keysPressed['mousedown']) {
@@ -147,6 +157,24 @@ export class ScreenManager {
     } else if (!keysPressed['mousedown']) {
       this.leftMousePressed = false;
     }
+
+    /**
+     * Transition to the settings screen when the settings button is clicked.
+     */
+    if (
+      keysPressed['mousedown'] &&
+      !this.leftMousePressed &&
+      this.startScreen.settingsButton.isHovered
+    ) {
+      this.leftMousePressed = true;
+      this.startScreen.isActive = false;
+      this.startScreen.settingsButton.isHovered = false;
+      this.settingsScreen.isActive = true;
+      this.settingsScreen.isDisplayed = true;
+    } else if (!keysPressed['mousedown']) {
+      this.leftMousePressed = false;
+    }
+
     /**
      * Close the application when the quit button is clicked.
      */
@@ -183,13 +211,15 @@ export class ScreenManager {
 
   /**
    * Handles user input on the GameMenuScreen.
-   * Closes the game menu when Escape key is pressed or when the close menu button is clicked.
    * @private
    * @returns {void}
    */
   private handleGameMenuScreenInput(): void {
     const { keysPressed } = this.inputService;
 
+    /**
+     * Closes the game menu when Escape key is pressed or when the close menu button is clicked.
+     */
     if (
       (keysPressed['Escape'] && !this.escapeKeyPressed) ||
       (keysPressed['mousedown'] &&
@@ -210,6 +240,9 @@ export class ScreenManager {
       }
     }
 
+    /**
+     * Opens the load game screen when load game menu button is clicked.
+     */
     if (
       keysPressed['mousedown'] &&
       !this.leftMousePressed &&
@@ -218,8 +251,26 @@ export class ScreenManager {
       this.leftMousePressed = true;
 
       this.gameMenuScreen.isActive = false;
+      this.gameMenuScreen.loadGameButton.isHovered = false;
       this.loadGameScreen.isDisplayed = true;
       this.loadGameScreen.isActive = true;
+    } else if (!keysPressed['mousedown']) {
+      this.leftMousePressed = false;
+    }
+    /**
+     * Opens the settings screen when settings button is clicked.
+     */
+    if (
+      keysPressed['mousedown'] &&
+      !this.leftMousePressed &&
+      this.gameMenuScreen.settingsButton.isHovered
+    ) {
+      this.leftMousePressed = true;
+
+      this.gameMenuScreen.isActive = false;
+      this.gameMenuScreen.settingsButton.isHovered = false;
+      this.settingsScreen.isDisplayed = true;
+      this.settingsScreen.isActive = true;
     } else if (!keysPressed['mousedown']) {
       this.leftMousePressed = false;
     }
@@ -244,6 +295,37 @@ export class ScreenManager {
       this.leftMousePressed = true;
 
       this.loadGameScreen.shutScreen();
+      this.startScreen.isActive = this.startScreen.isDisplayed;
+      this.gameMenuScreen.isActive = this.gameMenuScreen.isDisplayed;
+    } else {
+      if (!keysPressed['Escape']) {
+        this.escapeKeyPressed = false;
+      }
+      if (!keysPressed['mousedown']) {
+        this.leftMousePressed = false;
+      }
+    }
+  }
+
+  /**
+   * Handles user input on the LoadGameScreen.
+   * Returns to the start screen when Escape key is pressed or when the close load game button is clicked.
+   * @private
+   * @returns {void}
+   */
+  private handleSettingsScreenInput(): void {
+    const { keysPressed } = this.inputService;
+
+    if (
+      (keysPressed['Escape'] && !this.escapeKeyPressed) ||
+      (keysPressed['mousedown'] &&
+        !this.leftMousePressed &&
+        this.settingsScreen.closeMenuButton.isHovered)
+    ) {
+      this.escapeKeyPressed = true;
+      this.leftMousePressed = true;
+
+      this.settingsScreen.shutScreen();
       this.startScreen.isActive = this.startScreen.isDisplayed;
       this.gameMenuScreen.isActive = this.gameMenuScreen.isDisplayed;
     } else {

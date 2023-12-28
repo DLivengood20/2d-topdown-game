@@ -51,7 +51,7 @@ export class LoadGameScreen implements GameScreen {
   }
 
   /**
-   * Closes or shuts down the current screen by updating its state properties.
+   * Closes or shuts down the load game screen by updating its state properties.
    * @public
    * @returns {void}
    */

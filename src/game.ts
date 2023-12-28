@@ -143,8 +143,13 @@ export class Game {
    * - Removes entities marked for removal.
    */
   private update(): void {
-    const { startScreen, itemWorldScreen, loadGameScreen, gameMenuScreen } =
-      this.screenManager;
+    const {
+      startScreen,
+      itemWorldScreen,
+      loadGameScreen,
+      gameMenuScreen,
+      settingsScreen,
+    } = this.screenManager;
 
     try {
       this.screenManager.update();
@@ -169,6 +174,9 @@ export class Game {
       }
       if (loadGameScreen.isDisplayed) {
         loadGameScreen.render(this.canvasManager.getContext());
+      }
+      if (settingsScreen.isDisplayed) {
+        settingsScreen.render(this.canvasManager.getContext());
       }
     } catch (error: any) {
       this.handleUpdateError(error);

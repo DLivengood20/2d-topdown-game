@@ -71,12 +71,14 @@ export class RenderUtility {
     ctx: CanvasRenderingContext2D,
     startButton: ScreenElement,
     loadGameButton: ScreenElement,
+    settingsButton: ScreenElement,
     quitButton: ScreenElement
   ): void {
     clearCanvas(ctx);
     drawTitle(ctx);
     drawButton(ctx, startButton, 'Start');
     drawButton(ctx, loadGameButton, 'Load');
+    drawButton(ctx, settingsButton, 'Settings');
     drawButton(ctx, quitButton, 'Quit');
   }
 
@@ -91,12 +93,30 @@ export class RenderUtility {
   static renderGameMenuScreen(
     ctx: CanvasRenderingContext2D,
     closeButton: ScreenElement,
-    loadButton: ScreenElement
+    loadButton: ScreenElement,
+    settingsButton: ScreenElement
   ): void {
     drawOverlayBackground(ctx);
     drawText(ctx, 'Game Menu', closeButton.x, 40);
     drawButton(ctx, closeButton, 'Close');
     drawButton(ctx, loadButton, 'Load');
+    drawButton(ctx, settingsButton, 'Settings');
+  }
+
+  /**
+   * Renders the settings screen on the canvas.
+   *
+   * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
+   * @param {ScreenElement} closeButton - The screen element representing the close button.
+   * @returns {void}
+   */
+  static renderSettingsScreen(
+    ctx: CanvasRenderingContext2D,
+    closeButton: ScreenElement
+  ): void {
+    drawOverlayBackground(ctx);
+    drawText(ctx, 'Settings', closeButton.x, 40);
+    drawButton(ctx, closeButton, 'Close');
   }
 }
 
@@ -256,7 +276,7 @@ function clearCanvas(ctx: CanvasRenderingContext2D): void {
  * @returns {void}
  */
 function drawTitle(ctx: CanvasRenderingContext2D): void {
-  const { x, y } = ScreenElements.startButton;
+  const { x, y } = ScreenElements.Button_1;
   // Draw the title
   drawText(ctx, 'Game Title', x, y - 20);
 }

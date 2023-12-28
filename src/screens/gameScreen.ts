@@ -31,4 +31,11 @@ export interface GameScreen {
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D, entities?: Entity[]): void;
+
+  /**
+   * Closes or shuts down the current screen by updating its state properties.
+   * @public
+   * @returns {void}
+   */
+  shutScreen(): void;
 }

@@ -43,4 +43,14 @@ export class ItemWorldScreen implements GameScreen {
   render(ctx: CanvasRenderingContext2D, entities: Entity[]): void {
     RenderUtility.renderItemWorldScreen(ctx, entities);
   }
+
+  /**
+   * Closes or shuts down the item world screen by updating its state properties.
+   * @public
+   * @returns {void}
+   */
+  shutScreen(): void {
+    this.isActive = false;
+    this.isDisplayed = false;
+  }
 }

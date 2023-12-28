@@ -33,6 +33,12 @@ export class StartScreen implements GameScreen {
   loadGameButton: ScreenElement;
 
   /**
+   * The screen element representing the game settings button.
+   * @type {ScreenElement}
+   */
+  settingsButton: ScreenElement;
+
+  /**
    * The screen element representing the quit button.
    * @type {ScreenElement}
    */
@@ -42,9 +48,10 @@ export class StartScreen implements GameScreen {
    * Creates a new StartScreen instance.
    */
   constructor() {
-    this.startButton = ScreenElements.startButton;
-    this.loadGameButton = ScreenElements.loadGameButton;
-    this.quitButton = ScreenElements.quitButton;
+    this.startButton = ScreenElements.Button_1;
+    this.loadGameButton = ScreenElements.Button_2;
+    this.settingsButton = ScreenElements.Button_3;
+    this.quitButton = ScreenElements.Button_4;
   }
 
   /**
@@ -52,7 +59,12 @@ export class StartScreen implements GameScreen {
    * @returns {ScreenElement[]} An array of ScreenElement objects.
    */
   getElements(): ScreenElement[] {
-    return [this.startButton, this.loadGameButton, this.quitButton];
+    return [
+      this.startButton,
+      this.loadGameButton,
+      this.settingsButton,
+      this.quitButton,
+    ];
   }
 
   /**
@@ -65,7 +77,19 @@ export class StartScreen implements GameScreen {
       ctx,
       this.startButton,
       this.loadGameButton,
+      this.settingsButton,
       this.quitButton
     );
+  }
+
+  /**
+   * Closes or shuts down the title screen by updating its state properties.
+   * @public
+   * @returns {void}
+   */
+  shutScreen(): void {
+    this.isActive = false;
+    this.isDisplayed = false;
+    this.loadGameButton.isHovered = false;
   }
 }

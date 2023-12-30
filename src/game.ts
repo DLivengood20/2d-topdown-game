@@ -2,7 +2,7 @@ import { CanvasManager } from './canvasManager';
 import { EntityManager } from './entityManager';
 import { SystemManager } from './systemManager';
 import { initializeGameComponents } from './gameInitialization';
-import { ScreenManager } from './screenManager';
+import { GameScreensController } from './screens/gameScreenController';
 import { InputService } from './inputService';
 
 /**
@@ -47,7 +47,7 @@ export class Game {
   private canvasManager: CanvasManager;
   private entityManager: EntityManager;
   private systemManager: SystemManager;
-  private screenManager: ScreenManager;
+  private screenManager: GameScreensController;
 
   /**
    * Constructs a new Game instance.
@@ -61,7 +61,7 @@ export class Game {
     canvasManager: CanvasManager,
     entityManager: EntityManager,
     systemManager: SystemManager,
-    screenManager: ScreenManager
+    screenManager: GameScreensController
   ) {
     this.inputService = inputService;
     this.canvasManager = canvasManager;
@@ -81,7 +81,7 @@ export class Game {
       const canvasManager = new CanvasManager();
       const entityManager = new EntityManager();
       const systemManager = new SystemManager(canvasManager.getContext());
-      const screenManager = new ScreenManager(inputService);
+      const screenManager = new GameScreensController(inputService);
 
       initializeGameComponents(canvasManager, entityManager);
 
@@ -149,7 +149,7 @@ export class Game {
       loadGameScreen,
       gameMenuScreen,
       settingsScreen,
-    } = this.screenManager;
+    } = this.screenManager.gameScreens;
 
     try {
       this.screenManager.update();

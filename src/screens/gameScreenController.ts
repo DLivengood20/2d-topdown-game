@@ -1,18 +1,21 @@
 import { InputService } from '../inputService';
-import { ScreenInputService } from '../screenInputService';
 import { GameScreensManager } from './gameScreenManager';
+import { ScreenInputService } from './input_services/screenInputService';
 
 /**
  * Manages different screens in the game and handles user input.
+ * @class
  */
 export class GameScreensController {
   /**
    * The input service used for handling user input in screens.
+   * @readonly
    */
   readonly screenInputService: ScreenInputService;
 
   /**
    * Collection of game screens managed by the ScreenManager.
+   * @readonly
    */
   readonly gameScreens: GameScreensManager;
 

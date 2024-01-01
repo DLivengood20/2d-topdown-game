@@ -3,16 +3,16 @@ import { GameScreen } from './gameScreen';
 import { ItemWorldScreen } from './itemWorldScreen';
 import { LoadGameScreen } from './loadGameScreen';
 import { SettingsScreen } from './settingsScreen';
-import { StartScreen } from './startScreen';
+import { TitleScreen } from './titleScreen';
 
 /**
  * Collection of game screens.
  */
 export class GameScreensManager {
   /**
-   * The start screen.
+   * The title screen.
    */
-  startScreen: StartScreen;
+  titleScreen: TitleScreen;
 
   /**
    * The item world screen.
@@ -38,7 +38,7 @@ export class GameScreensManager {
    * Creates a new GameScreens instance.
    */
   constructor() {
-    this.startScreen = new StartScreen();
+    this.titleScreen = new TitleScreen();
     this.itemWorldScreen = new ItemWorldScreen();
     this.loadGameScreen = new LoadGameScreen();
     this.gameMenuScreen = new GameMenuScreen();
@@ -51,7 +51,7 @@ export class GameScreensManager {
    */
   getScreens(): GameScreen[] {
     return [
-      this.startScreen,
+      this.titleScreen,
       this.itemWorldScreen,
       this.loadGameScreen,
       this.gameMenuScreen,

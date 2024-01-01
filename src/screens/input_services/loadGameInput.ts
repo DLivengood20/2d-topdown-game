@@ -3,7 +3,7 @@ import { ScreenKeyController } from './screenKeyController';
 
 /**
  * Handles user input on the LoadGameScreen.
- * Returns to the start screen when the Escape key is pressed
+ * Returns to the title screen when the Escape key is pressed
  * or when the close load game button is clicked.
  * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
  * @param {GameScreensManager} gameScreens - The collection of game screens.
@@ -18,7 +18,7 @@ export function handleLoadGameScreenInput(
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
 ): void {
-  const { loadGameScreen, startScreen, gameMenuScreen } = gameScreens;
+  const { loadGameScreen, titleScreen, gameMenuScreen } = gameScreens;
 
   if (
     screenKeyController.isEscapeKeyTriggered(keysPressed) ||
@@ -29,7 +29,7 @@ export function handleLoadGameScreenInput(
     screenKeyController.setLeftMousePressed(true);
 
     loadGameScreen.shutScreen();
-    startScreen.isActive = startScreen.isDisplayed;
+    titleScreen.isActive = titleScreen.isDisplayed;
     gameMenuScreen.isActive = gameMenuScreen.isDisplayed;
   } else {
     screenKeyController.resetEscapeKey(keysPressed);

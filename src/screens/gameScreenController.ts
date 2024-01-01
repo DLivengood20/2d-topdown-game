@@ -52,8 +52,8 @@ export class GameScreensController {
   update(): void {
     const { keysPressed } = this.inputService;
     this.updateScreenElements();
-    if (this.gameScreens.startScreen.isActive) {
-      this.screenInputService.handleStartScreenInput(
+    if (this.gameScreens.titleScreen.isActive) {
+      this.screenInputService.handleTitleScreenInput(
         keysPressed,
         this.gameScreens
       );

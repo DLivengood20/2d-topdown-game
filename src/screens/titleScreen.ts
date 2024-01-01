@@ -7,15 +7,15 @@ import { ScreenElements } from './screenElements';
  * Represents the starting screen in the game.
  * @implements {GameScreen}
  */
-export class StartScreen implements GameScreen {
+export class TitleScreen implements GameScreen {
   /**
-   * Indicates whether the start screen is currently active.
+   * Indicates whether the title screen is currently active.
    * @type {boolean}
    */
   isActive: boolean = true;
 
   /**
-   * Indicates whether the start screen is currently displayed.
+   * Indicates whether the title screen is currently displayed.
    * @type {boolean}
    */
   isDisplayed: boolean = true;
@@ -55,7 +55,7 @@ export class StartScreen implements GameScreen {
   }
 
   /**
-   * Gets an array of screen elements associated with the start screen.
+   * Gets an array of screen elements associated with the title screen.
    * @returns {ScreenElement[]} An array of ScreenElement objects.
    */
   getElements(): ScreenElement[] {
@@ -68,12 +68,12 @@ export class StartScreen implements GameScreen {
   }
 
   /**
-   * Renders the start screen on the canvas.
+   * Renders the title screen on the canvas.
    * @param {CanvasRenderingContext2D} ctx - The CanvasRenderingContext2D used for rendering.
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D): void {
-    RenderUtility.renderStartScreen(
+    RenderUtility.renderTitleScreen(
       ctx,
       this.startButton,
       this.loadGameButton,

@@ -9,7 +9,7 @@ import { ScreenKeyController } from './screenKeyController';
  * @returns {void}
  * @public
  */
-export function handleStartScreenInput(
+export function handleTitleScreenInput(
   keysPressed: { [key: string]: boolean },
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
@@ -18,8 +18,12 @@ export function handleStartScreenInput(
    * Transition to the item world screen when Enter key is pressed
    * or when the start button is clicked.
    */
-  const { startScreen, itemWorldScreen, loadGameScreen, settingsScreen } =
-    gameScreens;
+  const {
+    titleScreen: startScreen,
+    itemWorldScreen,
+    loadGameScreen,
+    settingsScreen,
+  } = gameScreens;
   if (
     keysPressed['Enter'] ||
     (screenKeyController.isLeftClickTriggered(keysPressed) &&

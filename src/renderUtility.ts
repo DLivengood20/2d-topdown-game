@@ -61,13 +61,13 @@ export class RenderUtility {
   }
 
   /**
-   * Renders the start screen with buttons.
+   * Renders the title screen with buttons.
    * @param ctx - The canvas rendering context.
    * @param startButton - The button to start the game.
    * @param loadGameButton - The button to load a saved game.
    * @param quitButton - The button to quit the game.
    */
-  static renderStartScreen(
+  static renderTitleScreen(
     ctx: CanvasRenderingContext2D,
     startButton: ScreenElement,
     loadGameButton: ScreenElement,

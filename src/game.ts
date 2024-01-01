@@ -144,7 +144,7 @@ export class Game {
    */
   private update(): void {
     const {
-      startScreen,
+      titleScreen,
       itemWorldScreen,
       loadGameScreen,
       gameMenuScreen,
@@ -153,8 +153,8 @@ export class Game {
 
     try {
       this.screenManager.update();
-      if (startScreen.isDisplayed) {
-        startScreen.render(this.canvasManager.getContext());
+      if (titleScreen.isDisplayed) {
+        titleScreen.render(this.canvasManager.getContext());
       }
       if (itemWorldScreen.isDisplayed) {
         itemWorldScreen.render(

@@ -4,7 +4,7 @@ import { handleItemWorldScreenInput } from './itemWorldInput';
 import { handleLoadGameScreenInput } from './loadGameInput';
 import { ScreenKeyController } from './screenKeyController';
 import { handleSettingsScreenInput } from './settingsInput';
-import { handleStartScreenInput } from './startInput';
+import { handleTitleScreenInput } from './titleInput';
 
 /**
  * Service for handling user input related to the screen.
@@ -22,17 +22,17 @@ export class ScreenInputService {
   screenKeyController: ScreenKeyController = new ScreenKeyController();
 
   /**
-   * Handles user input on the StartScreen.
+   * Handles user input on the TitleScreen.
    * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
    * @param {GameScreensManager} gameScreens - The collection of game screens.
    * @returns {void}
    * @public
    */
-  public handleStartScreenInput(
+  public handleTitleScreenInput(
     keysPressed: { [key: string]: boolean },
     gameScreens: GameScreensManager
   ): void {
-    handleStartScreenInput(keysPressed, gameScreens, this.screenKeyController);
+    handleTitleScreenInput(keysPressed, gameScreens, this.screenKeyController);
   }
 
   /**
@@ -78,7 +78,7 @@ export class ScreenInputService {
 
   /**
    * Handles user input on the LoadGameScreen.
-   * Returns to the start screen when the Escape key is pressed
+   * Returns to the title screen when the Escape key is pressed
    * or when the close load game button is clicked.
    * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
    * @param {GameScreensManager} gameScreens - The collection of game screens.
@@ -100,7 +100,7 @@ export class ScreenInputService {
 
   /**
    * Handles user input on the SettingsScreen.
-   * Returns to the start screen when the Escape key is pressed
+   * Returns to the title screen when the Escape key is pressed
    * or when the close menu button is clicked.
    * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
    * @param {GameScreensManager} gameScreens - The collection of game screens.

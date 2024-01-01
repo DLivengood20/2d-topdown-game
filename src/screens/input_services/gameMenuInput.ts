@@ -16,8 +16,13 @@ export function handleGameMenuScreenInput(
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
 ): void {
-  const { gameMenuScreen, itemWorldScreen, loadGameScreen, settingsScreen } =
-    gameScreens;
+  const {
+    gameMenuScreen,
+    itemWorldScreen,
+    loadGameScreen,
+    settingsScreen,
+    saveGameScreen,
+  } = gameScreens;
 
   /**
    * Closes the game menu when the Escape key is pressed or when the close menu button is clicked.
@@ -51,6 +56,22 @@ export function handleGameMenuScreenInput(
     loadGameScreen.isDisplayed = true;
     loadGameScreen.isActive = true;
   } else screenKeyController.resetLeftClick(keysPressed);
+
+  /**
+   * Opens the save game screen when save game menu button is clicked.
+   */
+  if (
+    screenKeyController.isLeftClickTriggered(keysPressed) &&
+    gameMenuScreen.saveGameButton.isHovered
+  ) {
+    screenKeyController.setLeftMousePressed(true);
+
+    gameMenuScreen.isActive = false;
+    gameMenuScreen.saveGameButton.isHovered = false;
+    saveGameScreen.isDisplayed = true;
+    saveGameScreen.isActive = true;
+  } else screenKeyController.resetLeftClick(keysPressed);
+
   /**
    * Opens the settings screen when settings button is clicked.
    */

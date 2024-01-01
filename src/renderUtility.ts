@@ -61,6 +61,20 @@ export class RenderUtility {
   }
 
   /**
+   * Renders the save game screen on the canvas.
+   * @param ctx - The canvas rendering context.
+   * @param closeSaveGameButton - The button to close the save game screen.
+   */
+  static renderSaveGameScreen(
+    ctx: CanvasRenderingContext2D,
+    closeSaveGameButton: ScreenElement
+  ): void {
+    drawOverlayBackground(ctx);
+    drawText(ctx, 'Save', closeSaveGameButton.x, 40);
+    drawButton(ctx, closeSaveGameButton, 'Close');
+  }
+
+  /**
    * Renders the title screen with buttons.
    * @param ctx - The canvas rendering context.
    * @param startButton - The button to start the game.
@@ -93,12 +107,14 @@ export class RenderUtility {
   static renderGameMenuScreen(
     ctx: CanvasRenderingContext2D,
     closeButton: ScreenElement,
+    saveButton: ScreenElement,
     loadButton: ScreenElement,
     settingsButton: ScreenElement
   ): void {
     drawOverlayBackground(ctx);
     drawText(ctx, 'Game Menu', closeButton.x, 40);
     drawButton(ctx, closeButton, 'Close');
+    drawButton(ctx, saveButton, 'Save');
     drawButton(ctx, loadButton, 'Load');
     drawButton(ctx, settingsButton, 'Settings');
   }

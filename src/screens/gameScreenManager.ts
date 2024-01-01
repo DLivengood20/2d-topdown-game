@@ -2,6 +2,7 @@ import { GameMenuScreen } from './gameMenuScreen';
 import { GameScreen } from './gameScreen';
 import { ItemWorldScreen } from './itemWorldScreen';
 import { LoadGameScreen } from './loadGameScreen';
+import { SaveGameScreen } from './saveGameScreen';
 import { SettingsScreen } from './settingsScreen';
 import { TitleScreen } from './titleScreen';
 
@@ -25,6 +26,11 @@ export class GameScreensManager {
   loadGameScreen: LoadGameScreen;
 
   /**
+   * The save game screen.
+   */
+  saveGameScreen: SaveGameScreen;
+
+  /**
    * The game menu screen.
    */
   gameMenuScreen: GameMenuScreen;
@@ -41,6 +47,7 @@ export class GameScreensManager {
     this.titleScreen = new TitleScreen();
     this.itemWorldScreen = new ItemWorldScreen();
     this.loadGameScreen = new LoadGameScreen();
+    this.saveGameScreen = new SaveGameScreen();
     this.gameMenuScreen = new GameMenuScreen();
     this.settingsScreen = new SettingsScreen();
   }
@@ -54,6 +61,7 @@ export class GameScreensManager {
       this.titleScreen,
       this.itemWorldScreen,
       this.loadGameScreen,
+      this.saveGameScreen,
       this.gameMenuScreen,
       this.settingsScreen,
     ];

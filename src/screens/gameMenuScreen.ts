@@ -27,6 +27,11 @@ export class GameMenuScreen implements GameScreen {
   loadGameButton: ScreenElement;
 
   /**
+   * The screen element representing the save game button.
+   */
+  saveGameButton: ScreenElement;
+
+  /**
    * The screen element representing the settings button.
    */
   settingsButton: ScreenElement;
@@ -36,8 +41,9 @@ export class GameMenuScreen implements GameScreen {
    */
   constructor() {
     this.closeMenuButton = ScreenElements.Button_1;
-    this.loadGameButton = ScreenElements.Button_2;
-    this.settingsButton = ScreenElements.Button_3;
+    this.saveGameButton = ScreenElements.Button_2;
+    this.loadGameButton = ScreenElements.Button_3;
+    this.settingsButton = ScreenElements.Button_4;
   }
 
   /**
@@ -45,7 +51,12 @@ export class GameMenuScreen implements GameScreen {
    * @returns {ScreenElement[]} An array of ScreenElement objects.
    */
   getElements(): ScreenElement[] {
-    return [this.closeMenuButton, this.loadGameButton, this.settingsButton];
+    return [
+      this.closeMenuButton,
+      this.loadGameButton,
+      this.settingsButton,
+      this.saveGameButton,
+    ];
   }
 
   /**
@@ -56,6 +67,7 @@ export class GameMenuScreen implements GameScreen {
     RenderUtility.renderGameMenuScreen(
       ctx,
       this.closeMenuButton,
+      this.saveGameButton,
       this.loadGameButton,
       this.settingsButton
     );

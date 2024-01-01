@@ -147,6 +147,7 @@ export class Game {
       titleScreen,
       itemWorldScreen,
       loadGameScreen,
+      saveGameScreen,
       gameMenuScreen,
       settingsScreen,
     } = this.screenManager.gameScreens;
@@ -174,6 +175,9 @@ export class Game {
       }
       if (loadGameScreen.isDisplayed) {
         loadGameScreen.render(this.canvasManager.getContext());
+      }
+      if (saveGameScreen.isDisplayed) {
+        saveGameScreen.render(this.canvasManager.getContext());
       }
       if (settingsScreen.isDisplayed) {
         settingsScreen.render(this.canvasManager.getContext());

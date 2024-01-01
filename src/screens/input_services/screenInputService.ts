@@ -2,6 +2,7 @@ import { GameScreensManager } from '../gameScreenManager';
 import { handleGameMenuScreenInput } from './gameMenuInput';
 import { handleItemWorldScreenInput } from './itemWorldInput';
 import { handleLoadGameScreenInput } from './loadGameInput';
+import { handleSaveGameScreenInput } from './saveGameInput';
 import { ScreenKeyController } from './screenKeyController';
 import { handleSettingsScreenInput } from './settingsInput';
 import { handleTitleScreenInput } from './titleInput';
@@ -114,6 +115,28 @@ export class ScreenInputService {
     gameScreens: GameScreensManager
   ): void {
     handleSettingsScreenInput(
+      keysPressed,
+      gameScreens,
+      this.screenKeyController
+    );
+  }
+
+  /**
+   * Handles user input on the SaveGameScreen.
+   * Returns to the title screen when the Escape key is pressed
+   * or when the close load game button is clicked.
+   * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
+   * @param {GameScreensManager} gameScreens - The collection of game screens.
+   * @returns {void}
+   * @public
+   */
+  public handleSaveGameScreenInput(
+    keysPressed: {
+      [key: string]: boolean;
+    },
+    gameScreens: GameScreensManager
+  ): void {
+    handleSaveGameScreenInput(
       keysPressed,
       gameScreens,
       this.screenKeyController

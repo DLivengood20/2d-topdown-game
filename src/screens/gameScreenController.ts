@@ -72,6 +72,11 @@ export class GameScreensController {
         keysPressed,
         this.gameScreens
       );
+    } else if (this.gameScreens.saveGameScreen.isActive) {
+      this.screenInputService.handleSaveGameScreenInput(
+        keysPressed,
+        this.gameScreens
+      );
     } else if (this.gameScreens.settingsScreen.isActive) {
       this.screenInputService.handleSettingsScreenInput(
         keysPressed,

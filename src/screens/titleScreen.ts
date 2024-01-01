@@ -4,7 +4,7 @@ import { ScreenElement } from './screenElement';
 import { ScreenElements } from './screenElements';
 
 /**
- * Represents the starting screen in the game.
+ * Represents the title screen in the game.
  * @implements {GameScreen}
  */
 export class TitleScreen implements GameScreen {
@@ -45,7 +45,7 @@ export class TitleScreen implements GameScreen {
   quitButton: ScreenElement;
 
   /**
-   * Creates a new StartScreen instance.
+   * Creates a new TitleScreen instance.
    */
   constructor() {
     this.startButton = ScreenElements.Button_1;

@@ -2,7 +2,7 @@ import { GameScreensManager } from '../gameScreenManager';
 import { ScreenKeyController } from './screenKeyController';
 
 /**
- * Handles user input on the StartScreen.
+ * Handles user input on the TitleScreen.
  * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
  * @param {GameScreensManager} gameScreens - The collection of game screens.
  * @param {ScreenKeyController} screenKeyController - The controller for managing user input related to screen keys.
@@ -18,19 +18,15 @@ export function handleTitleScreenInput(
    * Transition to the item world screen when Enter key is pressed
    * or when the start button is clicked.
    */
-  const {
-    titleScreen: startScreen,
-    itemWorldScreen,
-    loadGameScreen,
-    settingsScreen,
-  } = gameScreens;
+  const { titleScreen, itemWorldScreen, loadGameScreen, settingsScreen } =
+    gameScreens;
   if (
     keysPressed['Enter'] ||
     (screenKeyController.isLeftClickTriggered(keysPressed) &&
-      startScreen.startButton.isHovered)
+      titleScreen.startButton.isHovered)
   ) {
     screenKeyController.setLeftMousePressed(true);
-    startScreen.shutScreen();
+    titleScreen.shutScreen();
     itemWorldScreen.isActive = true;
     itemWorldScreen.isDisplayed = true;
   } else screenKeyController.resetLeftClick(keysPressed);
@@ -39,11 +35,11 @@ export function handleTitleScreenInput(
    */
   if (
     screenKeyController.isLeftClickTriggered(keysPressed) &&
-    startScreen.loadGameButton.isHovered
+    titleScreen.loadGameButton.isHovered
   ) {
     screenKeyController.setLeftMousePressed(true);
-    startScreen.isActive = false;
-    startScreen.loadGameButton.isHovered = false;
+    titleScreen.isActive = false;
+    titleScreen.loadGameButton.isHovered = false;
     loadGameScreen.isActive = true;
     loadGameScreen.isDisplayed = true;
   } else screenKeyController.resetLeftClick(keysPressed);
@@ -53,11 +49,11 @@ export function handleTitleScreenInput(
    */
   if (
     screenKeyController.isLeftClickTriggered(keysPressed) &&
-    startScreen.settingsButton.isHovered
+    titleScreen.settingsButton.isHovered
   ) {
     screenKeyController.setLeftMousePressed(true);
-    startScreen.isActive = false;
-    startScreen.settingsButton.isHovered = false;
+    titleScreen.isActive = false;
+    titleScreen.settingsButton.isHovered = false;
     settingsScreen.isActive = true;
     settingsScreen.isDisplayed = true;
   } else screenKeyController.resetLeftClick(keysPressed);
@@ -67,7 +63,7 @@ export function handleTitleScreenInput(
    */
   if (
     screenKeyController.isLeftClickTriggered(keysPressed) &&
-    startScreen.quitButton.isHovered
+    titleScreen.quitButton.isHovered
   ) {
     window.close();
   } else screenKeyController.resetLeftClick(keysPressed);

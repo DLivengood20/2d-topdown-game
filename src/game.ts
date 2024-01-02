@@ -150,6 +150,7 @@ export class Game {
       saveGameScreen,
       gameMenuScreen,
       settingsScreen,
+      inventoryScreen,
     } = this.screenManager.gameScreens;
 
     try {
@@ -172,6 +173,9 @@ export class Game {
       }
       if (gameMenuScreen.isDisplayed) {
         gameMenuScreen.render(this.canvasManager.getContext());
+      }
+      if (inventoryScreen.isDisplayed) {
+        inventoryScreen.render(this.canvasManager.getContext());
       }
       if (loadGameScreen.isDisplayed) {
         loadGameScreen.render(this.canvasManager.getContext());

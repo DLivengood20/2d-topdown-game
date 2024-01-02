@@ -1,5 +1,6 @@
 import { GameMenuScreen } from './gameMenuScreen';
 import { GameScreen } from './gameScreen';
+import { InventoryScreen } from './inventoryScreen';
 import { ItemWorldScreen } from './itemWorldScreen';
 import { LoadGameScreen } from './loadGameScreen';
 import { SaveGameScreen } from './saveGameScreen';
@@ -41,6 +42,11 @@ export class GameScreensManager {
   settingsScreen: SettingsScreen;
 
   /**
+   * The inventory screen.
+   */
+  inventoryScreen: InventoryScreen;
+
+  /**
    * Creates a new GameScreens instance.
    */
   constructor() {
@@ -50,6 +56,7 @@ export class GameScreensManager {
     this.saveGameScreen = new SaveGameScreen();
     this.gameMenuScreen = new GameMenuScreen();
     this.settingsScreen = new SettingsScreen();
+    this.inventoryScreen = new InventoryScreen();
   }
 
   /**
@@ -64,6 +71,7 @@ export class GameScreensManager {
       this.saveGameScreen,
       this.gameMenuScreen,
       this.settingsScreen,
+      this.inventoryScreen,
     ];
   }
 }

@@ -150,6 +150,20 @@ export class RenderUtility {
   }
 
   /**
+   * Renders the crafting menu screen on the canvas.
+   * @param ctx - The canvas rendering context.
+   * @param closeCraftingMenuButton - The button to close the crafting menu screen.
+   */
+  static renderCraftingMenuScreen(
+    ctx: CanvasRenderingContext2D,
+    closeCraftingMenuButton: ScreenElement
+  ): void {
+    drawOverlayBackground(ctx);
+    drawText(ctx, 'CraftingMenu', closeCraftingMenuButton.x, 40);
+    drawButton(ctx, closeCraftingMenuButton, 'Close');
+  }
+
+  /**
    * Renders the game shop screen on the canvas.
    * @param ctx - The canvas rendering context.
    * @param closeGameShopButton - The button to close the game shop screen.

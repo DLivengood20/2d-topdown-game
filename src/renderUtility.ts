@@ -176,6 +176,20 @@ export class RenderUtility {
     drawText(ctx, 'Shop', closeGameShopButton.x, 40);
     drawButton(ctx, closeGameShopButton, 'Close');
   }
+
+  /**
+   * Renders the construction screen on the canvas.
+   * @param ctx - The canvas rendering context.
+   * @param closeConstructionButton - The button to close the construction screen.
+   */
+  static renderConstructionScreen(
+    ctx: CanvasRenderingContext2D,
+    closeConstructionButton: ScreenElement
+  ): void {
+    drawOverlayBackground(ctx);
+    drawText(ctx, 'Construction', closeConstructionButton.x, 40);
+    drawButton(ctx, closeConstructionButton, 'Close');
+  }
 }
 
 /**

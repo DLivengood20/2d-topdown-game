@@ -1,3 +1,4 @@
+import { ConstructionScreen } from './constructionScreen';
 import { CraftingMenuScreen } from './craftingMenuScreen';
 import { GameMenuScreen } from './gameMenuScreen';
 import { GameScreen } from './gameScreen';
@@ -59,6 +60,11 @@ export class GameScreensManager {
   craftingMenuScreen: CraftingMenuScreen;
 
   /**
+   * The construction screen.
+   */
+  constructionScreen: ConstructionScreen;
+
+  /**
    * Creates a new GameScreens instance.
    */
   constructor() {
@@ -71,6 +77,7 @@ export class GameScreensManager {
     this.inventoryScreen = new InventoryScreen();
     this.gameShopScreen = new GameShopScreen();
     this.craftingMenuScreen = new CraftingMenuScreen();
+    this.constructionScreen = new ConstructionScreen();
   }
 
   /**
@@ -88,6 +95,7 @@ export class GameScreensManager {
       this.inventoryScreen,
       this.gameShopScreen,
       this.craftingMenuScreen,
+      this.constructionScreen,
     ];
   }
 }

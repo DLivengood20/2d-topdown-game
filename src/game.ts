@@ -153,6 +153,7 @@ export class Game {
       inventoryScreen,
       gameShopScreen,
       craftingMenuScreen,
+      constructionScreen,
     } = this.screenManager.gameScreens;
 
     try {
@@ -178,6 +179,9 @@ export class Game {
       }
       if (inventoryScreen.isDisplayed) {
         inventoryScreen.render(this.canvasManager.getContext());
+      }
+      if (constructionScreen.isDisplayed) {
+        constructionScreen.render(this.canvasManager.getContext());
       }
       if (gameShopScreen.isDisplayed) {
         gameShopScreen.render(this.canvasManager.getContext());

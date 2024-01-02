@@ -136,6 +136,20 @@ export class RenderUtility {
   }
 
   /**
+   * Renders the main hub screen on the canvas.
+   * @param ctx - The canvas rendering context.
+   * @param closeMainHubButton - The button to close the main hub screen.
+   */
+  static renderMainHubScreen(
+    ctx: CanvasRenderingContext2D,
+    closeMainHubButton: ScreenElement
+  ): void {
+    drawOverlayBackground(ctx);
+    drawText(ctx, 'Main Hub', closeMainHubButton.x, 40);
+    drawButton(ctx, closeMainHubButton, 'Close');
+  }
+
+  /**
    * Renders the inventory screen on the canvas.
    * @param ctx - The canvas rendering context.
    * @param closeInventoryButton - The button to close the inventory screen.

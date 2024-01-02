@@ -6,6 +6,7 @@ import { GameShopScreen } from './gameShopScreen';
 import { InventoryScreen } from './inventoryScreen';
 import { ItemWorldScreen } from './itemWorldScreen';
 import { LoadGameScreen } from './loadGameScreen';
+import { MainHubScreen } from './mainHubScreen';
 import { SaveGameScreen } from './saveGameScreen';
 import { SettingsScreen } from './settingsScreen';
 import { TitleScreen } from './titleScreen';
@@ -65,6 +66,11 @@ export class GameScreensManager {
   constructionScreen: ConstructionScreen;
 
   /**
+   * The main hub screen.
+   */
+  mainHubScreen: MainHubScreen;
+
+  /**
    * Creates a new GameScreens instance.
    */
   constructor() {
@@ -78,6 +84,7 @@ export class GameScreensManager {
     this.gameShopScreen = new GameShopScreen();
     this.craftingMenuScreen = new CraftingMenuScreen();
     this.constructionScreen = new ConstructionScreen();
+    this.mainHubScreen = new MainHubScreen();
   }
 
   /**
@@ -96,6 +103,7 @@ export class GameScreensManager {
       this.gameShopScreen,
       this.craftingMenuScreen,
       this.constructionScreen,
+      this.mainHubScreen,
     ];
   }
 }

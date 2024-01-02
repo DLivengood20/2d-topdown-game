@@ -154,12 +154,16 @@ export class Game {
       gameShopScreen,
       craftingMenuScreen,
       constructionScreen,
+      mainHubScreen,
     } = this.screenManager.gameScreens;
 
     try {
       this.screenManager.update();
       if (titleScreen.isDisplayed) {
         titleScreen.render(this.canvasManager.getContext());
+      }
+      if (mainHubScreen.isDisplayed) {
+        mainHubScreen.render(this.canvasManager.getContext());
       }
       if (itemWorldScreen.isDisplayed) {
         itemWorldScreen.render(

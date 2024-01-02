@@ -38,4 +38,11 @@ export interface GameScreen {
    * @returns {void}
    */
   shutScreen(): void;
+
+  /**
+   * Opens or activates the current screen by updating its state properties.
+   * @public
+   * @returns {void}
+   */
+  openScreen(): void;
 }

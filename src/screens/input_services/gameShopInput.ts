@@ -2,34 +2,34 @@ import { GameScreensManager } from '../gameScreenManager';
 import { ScreenKeyController } from './screenKeyController';
 
 /**
- * Handles user input on the SaveGameScreen.
+ * Handles user input on the GameShopScreen.
  * Returns to the title screen when the Escape key is pressed
- * or when the close save game button is clicked.
+ * or when the close game shop button is clicked.
  * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
  * @param {GameScreensManager} gameScreens - The collection of game screens.
  * @param {ScreenKeyController} screenKeyController - The controller for handling screen-related key events.
  * @returns {void}
  * @public
  */
-export function handleSaveGameScreenInput(
+export function handleGameShopScreenInput(
   keysPressed: {
     [key: string]: boolean;
   },
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
 ): void {
-  const { saveGameScreen, gameMenuScreen } = gameScreens;
+  const { gameShopScreen, mainHubScreen } = gameScreens;
 
   if (
     screenKeyController.isEscapeKeyTriggered(keysPressed) ||
     (screenKeyController.isLeftClickTriggered(keysPressed) &&
-      saveGameScreen.closeSaveGameButton.isHovered)
+      gameShopScreen.closeGameShopButton.isHovered)
   ) {
     screenKeyController.setEscapeKeyPressed(true);
     screenKeyController.setLeftMousePressed(true);
 
-    saveGameScreen.shutScreen();
-    gameMenuScreen.isActive = true;
+    gameShopScreen.shutScreen();
+    mainHubScreen.isActive = true;
   } else {
     screenKeyController.resetEscapeKey(keysPressed);
     screenKeyController.resetLeftClick(keysPressed);

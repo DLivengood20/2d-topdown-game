@@ -11,12 +11,14 @@ export class SaveGameScreen implements GameScreen {
   /**
    * Indicates whether the save game screen is currently active.
    * @type {boolean}
+   * @default false
    */
   isActive: boolean = false;
 
   /**
    * Indicates whether the save game screen is currently displayed.
    * @type {boolean}
+   * @default false
    */
   isDisplayed: boolean = false;
 
@@ -51,12 +53,23 @@ export class SaveGameScreen implements GameScreen {
   }
 
   /**
-   * Closes or shuts down the save game screen by updating its state properties.
+   * Closes or deactivates the save game screen by updating its state properties.
    * @public
    * @returns {void}
    */
   shutScreen(): void {
     this.isActive = false;
     this.isDisplayed = false;
+  }
+
+  /**
+   * Opens or activates the save game screen by updating its state properties.
+   * @public
+   * @returns {void}
+   */
+  openScreen(): void {
+    this.isActive = true;
+    this.isDisplayed = true;
+    this.closeSaveGameButton.isHovered = false;
   }
 }

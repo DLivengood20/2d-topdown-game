@@ -13,8 +13,9 @@ import { ScreenElements } from './screens/screenElements';
 export class RenderUtility {
   /**
    * Renders items in the game world on the screen.
-   * @param ctx - The canvas rendering context.
-   * @param entities - An array of game entities to be rendered.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   * @param {Entity[]} entities - An array of game entities to be rendered.
+   * @returns {void}
    */
   static renderItemWorldScreen(
     ctx: CanvasRenderingContext2D,
@@ -76,10 +77,12 @@ export class RenderUtility {
 
   /**
    * Renders the title screen with buttons.
-   * @param ctx - The canvas rendering context.
-   * @param startButton - The button to start the game.
-   * @param loadGameButton - The button to load a saved game.
-   * @param quitButton - The button to quit the game.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   * @param {ScreenElement} startButton - The button to start the game.
+   * @param {ScreenElement} loadGameButton - The button to load a saved game.
+   * @param {ScreenElement} settingsButton - The button to open the settings screen.
+   * @param {ScreenElement} quitButton - The button to quit the game.
+   * @returns {void}
    */
   static renderTitleScreen(
     ctx: CanvasRenderingContext2D,
@@ -98,10 +101,13 @@ export class RenderUtility {
 
   /**
    * Renders the game menu screen on the canvas.
-   *
    * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
    * @param {ScreenElement} closeButton - The screen element representing the close button.
+   * @param {ScreenElement} saveButton - The screen element representing the save button.
    * @param {ScreenElement} loadButton - The screen element representing the load button.
+   * @param {ScreenElement} settingsButton - The screen element representing the settings button.
+   * @param {ScreenElement} openTitleButton - The screen element representing the button to open the title screen.
+   * @param {ScreenElement} quitGameButton - The screen element representing the button to quit the game.
    * @returns {void}
    */
   static renderGameMenuScreen(
@@ -109,7 +115,9 @@ export class RenderUtility {
     closeButton: ScreenElement,
     saveButton: ScreenElement,
     loadButton: ScreenElement,
-    settingsButton: ScreenElement
+    settingsButton: ScreenElement,
+    openTitleButton: ScreenElement,
+    quitGameButton: ScreenElement
   ): void {
     drawOverlayBackground(ctx);
     drawText(ctx, 'Game Menu', closeButton.x, 40);
@@ -117,6 +125,8 @@ export class RenderUtility {
     drawButton(ctx, saveButton, 'Save');
     drawButton(ctx, loadButton, 'Load');
     drawButton(ctx, settingsButton, 'Settings');
+    drawButton(ctx, openTitleButton, 'Exit to title');
+    drawButton(ctx, quitGameButton, 'Quit');
   }
 
   /**
@@ -137,16 +147,28 @@ export class RenderUtility {
 
   /**
    * Renders the main hub screen on the canvas.
-   * @param ctx - The canvas rendering context.
-   * @param closeMainHubButton - The button to close the main hub screen.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   * @param {ScreenElement} openGameMenuButton - The button to open the game menu screen.
+   * @param {ScreenElement} openInventoryButton - The button to open the inventory screen.
+   * @param {ScreenElement} openCraftingMenuButton - The button to open the crafting menu screen.
+   * @param {ScreenElement} openGameShopButton - The button to open the game shop screen.
+   * @returns {void}
    */
   static renderMainHubScreen(
     ctx: CanvasRenderingContext2D,
-    closeMainHubButton: ScreenElement
+    openGameMenuButton: ScreenElement,
+    openInventoryButton: ScreenElement,
+    openCraftingMenuButton: ScreenElement,
+    openGameShopButton: ScreenElement
   ): void {
-    drawOverlayBackground(ctx);
-    drawText(ctx, 'Main Hub', closeMainHubButton.x, 40);
-    drawButton(ctx, closeMainHubButton, 'Close');
+    clearCanvas(ctx);
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, CanvasValues.WIDTH, CanvasValues.HEIGHT);
+    drawText(ctx, 'Main Hub', openGameMenuButton.x, 40);
+    drawButton(ctx, openGameMenuButton, 'Menu');
+    drawButton(ctx, openInventoryButton, 'Inventory');
+    drawButton(ctx, openCraftingMenuButton, 'Crafting');
+    drawButton(ctx, openGameShopButton, 'Shop');
   }
 
   /**
@@ -165,16 +187,20 @@ export class RenderUtility {
 
   /**
    * Renders the crafting menu screen on the canvas.
-   * @param ctx - The canvas rendering context.
-   * @param closeCraftingMenuButton - The button to close the crafting menu screen.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   * @param {ScreenElement} closeCraftingMenuButton - The button to close the crafting menu screen.
+   * @param {ScreenElement} openItemWorldButton - The button to open the item world screen.
+   * @returns {void}
    */
   static renderCraftingMenuScreen(
     ctx: CanvasRenderingContext2D,
-    closeCraftingMenuButton: ScreenElement
+    closeCraftingMenuButton: ScreenElement,
+    openItemWorldButton: ScreenElement
   ): void {
     drawOverlayBackground(ctx);
     drawText(ctx, 'CraftingMenu', closeCraftingMenuButton.x, 40);
     drawButton(ctx, closeCraftingMenuButton, 'Close');
+    drawButton(ctx, openItemWorldButton, 'Enter Item World');
   }
 
   /**
@@ -208,7 +234,8 @@ export class RenderUtility {
 
 /**
  * Draws the background for the item world on the canvas.
- * @param ctx - The canvas rendering context.
+ * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+ * @returns {void}
  */
 function drawItemWorldBackground(ctx: CanvasRenderingContext2D): void {
   clearCanvas(ctx);

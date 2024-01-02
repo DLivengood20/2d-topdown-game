@@ -11,12 +11,14 @@ export class TitleScreen implements GameScreen {
   /**
    * Indicates whether the title screen is currently active.
    * @type {boolean}
+   * @default true
    */
   isActive: boolean = true;
 
   /**
    * Indicates whether the title screen is currently displayed.
    * @type {boolean}
+   * @default true
    */
   isDisplayed: boolean = true;
 
@@ -83,7 +85,7 @@ export class TitleScreen implements GameScreen {
   }
 
   /**
-   * Closes or shuts down the title screen by updating its state properties.
+   * Closes or deactivates the title screen by updating its state properties.
    * @public
    * @returns {void}
    */
@@ -91,5 +93,19 @@ export class TitleScreen implements GameScreen {
     this.isActive = false;
     this.isDisplayed = false;
     this.loadGameButton.isHovered = false;
+  }
+
+  /**
+   * Opens or activates the title screen by updating its state properties.
+   * @public
+   * @returns {void}
+   */
+  openScreen(): void {
+    this.isActive = true;
+    this.isDisplayed = true;
+    this.startButton.isHovered = false;
+    this.loadGameButton.isHovered = false;
+    this.settingsButton.isHovered = false;
+    this.quitButton.isHovered = false;
   }
 }

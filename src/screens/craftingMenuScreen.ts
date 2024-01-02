@@ -11,12 +11,14 @@ export class CraftingMenuScreen implements GameScreen {
   /**
    * Indicates whether the crafting menu screen is currently active.
    * @type {boolean}
+   * @default false
    */
   isActive: boolean = false;
 
   /**
    * Indicates whether the crafting menu screen is currently displayed.
    * @type {boolean}
+   * @default false
    */
   isDisplayed: boolean = false;
 
@@ -27,10 +29,17 @@ export class CraftingMenuScreen implements GameScreen {
   closeCraftingMenuButton: ScreenElement;
 
   /**
+   * The screen element representing the open item world button.
+   * @type {ScreenElement}
+   */
+  openItemWorldButton: ScreenElement;
+
+  /**
    * Creates a new CraftingMenuScreen instance.
    */
   constructor() {
     this.closeCraftingMenuButton = ScreenElements.Button_1;
+    this.openItemWorldButton = ScreenElements.Button_2;
   }
 
   /**
@@ -38,7 +47,7 @@ export class CraftingMenuScreen implements GameScreen {
    * @returns {ScreenElement[]} An array of ScreenElement objects.
    */
   getElements(): ScreenElement[] {
-    return [this.closeCraftingMenuButton];
+    return [this.closeCraftingMenuButton, this.openItemWorldButton];
   }
 
   /**
@@ -47,7 +56,11 @@ export class CraftingMenuScreen implements GameScreen {
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D): void {
-    RenderUtility.renderCraftingMenuScreen(ctx, this.closeCraftingMenuButton);
+    RenderUtility.renderCraftingMenuScreen(
+      ctx,
+      this.closeCraftingMenuButton,
+      this.openItemWorldButton
+    );
   }
 
   /**
@@ -58,5 +71,17 @@ export class CraftingMenuScreen implements GameScreen {
   shutScreen(): void {
     this.isActive = false;
     this.isDisplayed = false;
+  }
+
+  /**
+   * Opens or activates the crafting menu screen by updating its state properties.
+   * @public
+   * @returns {void}
+   */
+  openScreen(): void {
+    this.isActive = true;
+    this.isDisplayed = true;
+    this.closeCraftingMenuButton.isHovered = false;
+    this.openItemWorldButton.isHovered = false;
   }
 }

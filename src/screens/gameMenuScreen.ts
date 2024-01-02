@@ -5,14 +5,19 @@ import { ScreenElements } from './screenElements';
 
 /**
  * Represents a game menu screen implementing the GameScreen interface.
+ * @implements {GameScreen}
  */
 export class GameMenuScreen implements GameScreen {
   /**
    * Indicates whether the game menu screen is currently active.
+   * @type {boolean}
+   * @default false
    */
   isActive: boolean = false;
   /**
    * Indicates whether the game menu screen is currently displayed.
+   * @type {boolean}
+   * @default false
    */
   isDisplayed: boolean = false;
 
@@ -37,6 +42,16 @@ export class GameMenuScreen implements GameScreen {
   settingsButton: ScreenElement;
 
   /**
+   * The screen element representing the quit to title button.
+   */
+  openTitleButton: ScreenElement;
+
+  /**
+   * The screen element representing the exit program button.
+   */
+  quitGameButton: ScreenElement;
+
+  /**
    * Creates a new GameMenuScreen instance.
    */
   constructor() {
@@ -44,6 +59,8 @@ export class GameMenuScreen implements GameScreen {
     this.saveGameButton = ScreenElements.Button_2;
     this.loadGameButton = ScreenElements.Button_3;
     this.settingsButton = ScreenElements.Button_4;
+    this.openTitleButton = ScreenElements.Button_5;
+    this.quitGameButton = ScreenElements.Button_6;
   }
 
   /**
@@ -56,6 +73,8 @@ export class GameMenuScreen implements GameScreen {
       this.loadGameButton,
       this.settingsButton,
       this.saveGameButton,
+      this.openTitleButton,
+      this.quitGameButton,
     ];
   }
 
@@ -69,7 +88,9 @@ export class GameMenuScreen implements GameScreen {
       this.closeMenuButton,
       this.saveGameButton,
       this.loadGameButton,
-      this.settingsButton
+      this.settingsButton,
+      this.openTitleButton,
+      this.quitGameButton
     );
   }
 
@@ -82,5 +103,27 @@ export class GameMenuScreen implements GameScreen {
   shutScreen(): void {
     this.isActive = false;
     this.isDisplayed = false;
+    this.closeMenuButton.isHovered = false;
+    this.saveGameButton.isHovered = false;
+    this.loadGameButton.isHovered = false;
+    this.settingsButton.isHovered = false;
+    this.openTitleButton.isHovered = false;
+    this.quitGameButton.isHovered = false;
+  }
+
+  /**
+   * Opens or activates the game menu screen by updating its state properties.
+   * @public
+   * @returns {void}
+   */
+  openScreen(): void {
+    this.isActive = true;
+    this.isDisplayed = true;
+    this.closeMenuButton.isHovered = false;
+    this.saveGameButton.isHovered = false;
+    this.loadGameButton.isHovered = false;
+    this.settingsButton.isHovered = false;
+    this.openTitleButton.isHovered = false;
+    this.quitGameButton.isHovered = false;
   }
 }

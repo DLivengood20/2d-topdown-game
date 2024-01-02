@@ -15,10 +15,10 @@ export function handleTitleScreenInput(
   screenKeyController: ScreenKeyController
 ): void {
   /**
-   * Transition to the item world screen when Enter key is pressed
+   * Transition to the main hub screen when Enter key is pressed
    * or when the start button is clicked.
    */
-  const { titleScreen, itemWorldScreen, loadGameScreen, settingsScreen } =
+  const { titleScreen, loadGameScreen, settingsScreen, mainHubScreen } =
     gameScreens;
   if (
     keysPressed['Enter'] ||
@@ -27,8 +27,7 @@ export function handleTitleScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
     titleScreen.shutScreen();
-    itemWorldScreen.isActive = true;
-    itemWorldScreen.isDisplayed = true;
+    mainHubScreen.openScreen();
   } else screenKeyController.resetLeftClick(keysPressed);
   /**
    * Transition to the load game screen when the load game button is clicked.
@@ -39,9 +38,7 @@ export function handleTitleScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
     titleScreen.isActive = false;
-    titleScreen.loadGameButton.isHovered = false;
-    loadGameScreen.isActive = true;
-    loadGameScreen.isDisplayed = true;
+    loadGameScreen.openScreen();
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**
@@ -53,9 +50,7 @@ export function handleTitleScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
     titleScreen.isActive = false;
-    titleScreen.settingsButton.isHovered = false;
-    settingsScreen.isActive = true;
-    settingsScreen.isDisplayed = true;
+    settingsScreen.openScreen();
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**

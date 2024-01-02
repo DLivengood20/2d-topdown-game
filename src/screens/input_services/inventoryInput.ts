@@ -2,34 +2,35 @@ import { GameScreensManager } from '../gameScreenManager';
 import { ScreenKeyController } from './screenKeyController';
 
 /**
- * Handles user input on the SaveGameScreen.
- * Returns to the title screen when the Escape key is pressed
- * or when the close save game button is clicked.
+ * Handles user input on the InventoryScreen.
+ * Closes the inventory screen when the Escape key is pressed or when the close button is clicked.
+ *
  * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
  * @param {GameScreensManager} gameScreens - The collection of game screens.
  * @param {ScreenKeyController} screenKeyController - The controller for handling screen-related key events.
  * @returns {void}
  * @public
  */
-export function handleSaveGameScreenInput(
+export function handleInventoryScreenInput(
   keysPressed: {
     [key: string]: boolean;
   },
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
 ): void {
-  const { saveGameScreen, gameMenuScreen } = gameScreens;
+  const { mainHubScreen, inventoryScreen, itemWorldScreen } = gameScreens;
 
   if (
     screenKeyController.isEscapeKeyTriggered(keysPressed) ||
     (screenKeyController.isLeftClickTriggered(keysPressed) &&
-      saveGameScreen.closeSaveGameButton.isHovered)
+      inventoryScreen.closeInventoryButton.isHovered)
   ) {
     screenKeyController.setEscapeKeyPressed(true);
     screenKeyController.setLeftMousePressed(true);
 
-    saveGameScreen.shutScreen();
-    gameMenuScreen.isActive = true;
+    inventoryScreen.shutScreen();
+    mainHubScreen.isActive = mainHubScreen.isDisplayed;
+    itemWorldScreen.isActive = itemWorldScreen.isDisplayed;
   } else {
     screenKeyController.resetEscapeKey(keysPressed);
     screenKeyController.resetLeftClick(keysPressed);

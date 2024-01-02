@@ -22,6 +22,14 @@ export class ScreenKeyController {
   private escapeKeyPressed: boolean;
 
   /**
+   * Indicates whether the 'C' key is currently pressed.
+   * Used to prevent repeated actions when the key is held down.
+   * @type {boolean}
+   * @private
+   */
+  private CKeyPressed: boolean;
+
+  /**
    * Creates an instance of ScreenKeyController.
    *
    * @constructor
@@ -30,6 +38,7 @@ export class ScreenKeyController {
   constructor() {
     this.leftMousePressed = false;
     this.escapeKeyPressed = false;
+    this.CKeyPressed = false;
   }
 
   /**
@@ -50,6 +59,16 @@ export class ScreenKeyController {
    */
   setEscapeKeyPressed(state: boolean): void {
     this.escapeKeyPressed = state;
+  }
+
+  /**
+   * Sets the state of the left mouse button.
+   * @param {boolean} state - The state to set for the left mouse button.
+   * @returns {void}
+   * @public
+   */
+  setCPressed(state: boolean): void {
+    this.CKeyPressed = state;
   }
 
   /**
@@ -93,6 +112,28 @@ export class ScreenKeyController {
   resetEscapeKey(keysPressed: { [key: string]: boolean }): void {
     if (!keysPressed['Escape']) {
       this.escapeKeyPressed = false;
+    }
+  }
+
+  /**
+   * Checks if 'C' key has been triggered.
+   * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
+   * @returns {boolean} True if a left mouse click is triggered, false otherwise.
+   * @public
+   */
+  isCTriggered(keysPressed: { [key: string]: boolean }): boolean {
+    return keysPressed['c'] && !this.CKeyPressed;
+  }
+
+  /**
+   * Resets the state of the Escape key if the key is not pressed.
+   * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
+   * @returns {void}
+   * @public
+   */
+  resetCKey(keysPressed: { [key: string]: boolean }): void {
+    if (!keysPressed['c']) {
+      this.CKeyPressed = false;
     }
   }
 }

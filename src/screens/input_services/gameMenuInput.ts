@@ -22,6 +22,8 @@ export function handleGameMenuScreenInput(
     loadGameScreen,
     settingsScreen,
     saveGameScreen,
+    titleScreen,
+    mainHubScreen,
   } = gameScreens;
 
   /**
@@ -36,7 +38,8 @@ export function handleGameMenuScreenInput(
     screenKeyController.setLeftMousePressed(true);
 
     gameMenuScreen.shutScreen();
-    itemWorldScreen.isActive = true;
+    itemWorldScreen.isActive = itemWorldScreen.isDisplayed;
+    mainHubScreen.isActive = mainHubScreen.isDisplayed;
   } else {
     screenKeyController.resetEscapeKey(keysPressed);
     screenKeyController.resetLeftClick(keysPressed);
@@ -53,8 +56,7 @@ export function handleGameMenuScreenInput(
 
     gameMenuScreen.isActive = false;
     gameMenuScreen.loadGameButton.isHovered = false;
-    loadGameScreen.isDisplayed = true;
-    loadGameScreen.isActive = true;
+    loadGameScreen.openScreen();
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**
@@ -68,8 +70,7 @@ export function handleGameMenuScreenInput(
 
     gameMenuScreen.isActive = false;
     gameMenuScreen.saveGameButton.isHovered = false;
-    saveGameScreen.isDisplayed = true;
-    saveGameScreen.isActive = true;
+    saveGameScreen.openScreen();
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**
@@ -83,7 +84,31 @@ export function handleGameMenuScreenInput(
 
     gameMenuScreen.isActive = false;
     gameMenuScreen.settingsButton.isHovered = false;
-    settingsScreen.isDisplayed = true;
-    settingsScreen.isActive = true;
+    settingsScreen.openScreen();
   } else screenKeyController.resetLeftClick(keysPressed);
+
+  /**
+   * Opens the title screen when open title button is clicked.
+   */
+  if (
+    screenKeyController.isLeftClickTriggered(keysPressed) &&
+    gameMenuScreen.openTitleButton.isHovered
+  ) {
+    screenKeyController.setLeftMousePressed(true);
+
+    gameMenuScreen.shutScreen();
+    mainHubScreen.isDisplayed = false;
+    itemWorldScreen.isDisplayed = false;
+    titleScreen.openScreen();
+  } else screenKeyController.resetLeftClick(keysPressed);
+
+  /**
+   * Exits Program when quit button is clicked.
+   */
+  if (
+    screenKeyController.isLeftClickTriggered(keysPressed) &&
+    gameMenuScreen.quitGameButton.isHovered
+  ) {
+    window.close();
+  }
 }

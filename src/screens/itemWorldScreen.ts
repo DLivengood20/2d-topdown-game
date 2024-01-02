@@ -11,12 +11,14 @@ export class ItemWorldScreen implements GameScreen {
   /**
    * Indicates whether the item world screen is currently active.
    * @type {boolean}
+   * @default false
    */
   isActive: boolean = false;
 
   /**
    * Indicates whether the item world screen is currently displayed.
    * @type {boolean}
+   * @default false
    */
   isDisplayed: boolean = false;
 
@@ -52,5 +54,15 @@ export class ItemWorldScreen implements GameScreen {
   shutScreen(): void {
     this.isActive = false;
     this.isDisplayed = false;
+  }
+
+  /**
+   * Opens or activates the item world screen by updating its state properties.
+   * @public
+   * @returns {void}
+   */
+  openScreen(): void {
+    this.isActive = true;
+    this.isDisplayed = true;
   }
 }

@@ -12,7 +12,7 @@ export const ScreenElements: Record<string, ScreenElement> = {
    */
   Button_1: new ScreenElement(
     CanvasValues.WIDTH / 2 - 100,
-    CanvasValues.HEIGHT / 2 - 60,
+    CanvasValues.HEIGHT / 2 - 180,
     200,
     50
   ),
@@ -22,7 +22,7 @@ export const ScreenElements: Record<string, ScreenElement> = {
    */
   Button_2: new ScreenElement(
     CanvasValues.WIDTH / 2 - 100,
-    CanvasValues.HEIGHT / 2,
+    CanvasValues.HEIGHT / 2 - 120,
     200,
     50
   ),
@@ -32,7 +32,7 @@ export const ScreenElements: Record<string, ScreenElement> = {
    */
   Button_3: new ScreenElement(
     CanvasValues.WIDTH / 2 - 100,
-    CanvasValues.HEIGHT / 2 + 60,
+    CanvasValues.HEIGHT / 2 - 60,
     200,
     50
   ),
@@ -42,7 +42,37 @@ export const ScreenElements: Record<string, ScreenElement> = {
    */
   Button_4: new ScreenElement(
     CanvasValues.WIDTH / 2 - 100,
+    CanvasValues.HEIGHT / 2,
+    200,
+    50
+  ),
+  /**
+   * The 5th button in menu screen element.
+   * @type {ScreenElement}
+   */
+  Button_5: new ScreenElement(
+    CanvasValues.WIDTH / 2 - 100,
+    CanvasValues.HEIGHT / 2 + 60,
+    200,
+    50
+  ),
+  /**
+   * The 6th button in menu screen element.
+   * @type {ScreenElement}
+   */
+  Button_6: new ScreenElement(
+    CanvasValues.WIDTH / 2 - 100,
     CanvasValues.HEIGHT / 2 + 120,
+    200,
+    50
+  ),
+  /**
+   * The 7th button in menu screen element.
+   * @type {ScreenElement}
+   */
+  Button_7: new ScreenElement(
+    CanvasValues.WIDTH / 2 - 100,
+    CanvasValues.HEIGHT / 2 + 180,
     200,
     50
   ),

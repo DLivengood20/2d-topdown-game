@@ -82,6 +82,28 @@ export class GameScreensController {
         keysPressed,
         this.gameScreens
       );
+    } else if (this.gameScreens.mainHubScreen.isActive) {
+      this.screenInputService.handleMainHubInput(keysPressed, this.gameScreens);
+    } else if (this.gameScreens.craftingMenuScreen.isActive) {
+      this.screenInputService.handleCraftingScreenInput(
+        keysPressed,
+        this.gameScreens
+      );
+    } else if (this.gameScreens.gameShopScreen.isActive) {
+      this.screenInputService.handleGameShopScreenInput(
+        keysPressed,
+        this.gameScreens
+      );
+    } else if (this.gameScreens.inventoryScreen.isActive) {
+      this.screenInputService.handleInventoryScreenInput(
+        keysPressed,
+        this.gameScreens
+      );
+    } else if (this.gameScreens.constructionScreen.isActive) {
+      this.screenInputService.handleConstructionScreenInput(
+        keysPressed,
+        this.gameScreens
+      );
     }
   }
 }

@@ -11,12 +11,14 @@ export class GameShopScreen implements GameScreen {
   /**
    * Indicates whether the game shop screen is currently active.
    * @type {boolean}
+   * @default false
    */
   isActive: boolean = false;
 
   /**
    * Indicates whether the game shop screen is currently displayed.
    * @type {boolean}
+   * @default false
    */
   isDisplayed: boolean = false;
 
@@ -58,5 +60,16 @@ export class GameShopScreen implements GameScreen {
   shutScreen(): void {
     this.isActive = false;
     this.isDisplayed = false;
+  }
+
+  /**
+   * Opens or activates the game shop screen by updating its state properties.
+   * @public
+   * @returns {void}
+   */
+  openScreen(): void {
+    this.isActive = true;
+    this.isDisplayed = true;
+    this.closeGameShopButton.isHovered = false;
   }
 }

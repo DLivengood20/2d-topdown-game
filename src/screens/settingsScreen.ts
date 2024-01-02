@@ -5,14 +5,20 @@ import { ScreenElements } from './screenElements';
 
 /**
  * Represents a game settings screen implementing the GameScreen interface.
+ * @implements {GameScreen}
  */
 export class SettingsScreen implements GameScreen {
   /**
-   * Indicates whether the game menu screen is currently active.
+   * Indicates whether the settings screen is currently active.
+   * @type {boolean}
+   * @default false
    */
   isActive: boolean = false;
+
   /**
-   * Indicates whether the game menu screen is currently displayed.
+   * Indicates whether the settings screen is currently displayed.
+   * @type {boolean}
+   * @default false
    */
   isDisplayed: boolean = false;
 
@@ -38,19 +44,31 @@ export class SettingsScreen implements GameScreen {
 
   /**
    * Renders the settings screen on the canvas.
-   * @param {CanvasRenderingContext2D} ctx - The CanvasRenderingContext2D used for rendering.
+   * @param {CanvasRenderingContext2D} ctx - The rendering context for the canvas.
+   * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D): void {
     RenderUtility.renderSettingsScreen(ctx, this.closeMenuButton);
   }
 
   /**
-   * Closes or shuts down the settings screen by updating its state properties.
+   * Closes or deactivates the settings screen by updating its state properties.
    * @public
    * @returns {void}
    */
   shutScreen(): void {
     this.isActive = false;
     this.isDisplayed = false;
+  }
+
+  /**
+   * Opens or activates the settings screen by updating its state properties.
+   * @public
+   * @returns {void}
+   */
+  openScreen(): void {
+    this.isActive = true;
+    this.isDisplayed = true;
+    this.closeMenuButton.isHovered = false;
   }
 }

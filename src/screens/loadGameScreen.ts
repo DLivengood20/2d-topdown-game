@@ -11,12 +11,14 @@ export class LoadGameScreen implements GameScreen {
   /**
    * Indicates whether the load game screen is currently active.
    * @type {boolean}
+   * @default false
    */
   isActive: boolean = false;
 
   /**
    * Indicates whether the load game screen is currently displayed.
    * @type {boolean}
+   * @default false
    */
   isDisplayed: boolean = false;
 
@@ -58,5 +60,16 @@ export class LoadGameScreen implements GameScreen {
   shutScreen(): void {
     this.isActive = false;
     this.isDisplayed = false;
+  }
+
+  /**
+   * Opens or activates the load game screen by updating its state properties.
+   * @public
+   * @returns {void}
+   */
+  openScreen(): void {
+    this.isActive = true;
+    this.isDisplayed = true;
+    this.closeLoadGameButton.isHovered = false;
   }
 }

@@ -11,26 +11,49 @@ export class MainHubScreen implements GameScreen {
   /**
    * Indicates whether the main hub screen is currently active.
    * @type {boolean}
+   * @default false
    */
   isActive: boolean = false;
 
   /**
    * Indicates whether the main hub screen is currently displayed.
    * @type {boolean}
+   * @default false
    */
   isDisplayed: boolean = false;
 
   /**
-   * The screen element representing the close main hub button.
+   * The screen element representing the open game menu button.
    * @type {ScreenElement}
    */
-  closeMainHubButton: ScreenElement;
+  openGameMenuButton: ScreenElement;
+
+  /**
+   * The screen element representing the open inventory button.
+   * @type {ScreenElement}
+   */
+  openInventoryButton: ScreenElement;
+
+  /**
+   * The screen element representing the open crafting menu button.
+   * @type {ScreenElement}
+   */
+  openCraftingMenuButton: ScreenElement;
+
+  /**
+   * The screen element representing the open game shop button.
+   * @type {ScreenElement}
+   */
+  openGameShopButton: ScreenElement;
 
   /**
    * Creates a new MainHubScreen instance.
    */
   constructor() {
-    this.closeMainHubButton = ScreenElements.Button_1;
+    this.openGameMenuButton = ScreenElements.Button_1;
+    this.openInventoryButton = ScreenElements.Button_2;
+    this.openCraftingMenuButton = ScreenElements.Button_3;
+    this.openGameShopButton = ScreenElements.Button_4;
   }
 
   /**
@@ -38,7 +61,12 @@ export class MainHubScreen implements GameScreen {
    * @returns {ScreenElement[]} An array of ScreenElement objects.
    */
   getElements(): ScreenElement[] {
-    return [this.closeMainHubButton];
+    return [
+      this.openGameMenuButton,
+      this.openInventoryButton,
+      this.openCraftingMenuButton,
+      this.openGameShopButton,
+    ];
   }
 
   /**
@@ -47,7 +75,13 @@ export class MainHubScreen implements GameScreen {
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D): void {
-    RenderUtility.renderMainHubScreen(ctx, this.closeMainHubButton);
+    RenderUtility.renderMainHubScreen(
+      ctx,
+      this.openGameMenuButton,
+      this.openInventoryButton,
+      this.openCraftingMenuButton,
+      this.openGameShopButton
+    );
   }
 
   /**
@@ -58,5 +92,19 @@ export class MainHubScreen implements GameScreen {
   shutScreen(): void {
     this.isActive = false;
     this.isDisplayed = false;
+  }
+
+  /**
+   * Opens or activates the main hub screen by updating its state properties.
+   * @public
+   * @returns {void}
+   */
+  openScreen(): void {
+    this.isActive = true;
+    this.isDisplayed = true;
+    this.openGameMenuButton.isHovered = false;
+    this.openInventoryButton.isHovered = false;
+    this.openCraftingMenuButton.isHovered = false;
+    this.openGameShopButton.isHovered = false;
   }
 }

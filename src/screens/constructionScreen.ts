@@ -11,12 +11,14 @@ export class ConstructionScreen implements GameScreen {
   /**
    * Indicates whether the construction screen is currently active.
    * @type {boolean}
+   * @default false
    */
   isActive: boolean = false;
 
   /**
    * Indicates whether the construction screen is currently displayed.
    * @type {boolean}
+   * @default false
    */
   isDisplayed: boolean = false;
 
@@ -58,5 +60,17 @@ export class ConstructionScreen implements GameScreen {
   shutScreen(): void {
     this.isActive = false;
     this.isDisplayed = false;
+    this.closeConstructionButton.isHovered = false;
+  }
+
+  /**
+   * Opens or activates the construction screen by updating its state properties.
+   * @public
+   * @returns {void}
+   */
+  openScreen(): void {
+    this.isActive = true;
+    this.isDisplayed = true;
+    this.closeConstructionButton.isHovered = false;
   }
 }

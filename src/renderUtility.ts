@@ -138,7 +138,7 @@ export class RenderUtility {
   /**
    * Renders the inventory screen on the canvas.
    * @param ctx - The canvas rendering context.
-   * @param closeLoadGameButton - The button to close the inventory screen.
+   * @param closeInventoryButton - The button to close the inventory screen.
    */
   static renderInventoryScreen(
     ctx: CanvasRenderingContext2D,
@@ -147,6 +147,20 @@ export class RenderUtility {
     drawOverlayBackground(ctx);
     drawText(ctx, 'Inventory', closeInventoryButton.x, 40);
     drawButton(ctx, closeInventoryButton, 'Close');
+  }
+
+  /**
+   * Renders the game shop screen on the canvas.
+   * @param ctx - The canvas rendering context.
+   * @param closeGameShopButton - The button to close the game shop screen.
+   */
+  static renderGameShopScreen(
+    ctx: CanvasRenderingContext2D,
+    closeGameShopButton: ScreenElement
+  ): void {
+    drawOverlayBackground(ctx);
+    drawText(ctx, 'Shop', closeGameShopButton.x, 40);
+    drawButton(ctx, closeGameShopButton, 'Close');
   }
 }
 

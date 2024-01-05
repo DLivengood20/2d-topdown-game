@@ -1,7 +1,7 @@
-import { RenderUtility } from '../renderUtility';
-import { GameScreen } from './gameScreen';
-import { ScreenElement } from './screenElement';
-import { ScreenElements } from './screenElements';
+import { RenderUtility } from '../../renderUtility';
+import { GameScreen } from '../gameScreen';
+import { ScreenElement } from '../screenElement';
+import { ScreenElements } from '../screenElements';
 
 /**
  * Represents a game settings screen implementing the GameScreen interface.

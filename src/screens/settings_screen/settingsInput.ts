@@ -1,35 +1,36 @@
 import { GameScreensManager } from '../gameScreenManager';
-import { ScreenKeyController } from './screenKeyController';
+import { ScreenKeyController } from '../input_services/screenKeyController';
 
 /**
- * Handles user input on the SaveGameScreen.
+ * Handles user input on the SettingsScreen.
  * Returns to the title screen when the Escape key is pressed
- * or when the close save game button is clicked.
+ * or when the close menu button is clicked.
  * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
  * @param {GameScreensManager} gameScreens - The collection of game screens.
- * @param {ScreenKeyController} screenKeyController - The controller for handling screen-related key events.
+ * @param {ScreenKeyController} screenKeyController - The controller for managing user input related to screen keys.
  * @returns {void}
  * @public
  */
-export function handleSaveGameScreenInput(
+export function handleSettingsScreenInput(
   keysPressed: {
     [key: string]: boolean;
   },
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
 ): void {
-  const { saveGameScreen, gameMenuScreen } = gameScreens;
+  const { settingsScreen, titleScreen, gameMenuScreen } = gameScreens;
 
   if (
     screenKeyController.isEscapeKeyTriggered(keysPressed) ||
     (screenKeyController.isLeftClickTriggered(keysPressed) &&
-      saveGameScreen.closeSaveGameButton.isHovered)
+      settingsScreen.closeMenuButton.isHovered)
   ) {
     screenKeyController.setEscapeKeyPressed(true);
     screenKeyController.setLeftMousePressed(true);
 
-    saveGameScreen.shutScreen();
-    gameMenuScreen.isActive = true;
+    settingsScreen.shutScreen();
+    titleScreen.isActive = titleScreen.isDisplayed;
+    gameMenuScreen.isActive = gameMenuScreen.isDisplayed;
   } else {
     screenKeyController.resetEscapeKey(keysPressed);
     screenKeyController.resetLeftClick(keysPressed);

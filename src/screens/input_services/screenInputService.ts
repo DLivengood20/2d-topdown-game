@@ -1,16 +1,16 @@
 import { GameScreensManager } from '../gameScreenManager';
-import { handleConstructionScreenInput } from './constructionMenuInput';
-import { handleCraftingScreenInput } from './craftingMenuInput';
-import { handleGameMenuScreenInput } from './gameMenuInput';
-import { handleGameShopScreenInput } from './gameShopInput';
-import { handleInventoryScreenInput } from './inventoryInput';
-import { handleItemWorldScreenInput } from './itemWorldInput';
-import { handleLoadGameScreenInput } from './loadGameInput';
-import { handleMainHubScreenInput } from './mainHubInput';
-import { handleSaveGameScreenInput } from './saveGameInput';
+import { handleConstructionScreenInput } from '../construction_screen/constructionMenuInput';
+import { handleCraftingScreenInput } from '../crafting_screen/craftingMenuInput';
+import { handleGameMenuScreenInput } from '../game_menu_screen/gameMenuInput';
+import { handleGameShopScreenInput } from '../game_shop_screen/gameShopInput';
+import { handleInventoryScreenInput } from '../inventory_screen/inventoryInput';
+import { handleItemWorldScreenInput } from '../item_world_screen/itemWorldInput';
+import { handleLoadGameScreenInput } from '../load_game_screen/loadGameInput';
+import { handleMainHubScreenInput } from '../main_hub_screen/mainHubInput';
+import { handleSaveGameScreenInput } from '../save_game_screen/saveGameInput';
 import { ScreenKeyController } from './screenKeyController';
-import { handleSettingsScreenInput } from './settingsInput';
-import { handleTitleScreenInput } from './titleInput';
+import { handleSettingsScreenInput } from '../settings_screen/settingsInput';
+import { handleTitleScreenInput } from '../title_screen/titleInput';
 
 /**
  * Service for handling user input related to the screen.

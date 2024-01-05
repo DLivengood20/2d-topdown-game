@@ -1,5 +1,5 @@
 import { GameScreensManager } from '../gameScreenManager';
-import { ScreenKeyController } from './screenKeyController';
+import { ScreenKeyController } from '../input_services/screenKeyController';
 
 /**
  * Handles user input on the TitleScreen.

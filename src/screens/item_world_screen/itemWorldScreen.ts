@@ -1,7 +1,7 @@
-import { Entity } from '../entities/entity';
-import { RenderUtility } from '../renderUtility';
-import { GameScreen } from './gameScreen';
-import { ScreenElement } from './screenElement';
+import { Entity } from '../../entities/entity';
+import { RenderUtility } from '../../renderUtility';
+import { GameScreen } from '../gameScreen';
+import { ScreenElement } from '../screenElement';
 
 /**
  * Represents a screen for the item world in the game.

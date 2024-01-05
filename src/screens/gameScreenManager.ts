@@ -1,15 +1,15 @@
-import { ConstructionScreen } from './constructionScreen';
-import { CraftingMenuScreen } from './craftingMenuScreen';
-import { GameMenuScreen } from './gameMenuScreen';
+import { ConstructionScreen } from './construction_screen/constructionScreen';
+import { CraftingMenuScreen } from './crafting_screen/craftingMenuScreen';
+import { GameMenuScreen } from './game_menu_screen/gameMenuScreen';
 import { GameScreen } from './gameScreen';
-import { GameShopScreen } from './gameShopScreen';
-import { InventoryScreen } from './inventoryScreen';
-import { ItemWorldScreen } from './itemWorldScreen';
-import { LoadGameScreen } from './loadGameScreen';
-import { MainHubScreen } from './mainHubScreen';
-import { SaveGameScreen } from './saveGameScreen';
-import { SettingsScreen } from './settingsScreen';
-import { TitleScreen } from './titleScreen';
+import { GameShopScreen } from './game_shop_screen/gameShopScreen';
+import { InventoryScreen } from './inventory_screen/inventoryScreen';
+import { ItemWorldScreen } from './item_world_screen/itemWorldScreen';
+import { LoadGameScreen } from './load_game_screen/loadGameScreen';
+import { MainHubScreen } from './main_hub_screen/mainHubScreen';
+import { SaveGameScreen } from './save_game_screen/saveGameScreen';
+import { SettingsScreen } from './settings_screen/settingsScreen';
+import { TitleScreen } from './title_screen/titleScreen';
 
 /**
  * Collection of game screens.

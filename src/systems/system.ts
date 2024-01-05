@@ -10,5 +10,5 @@ export interface System {
    * Updates the game system with the provided entities.
    * @param {Entity[]} entities - The entities to be updated.
    */
-  update(entities: Entity[]): void;
+  update(entities: Entity[], keysPressed?: { [key: string]: boolean }): void;
 }

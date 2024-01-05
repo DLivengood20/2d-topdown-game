@@ -13,73 +13,15 @@ import { Directions } from '../constants';
  * @implements {System}
  */
 export class InputSystem implements System {
-  /** Stores the keys currently pressed. */
-  keysPressed: { [key: string]: boolean } = {};
-
-  /**
-   * Constructs the InputSystem and sets up event listeners for keyboard and mouse input.
-   */
-  constructor() {
-    this.addEventListeners();
-  }
-
-  /**
-   * Adds event listeners for keyboard and mouse input.
-   * @private
-   */
-  private addEventListeners(): void {
-    document.addEventListener('keydown', this.handleKeyDown.bind(this));
-    document.addEventListener('keyup', this.handleKeyUp.bind(this));
-    document.addEventListener('mousedown', this.handleMouseDown.bind(this));
-    document.addEventListener('mouseup', this.handleMouseUp.bind(this));
-  }
-
-  /**
-   * Handles the keydown event and updates the keysPressed object.
-   * @param {KeyboardEvent} event - The keydown event.
-   * @private
-   */
-  private handleKeyDown(event: KeyboardEvent): void {
-    this.keysPressed[event.key] = true;
-  }
-
-  /**
-   * Handles the keyup event and updates the keysPressed object.
-   * @param {KeyboardEvent} event - The keyup event.
-   * @private
-   */
-  private handleKeyUp(event: KeyboardEvent): void {
-    this.keysPressed[event.key] = false;
-  }
-
-  /**
-   * Handles the mousedown event and sets the mousedown flag to true.
-   * @param {MouseEvent} event - The mousedown event.
-   * @private
-   */
-  private handleMouseDown(event: MouseEvent): void {
-    if (event.button === 0) {
-      this.keysPressed['mousedown'] = true;
-    }
-  }
-
-  /**
-   * Handles the mouseup event and sets the mousedown flag to false.
-   * @param {MouseEvent} event - The mouseup event.
-   * @private
-   */
-  private handleMouseUp(event: MouseEvent): void {
-    if (event.button === 0) {
-      this.keysPressed['mousedown'] = false;
-    }
-  }
-
   /**
    * Applies user inputs to the player entity.
    * @param {PlayerEntity} player - The player entity.
    * @private
    */
-  private applyInputs(player: PlayerEntity): void {
+  private applyInputs(
+    player: PlayerEntity,
+    keysPressed: { [key: string]: boolean }
+  ): void {
     const statusComponent = player.getComponent(StatusComponent);
     if (!statusComponent || this.shouldSkipInput(statusComponent)) {
       return;
@@ -88,13 +30,16 @@ export class InputSystem implements System {
     const physicalComponent = player.getComponent(PhysicalComponent);
     const weaponComponent = player.getComponent(WeaponComponent);
 
-    if (physicalComponent && this.shouldApplyMovement(statusComponent)) {
-      this.applyMovement(physicalComponent);
+    if (
+      physicalComponent &&
+      this.shouldApplyMovement(statusComponent, keysPressed)
+    ) {
+      this.applyMovement(physicalComponent, keysPressed);
     }
 
     if (
       weaponComponent &&
-      this.shouldAttack(weaponComponent, statusComponent)
+      this.shouldAttack(weaponComponent, statusComponent, keysPressed)
     ) {
       this.attack(weaponComponent, statusComponent);
     }
@@ -116,13 +61,16 @@ export class InputSystem implements System {
    * @returns {boolean} True if movement should be applied, otherwise false.
    * @private
    */
-  private shouldApplyMovement(statusComponent: StatusComponent): boolean {
+  private shouldApplyMovement(
+    statusComponent: StatusComponent,
+    keysPressed: { [key: string]: boolean }
+  ): boolean {
     return (
       statusComponent.collidedWith.length === 0 &&
-      (this.keysPressed['ArrowUp'] ||
-        this.keysPressed['ArrowDown'] ||
-        this.keysPressed['ArrowRight'] ||
-        this.keysPressed['ArrowLeft'])
+      (keysPressed['ArrowUp'] ||
+        keysPressed['ArrowDown'] ||
+        keysPressed['ArrowRight'] ||
+        keysPressed['ArrowLeft'])
     );
   }
 
@@ -131,45 +79,45 @@ export class InputSystem implements System {
    * @param {PhysicalComponent} physicalComponent - The physical component.
    * @private
    */
-  private applyMovement(physicalComponent: PhysicalComponent): void {
-    if (this.keysPressed['ArrowUp'] && this.keysPressed['ArrowLeft']) {
+  private applyMovement(
+    physicalComponent: PhysicalComponent,
+    keysPressed: { [key: string]: boolean }
+  ): void {
+    if (keysPressed['ArrowUp'] && keysPressed['ArrowLeft']) {
       move(
         physicalComponent,
         physicalComponent.diagonalSpeed,
         Directions.TOP_LEFT,
         true
       );
-    } else if (this.keysPressed['ArrowUp'] && this.keysPressed['ArrowRight']) {
+    } else if (keysPressed['ArrowUp'] && keysPressed['ArrowRight']) {
       move(
         physicalComponent,
         physicalComponent.diagonalSpeed,
         Directions.TOP_RIGHT,
         true
       );
-    } else if (this.keysPressed['ArrowDown'] && this.keysPressed['ArrowLeft']) {
+    } else if (keysPressed['ArrowDown'] && keysPressed['ArrowLeft']) {
       move(
         physicalComponent,
         physicalComponent.diagonalSpeed,
         Directions.BOTTOM_LEFT,
         true
       );
-    } else if (
-      this.keysPressed['ArrowDown'] &&
-      this.keysPressed['ArrowRight']
-    ) {
+    } else if (keysPressed['ArrowDown'] && keysPressed['ArrowRight']) {
       move(
         physicalComponent,
         physicalComponent.diagonalSpeed,
         Directions.BOTTOM_RIGHT,
         true
       );
-    } else if (this.keysPressed['ArrowUp']) {
+    } else if (keysPressed['ArrowUp']) {
       move(physicalComponent, physicalComponent.speed, Directions.TOP, true);
-    } else if (this.keysPressed['ArrowDown']) {
+    } else if (keysPressed['ArrowDown']) {
       move(physicalComponent, physicalComponent.speed, Directions.BOTTOM, true);
-    } else if (this.keysPressed['ArrowRight']) {
+    } else if (keysPressed['ArrowRight']) {
       move(physicalComponent, physicalComponent.speed, Directions.RIGHT, true);
-    } else if (this.keysPressed['ArrowLeft']) {
+    } else if (keysPressed['ArrowLeft']) {
       move(physicalComponent, physicalComponent.speed, Directions.LEFT, true);
     }
   }
@@ -183,10 +131,11 @@ export class InputSystem implements System {
    */
   private shouldAttack(
     weaponComponent: WeaponComponent,
-    statusComponent: StatusComponent
+    statusComponent: StatusComponent,
+    keysPressed: { [key: string]: boolean }
   ): boolean {
     return (
-      this.keysPressed['mousedown'] &&
+      keysPressed['mousedown'] &&
       Date.now() - statusComponent.attackTimer >= weaponComponent.cooldown
     );
   }
@@ -213,10 +162,10 @@ export class InputSystem implements System {
    * Updates the input system by applying inputs to the player entity.
    * @param {Entity[]} entities - The array of entities.
    */
-  update(entities: Entity[]): void {
+  update(entities: Entity[], keysPressed: { [key: string]: boolean }): void {
     for (const entity of entities) {
       if (entity.id === 'PLAYER') {
-        this.applyInputs(entity);
+        this.applyInputs(entity, keysPressed);
       }
     }
   }

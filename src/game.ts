@@ -2,6 +2,8 @@ import { CanvasManager } from './canvasManager';
 import { EntityManager } from './entityManager';
 import { SystemManager } from './systemManager';
 import { initializeGameComponents } from './gameInitialization';
+import { GameScreensController } from './screens/gameScreenController';
+import { InputService } from './inputService';
 
 /**
  * Custom error class for game initialization errors.
@@ -41,9 +43,11 @@ class GameLoopError extends Error {
  * @class
  */
 export class Game {
+  private inputService: InputService;
   private canvasManager: CanvasManager;
   private entityManager: EntityManager;
   private systemManager: SystemManager;
+  private screenManager: GameScreensController;
 
   /**
    * Constructs a new Game instance.
@@ -53,13 +57,17 @@ export class Game {
    * @param {SystemManager} systemManager - The system manager for game systems.
    */
   private constructor(
+    inputService: InputService,
     canvasManager: CanvasManager,
     entityManager: EntityManager,
-    systemManager: SystemManager
+    systemManager: SystemManager,
+    screenManager: GameScreensController
   ) {
+    this.inputService = inputService;
     this.canvasManager = canvasManager;
     this.entityManager = entityManager;
     this.systemManager = systemManager;
+    this.screenManager = screenManager;
   }
 
   /**
@@ -69,13 +77,21 @@ export class Game {
    */
   static createGame(): Game | null {
     try {
+      const inputService = new InputService();
       const canvasManager = new CanvasManager();
       const entityManager = new EntityManager();
       const systemManager = new SystemManager(canvasManager.getContext());
+      const screenManager = new GameScreensController(inputService);
 
       initializeGameComponents(canvasManager, entityManager);
 
-      return new Game(canvasManager, entityManager, systemManager);
+      return new Game(
+        inputService,
+        canvasManager,
+        entityManager,
+        systemManager,
+        screenManager
+      );
     } catch (error: any) {
       Game.prototype.handleInitializationError(error);
       return null;
@@ -127,9 +143,65 @@ export class Game {
    * - Removes entities marked for removal.
    */
   private update(): void {
+    const {
+      titleScreen,
+      itemWorldScreen,
+      loadGameScreen,
+      saveGameScreen,
+      gameMenuScreen,
+      settingsScreen,
+      inventoryScreen,
+      gameShopScreen,
+      craftingMenuScreen,
+      constructionScreen,
+      mainHubScreen,
+    } = this.screenManager.gameScreens;
+
     try {
-      this.systemManager.update(this.entityManager.getAllEntities());
-      this.entityManager.removeMarkedEntities();
+      this.screenManager.update();
+      if (titleScreen.isDisplayed) {
+        titleScreen.render(this.canvasManager.getContext());
+      }
+      if (mainHubScreen.isDisplayed) {
+        mainHubScreen.render(this.canvasManager.getContext());
+      }
+      if (itemWorldScreen.isDisplayed) {
+        itemWorldScreen.render(
+          this.canvasManager.getContext(),
+          this.entityManager.getAllEntities()
+        );
+      }
+      if (itemWorldScreen.isActive) {
+        this.systemManager.update(
+          this.entityManager.getAllEntities(),
+          this.inputService.keysPressed
+        );
+        this.entityManager.removeMarkedEntities();
+      }
+      if (gameMenuScreen.isDisplayed) {
+        gameMenuScreen.render(this.canvasManager.getContext());
+      }
+      if (inventoryScreen.isDisplayed) {
+        inventoryScreen.render(this.canvasManager.getContext());
+      }
+      if (constructionScreen.isDisplayed) {
+        constructionScreen.render(this.canvasManager.getContext());
+      }
+      if (gameShopScreen.isDisplayed) {
+        gameShopScreen.render(this.canvasManager.getContext());
+      }
+      if (craftingMenuScreen.isDisplayed) {
+        craftingMenuScreen.render(this.canvasManager.getContext());
+      }
+      if (loadGameScreen.isDisplayed) {
+        loadGameScreen.render(this.canvasManager.getContext());
+      }
+      if (saveGameScreen.isDisplayed) {
+        saveGameScreen.render(this.canvasManager.getContext());
+      }
+      if (settingsScreen.isDisplayed) {
+        settingsScreen.render(this.canvasManager.getContext());
+      }
     } catch (error: any) {
       this.handleUpdateError(error);
     }

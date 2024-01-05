@@ -1,7 +1,7 @@
-import { RenderUtility } from '../../renderUtility';
 import { GameScreen } from '../gameScreen';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { renderTitleScreen } from './titleRenderer';
 
 /**
  * Represents the title screen in the game.
@@ -75,7 +75,7 @@ export class TitleScreen implements GameScreen {
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D): void {
-    RenderUtility.renderTitleScreen(
+    renderTitleScreen(
       ctx,
       this.startButton,
       this.loadGameButton,

@@ -1,7 +1,7 @@
-import { RenderUtility } from '../../renderUtility';
 import { GameScreen } from '../gameScreen';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { renderSaveGameScreen } from './saveGameRenderer';
 
 /**
  * Represents the save game screen in the game.
@@ -49,7 +49,7 @@ export class SaveGameScreen implements GameScreen {
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D): void {
-    RenderUtility.renderSaveGameScreen(ctx, this.closeSaveGameButton);
+    renderSaveGameScreen(ctx, this.closeSaveGameButton);
   }
 
   /**

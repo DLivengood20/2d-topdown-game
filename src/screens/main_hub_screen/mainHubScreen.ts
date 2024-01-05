@@ -1,7 +1,7 @@
-import { RenderUtility } from '../../renderUtility';
 import { GameScreen } from '../gameScreen';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { renderMainHubScreen } from './mainHubRenderer';
 
 /**
  * Represents the main hub screen in the game.
@@ -75,7 +75,7 @@ export class MainHubScreen implements GameScreen {
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D): void {
-    RenderUtility.renderMainHubScreen(
+    renderMainHubScreen(
       ctx,
       this.openGameMenuButton,
       this.openInventoryButton,

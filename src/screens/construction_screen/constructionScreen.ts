@@ -1,7 +1,7 @@
-import { RenderUtility } from '../../renderUtility';
 import { GameScreen } from '../gameScreen';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { renderConstructionScreen } from './constructionRenderer';
 
 /**
  * Represents the construction screen in the game.
@@ -49,7 +49,7 @@ export class ConstructionScreen implements GameScreen {
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D): void {
-    RenderUtility.renderConstructionScreen(ctx, this.closeConstructionButton);
+    renderConstructionScreen(ctx, this.closeConstructionButton);
   }
 
   /**

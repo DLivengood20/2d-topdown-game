@@ -1,7 +1,7 @@
-import { RenderUtility } from '../../renderUtility';
 import { GameScreen } from '../gameScreen';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { renderInventoryScreen } from './inventoryRenderer';
 
 /**
  * Represents the inventory screen in the game.
@@ -49,7 +49,7 @@ export class InventoryScreen implements GameScreen {
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D): void {
-    RenderUtility.renderInventoryScreen(ctx, this.closeInventoryButton);
+    renderInventoryScreen(ctx, this.closeInventoryButton);
   }
 
   /**

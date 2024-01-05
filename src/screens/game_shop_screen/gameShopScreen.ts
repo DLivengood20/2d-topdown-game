@@ -1,7 +1,7 @@
-import { RenderUtility } from '../../renderUtility';
 import { GameScreen } from '../gameScreen';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { renderGameShopScreen } from './gameShopRenderer';
 
 /**
  * Represents the game shop screen in the game.
@@ -49,7 +49,7 @@ export class GameShopScreen implements GameScreen {
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D): void {
-    RenderUtility.renderGameShopScreen(ctx, this.closeGameShopButton);
+    renderGameShopScreen(ctx, this.closeGameShopButton);
   }
 
   /**

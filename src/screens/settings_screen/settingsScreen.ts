@@ -1,7 +1,7 @@
-import { RenderUtility } from '../../renderUtility';
 import { GameScreen } from '../gameScreen';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { renderSettingsScreen } from './settingsRenderer';
 
 /**
  * Represents a game settings screen implementing the GameScreen interface.
@@ -48,7 +48,7 @@ export class SettingsScreen implements GameScreen {
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D): void {
-    RenderUtility.renderSettingsScreen(ctx, this.closeMenuButton);
+    renderSettingsScreen(ctx, this.closeMenuButton);
   }
 
   /**

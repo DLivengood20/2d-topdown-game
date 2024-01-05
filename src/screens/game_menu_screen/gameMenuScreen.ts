@@ -1,7 +1,7 @@
-import { RenderUtility } from '../../renderUtility';
 import { GameScreen } from '../gameScreen';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { renderGameMenuScreen } from './gameMenuRenderer';
 
 /**
  * Represents a game menu screen implementing the GameScreen interface.
@@ -83,7 +83,7 @@ export class GameMenuScreen implements GameScreen {
    * @param {CanvasRenderingContext2D} ctx - The CanvasRenderingContext2D used for rendering.
    */
   render(ctx: CanvasRenderingContext2D): void {
-    RenderUtility.renderGameMenuScreen(
+    renderGameMenuScreen(
       ctx,
       this.closeMenuButton,
       this.saveGameButton,

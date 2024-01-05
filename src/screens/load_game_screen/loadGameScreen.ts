@@ -1,7 +1,7 @@
-import { RenderUtility } from '../../renderUtility';
 import { GameScreen } from '../gameScreen';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { renderLoadGameScreen } from './loadGameRenderer';
 
 /**
  * Represents the load game screen in the game.
@@ -49,7 +49,7 @@ export class LoadGameScreen implements GameScreen {
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D): void {
-    RenderUtility.renderLoadGameScreen(ctx, this.closeLoadGameButton);
+    renderLoadGameScreen(ctx, this.closeLoadGameButton);
   }
 
   /**

@@ -1,7 +1,7 @@
-import { RenderUtility } from '../../renderUtility';
 import { GameScreen } from '../gameScreen';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { renderCraftingMenuScreen } from './craftingMenuRenderer';
 
 /**
  * Represents the crafting menu screen in the game.
@@ -56,7 +56,7 @@ export class CraftingMenuScreen implements GameScreen {
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D): void {
-    RenderUtility.renderCraftingMenuScreen(
+    renderCraftingMenuScreen(
       ctx,
       this.closeCraftingMenuButton,
       this.openItemWorldButton

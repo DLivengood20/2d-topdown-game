@@ -1,7 +1,7 @@
 import { Entity } from '../../entities/entity';
-import { RenderUtility } from '../../renderUtility';
 import { GameScreen } from '../gameScreen';
 import { ScreenElement } from '../screenElement';
+import { renderItemWorldScreen } from './itemWorldRenderer';
 
 /**
  * Represents a screen for the item world in the game.
@@ -43,7 +43,7 @@ export class ItemWorldScreen implements GameScreen {
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D, entities: Entity[]): void {
-    RenderUtility.renderItemWorldScreen(ctx, entities);
+    renderItemWorldScreen(ctx, entities);
   }
 
   /**

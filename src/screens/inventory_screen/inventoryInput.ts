@@ -18,7 +18,8 @@ export function handleInventoryScreenInput(
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
 ): void {
-  const { mainHubScreen, inventoryScreen, itemWorldScreen } = gameScreens;
+  const { mainHubScreen, inventoryScreen, itemWorldScreen, activeScreens } =
+    gameScreens;
 
   if (
     screenKeyController.isEscapeKeyTriggered(keysPressed) ||
@@ -29,8 +30,9 @@ export function handleInventoryScreenInput(
     screenKeyController.setLeftMousePressed(true);
 
     inventoryScreen.shutScreen();
-    mainHubScreen.isActive = mainHubScreen.isDisplayed;
-    itemWorldScreen.isActive = itemWorldScreen.isDisplayed;
+    activeScreens.removeScreen(inventoryScreen);
+    if (mainHubScreen.isDisplayed) activeScreens.addScreen(mainHubScreen);
+    if (itemWorldScreen.isDisplayed) activeScreens.addScreen(itemWorldScreen);
   } else {
     screenKeyController.resetEscapeKey(keysPressed);
     screenKeyController.resetLeftClick(keysPressed);

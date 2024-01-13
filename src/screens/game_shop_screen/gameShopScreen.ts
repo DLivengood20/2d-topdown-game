@@ -1,6 +1,9 @@
 import { GameScreen } from '../gameScreen';
+import { GameScreensManager } from '../gameScreenManager';
+import { ScreenKeyController } from '../input_services/screenKeyController';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { handleGameShopScreenInput } from './gameShopInput';
 import { renderGameShopScreen } from './gameShopRenderer';
 
 /**
@@ -9,11 +12,10 @@ import { renderGameShopScreen } from './gameShopRenderer';
  */
 export class GameShopScreen implements GameScreen {
   /**
-   * Indicates whether the game shop screen is currently active.
-   * @type {boolean}
-   * @default false
+   * The name of the game shop screen.
+   * @readonly
    */
-  isActive: boolean = false;
+  readonly name: string = 'shop';
 
   /**
    * Indicates whether the game shop screen is currently displayed.
@@ -58,7 +60,6 @@ export class GameShopScreen implements GameScreen {
    * @returns {void}
    */
   shutScreen(): void {
-    this.isActive = false;
     this.isDisplayed = false;
   }
 
@@ -68,8 +69,23 @@ export class GameShopScreen implements GameScreen {
    * @returns {void}
    */
   openScreen(): void {
-    this.isActive = true;
     this.isDisplayed = true;
     this.closeGameShopButton.isHovered = false;
+  }
+
+  /**
+   * Handles user input on the GameShopScreen.
+   * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
+   * @param {GameScreensManager} gameScreens - The collection of game screens.
+   * @param {ScreenKeyController} screenKeyController - The controller for managing user input related to screen keys.
+   * @returns {void}
+   * @public
+   */
+  handleInput(
+    keysPressed: { [key: string]: boolean },
+    gameScreens: GameScreensManager,
+    screenKeyController: ScreenKeyController
+  ): void {
+    handleGameShopScreenInput(keysPressed, gameScreens, screenKeyController);
   }
 }

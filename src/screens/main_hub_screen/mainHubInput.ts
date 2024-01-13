@@ -23,6 +23,7 @@ export function handleMainHubScreenInput(
     inventoryScreen,
     craftingMenuScreen,
     gameShopScreen,
+    activeScreens,
   } = gameScreens;
 
   // Check if Escape key is pressed to open the Game Menu screen
@@ -30,7 +31,7 @@ export function handleMainHubScreenInput(
     screenKeyController.setEscapeKeyPressed(true);
 
     gameMenuScreen.openScreen();
-    mainHubScreen.isActive = false;
+    activeScreens.removeScreen(mainHubScreen).addScreen(gameMenuScreen);
   } else screenKeyController.resetEscapeKey(keysPressed);
 
   // Check if left click is triggered and the Game Menu button is hovered
@@ -41,8 +42,8 @@ export function handleMainHubScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
 
-    mainHubScreen.isActive = false;
     gameMenuScreen.openScreen();
+    activeScreens.removeScreen(mainHubScreen).addScreen(gameMenuScreen);
   } else {
     screenKeyController.resetLeftClick(keysPressed);
   }
@@ -55,8 +56,8 @@ export function handleMainHubScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
 
-    mainHubScreen.isActive = false;
     inventoryScreen.openScreen();
+    activeScreens.removeScreen(mainHubScreen).addScreen(inventoryScreen);
   } else {
     screenKeyController.resetLeftClick(keysPressed);
   }
@@ -69,8 +70,8 @@ export function handleMainHubScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
 
-    mainHubScreen.isActive = false;
     craftingMenuScreen.openScreen();
+    activeScreens.removeScreen(mainHubScreen).addScreen(craftingMenuScreen);
   } else {
     screenKeyController.resetLeftClick(keysPressed);
   }
@@ -83,8 +84,8 @@ export function handleMainHubScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
 
-    mainHubScreen.isActive = false;
     gameShopScreen.openScreen();
+    activeScreens.removeScreen(mainHubScreen).addScreen(gameShopScreen);
   } else {
     screenKeyController.resetLeftClick(keysPressed);
   }

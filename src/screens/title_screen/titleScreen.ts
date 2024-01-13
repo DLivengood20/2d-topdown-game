@@ -1,6 +1,9 @@
 import { GameScreen } from '../gameScreen';
+import { GameScreensManager } from '../gameScreenManager';
+import { ScreenKeyController } from '../input_services/screenKeyController';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { handleTitleScreenInput } from './titleInput';
 import { renderTitleScreen } from './titleRenderer';
 
 /**
@@ -9,11 +12,10 @@ import { renderTitleScreen } from './titleRenderer';
  */
 export class TitleScreen implements GameScreen {
   /**
-   * Indicates whether the title screen is currently active.
-   * @type {boolean}
-   * @default true
+   * The name of the title screen.
+   * @readonly
    */
-  isActive: boolean = true;
+  readonly name: string = 'title';
 
   /**
    * Indicates whether the title screen is currently displayed.
@@ -90,7 +92,6 @@ export class TitleScreen implements GameScreen {
    * @returns {void}
    */
   shutScreen(): void {
-    this.isActive = false;
     this.isDisplayed = false;
     this.loadGameButton.isHovered = false;
   }
@@ -101,11 +102,26 @@ export class TitleScreen implements GameScreen {
    * @returns {void}
    */
   openScreen(): void {
-    this.isActive = true;
     this.isDisplayed = true;
     this.startButton.isHovered = false;
     this.loadGameButton.isHovered = false;
     this.settingsButton.isHovered = false;
     this.quitButton.isHovered = false;
+  }
+
+  /**
+   * Handles user input on the TitleScreen.
+   * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
+   * @param {GameScreensManager} gameScreens - The collection of game screens.
+   * @param {ScreenKeyController} screenKeyController - The controller for managing user input related to screen keys.
+   * @returns {void}
+   * @public
+   */
+  handleInput(
+    keysPressed: { [key: string]: boolean },
+    gameScreens: GameScreensManager,
+    screenKeyController: ScreenKeyController
+  ): void {
+    handleTitleScreenInput(keysPressed, gameScreens, screenKeyController);
   }
 }

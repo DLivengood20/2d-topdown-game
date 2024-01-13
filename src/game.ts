@@ -171,7 +171,11 @@ export class Game {
           this.entityManager.getAllEntities()
         );
       }
-      if (itemWorldScreen.isActive) {
+      if (
+        this.screenManager.gameScreens.activeScreens.getByName(
+          itemWorldScreen.name
+        )
+      ) {
         this.systemManager.update(
           this.entityManager.getAllEntities(),
           this.inputService.keysPressed

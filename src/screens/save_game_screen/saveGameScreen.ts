@@ -1,6 +1,9 @@
 import { GameScreen } from '../gameScreen';
+import { GameScreensManager } from '../gameScreenManager';
+import { ScreenKeyController } from '../input_services/screenKeyController';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { handleSaveGameScreenInput } from './saveGameInput';
 import { renderSaveGameScreen } from './saveGameRenderer';
 
 /**
@@ -9,11 +12,10 @@ import { renderSaveGameScreen } from './saveGameRenderer';
  */
 export class SaveGameScreen implements GameScreen {
   /**
-   * Indicates whether the save game screen is currently active.
-   * @type {boolean}
-   * @default false
+   * The name of the save game screen.
+   * @readonly
    */
-  isActive: boolean = false;
+  readonly name: string = 'save';
 
   /**
    * Indicates whether the save game screen is currently displayed.
@@ -58,7 +60,6 @@ export class SaveGameScreen implements GameScreen {
    * @returns {void}
    */
   shutScreen(): void {
-    this.isActive = false;
     this.isDisplayed = false;
   }
 
@@ -68,8 +69,23 @@ export class SaveGameScreen implements GameScreen {
    * @returns {void}
    */
   openScreen(): void {
-    this.isActive = true;
     this.isDisplayed = true;
     this.closeSaveGameButton.isHovered = false;
+  }
+
+  /**
+   * Handles user input on the SaveGameScreen.
+   * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
+   * @param {GameScreensManager} gameScreens - The collection of game screens.
+   * @param {ScreenKeyController} screenKeyController - The controller for managing user input related to screen keys.
+   * @returns {void}
+   * @public
+   */
+  handleInput(
+    keysPressed: { [key: string]: boolean },
+    gameScreens: GameScreensManager,
+    screenKeyController: ScreenKeyController
+  ): void {
+    handleSaveGameScreenInput(keysPressed, gameScreens, screenKeyController);
   }
 }

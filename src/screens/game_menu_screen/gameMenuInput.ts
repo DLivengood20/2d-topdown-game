@@ -24,6 +24,7 @@ export function handleGameMenuScreenInput(
     saveGameScreen,
     titleScreen,
     mainHubScreen,
+    activeScreens,
   } = gameScreens;
 
   /**
@@ -38,8 +39,9 @@ export function handleGameMenuScreenInput(
     screenKeyController.setLeftMousePressed(true);
 
     gameMenuScreen.shutScreen();
-    itemWorldScreen.isActive = itemWorldScreen.isDisplayed;
-    mainHubScreen.isActive = mainHubScreen.isDisplayed;
+    activeScreens.removeScreen(gameMenuScreen);
+    if (itemWorldScreen.isDisplayed) activeScreens.addScreen(itemWorldScreen);
+    if (mainHubScreen.isDisplayed) activeScreens.addScreen(mainHubScreen);
   } else {
     screenKeyController.resetEscapeKey(keysPressed);
     screenKeyController.resetLeftClick(keysPressed);
@@ -54,9 +56,8 @@ export function handleGameMenuScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
 
-    gameMenuScreen.isActive = false;
-    gameMenuScreen.loadGameButton.isHovered = false;
     loadGameScreen.openScreen();
+    activeScreens.removeScreen(gameMenuScreen).addScreen(loadGameScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**
@@ -68,9 +69,8 @@ export function handleGameMenuScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
 
-    gameMenuScreen.isActive = false;
-    gameMenuScreen.saveGameButton.isHovered = false;
     saveGameScreen.openScreen();
+    activeScreens.removeScreen(gameMenuScreen).addScreen(saveGameScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**
@@ -82,9 +82,8 @@ export function handleGameMenuScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
 
-    gameMenuScreen.isActive = false;
-    gameMenuScreen.settingsButton.isHovered = false;
     settingsScreen.openScreen();
+    activeScreens.removeScreen(gameMenuScreen).addScreen(settingsScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**
@@ -96,10 +95,11 @@ export function handleGameMenuScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
 
-    gameMenuScreen.shutScreen();
     mainHubScreen.isDisplayed = false;
     itemWorldScreen.isDisplayed = false;
+    gameMenuScreen.shutScreen();
     titleScreen.openScreen();
+    activeScreens.removeScreen(gameMenuScreen).addScreen(titleScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**

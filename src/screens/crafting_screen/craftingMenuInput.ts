@@ -19,7 +19,8 @@ export function handleCraftingScreenInput(
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
 ): void {
-  const { mainHubScreen, craftingMenuScreen, itemWorldScreen } = gameScreens;
+  const { mainHubScreen, craftingMenuScreen, itemWorldScreen, activeScreens } =
+    gameScreens;
 
   // Handle Escape key or close button
   if (
@@ -32,6 +33,7 @@ export function handleCraftingScreenInput(
 
     craftingMenuScreen.shutScreen();
     mainHubScreen.openScreen();
+    activeScreens.removeScreen(craftingMenuScreen).addScreen(mainHubScreen);
   } else {
     screenKeyController.resetEscapeKey(keysPressed);
     screenKeyController.resetLeftClick(keysPressed);
@@ -43,9 +45,14 @@ export function handleCraftingScreenInput(
     craftingMenuScreen.openItemWorldButton.isHovered
   ) {
     screenKeyController.setLeftMousePressed(true);
+
     mainHubScreen.shutScreen();
     craftingMenuScreen.shutScreen();
     itemWorldScreen.openScreen();
+    activeScreens
+      .removeScreen(mainHubScreen)
+      .removeScreen(craftingMenuScreen)
+      .addScreen(itemWorldScreen);
   } else {
     screenKeyController.resetLeftClick(keysPressed);
   }

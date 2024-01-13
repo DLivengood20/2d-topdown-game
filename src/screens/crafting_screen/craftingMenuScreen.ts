@@ -1,6 +1,9 @@
 import { GameScreen } from '../gameScreen';
+import { GameScreensManager } from '../gameScreenManager';
+import { ScreenKeyController } from '../input_services/screenKeyController';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { handleCraftingScreenInput } from './craftingMenuInput';
 import { renderCraftingMenuScreen } from './craftingMenuRenderer';
 
 /**
@@ -9,11 +12,10 @@ import { renderCraftingMenuScreen } from './craftingMenuRenderer';
  */
 export class CraftingMenuScreen implements GameScreen {
   /**
-   * Indicates whether the crafting menu screen is currently active.
-   * @type {boolean}
-   * @default false
+   * The name of the crafting menu screen.
+   * @readonly
    */
-  isActive: boolean = false;
+  readonly name: string = 'crafting';
 
   /**
    * Indicates whether the crafting menu screen is currently displayed.
@@ -69,7 +71,6 @@ export class CraftingMenuScreen implements GameScreen {
    * @returns {void}
    */
   shutScreen(): void {
-    this.isActive = false;
     this.isDisplayed = false;
   }
 
@@ -79,9 +80,24 @@ export class CraftingMenuScreen implements GameScreen {
    * @returns {void}
    */
   openScreen(): void {
-    this.isActive = true;
     this.isDisplayed = true;
     this.closeCraftingMenuButton.isHovered = false;
     this.openItemWorldButton.isHovered = false;
+  }
+
+  /**
+   * Handles user input on the CraftingMenuScreen.
+   * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
+   * @param {GameScreensManager} gameScreens - The collection of game screens.
+   * @param {ScreenKeyController} screenKeyController - The controller for managing user input related to screen keys.
+   * @returns {void}
+   * @public
+   */
+  handleInput(
+    keysPressed: { [key: string]: boolean },
+    gameScreens: GameScreensManager,
+    screenKeyController: ScreenKeyController
+  ): void {
+    handleCraftingScreenInput(keysPressed, gameScreens, screenKeyController);
   }
 }

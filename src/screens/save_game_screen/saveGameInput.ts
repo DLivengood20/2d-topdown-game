@@ -18,7 +18,7 @@ export function handleSaveGameScreenInput(
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
 ): void {
-  const { saveGameScreen, gameMenuScreen } = gameScreens;
+  const { saveGameScreen, gameMenuScreen, activeScreens } = gameScreens;
 
   if (
     screenKeyController.isEscapeKeyTriggered(keysPressed) ||
@@ -29,7 +29,7 @@ export function handleSaveGameScreenInput(
     screenKeyController.setLeftMousePressed(true);
 
     saveGameScreen.shutScreen();
-    gameMenuScreen.isActive = true;
+    activeScreens.removeScreen(saveGameScreen).addScreen(gameMenuScreen);
   } else {
     screenKeyController.resetEscapeKey(keysPressed);
     screenKeyController.resetLeftClick(keysPressed);

@@ -18,8 +18,13 @@ export function handleTitleScreenInput(
    * Transition to the main hub screen when Enter key is pressed
    * or when the start button is clicked.
    */
-  const { titleScreen, loadGameScreen, settingsScreen, mainHubScreen } =
-    gameScreens;
+  const {
+    titleScreen,
+    loadGameScreen,
+    settingsScreen,
+    mainHubScreen,
+    activeScreens,
+  } = gameScreens;
   if (
     keysPressed['Enter'] ||
     (screenKeyController.isLeftClickTriggered(keysPressed) &&
@@ -28,6 +33,7 @@ export function handleTitleScreenInput(
     screenKeyController.setLeftMousePressed(true);
     titleScreen.shutScreen();
     mainHubScreen.openScreen();
+    activeScreens.removeScreen(titleScreen).addScreen(mainHubScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
   /**
    * Transition to the load game screen when the load game button is clicked.
@@ -37,7 +43,7 @@ export function handleTitleScreenInput(
     titleScreen.loadGameButton.isHovered
   ) {
     screenKeyController.setLeftMousePressed(true);
-    titleScreen.isActive = false;
+    activeScreens.removeScreen(titleScreen).addScreen(loadGameScreen);
     loadGameScreen.openScreen();
   } else screenKeyController.resetLeftClick(keysPressed);
 
@@ -49,7 +55,7 @@ export function handleTitleScreenInput(
     titleScreen.settingsButton.isHovered
   ) {
     screenKeyController.setLeftMousePressed(true);
-    titleScreen.isActive = false;
+    activeScreens.removeScreen(titleScreen).addScreen(settingsScreen);
     settingsScreen.openScreen();
   } else screenKeyController.resetLeftClick(keysPressed);
 

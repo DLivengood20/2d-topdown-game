@@ -1,6 +1,9 @@
 import { Entity } from '../../entities/entity';
 import { GameScreen } from '../gameScreen';
+import { GameScreensManager } from '../gameScreenManager';
+import { ScreenKeyController } from '../input_services/screenKeyController';
 import { ScreenElement } from '../screenElement';
+import { handleItemWorldScreenInput } from './itemWorldInput';
 import { renderItemWorldScreen } from './itemWorldRenderer';
 
 /**
@@ -9,11 +12,10 @@ import { renderItemWorldScreen } from './itemWorldRenderer';
  */
 export class ItemWorldScreen implements GameScreen {
   /**
-   * Indicates whether the item world screen is currently active.
-   * @type {boolean}
-   * @default false
+   * The name of the item world screen.
+   * @readonly
    */
-  isActive: boolean = false;
+  readonly name: string = 'item-world';
 
   /**
    * Indicates whether the item world screen is currently displayed.
@@ -52,7 +54,6 @@ export class ItemWorldScreen implements GameScreen {
    * @returns {void}
    */
   shutScreen(): void {
-    this.isActive = false;
     this.isDisplayed = false;
   }
 
@@ -62,7 +63,22 @@ export class ItemWorldScreen implements GameScreen {
    * @returns {void}
    */
   openScreen(): void {
-    this.isActive = true;
     this.isDisplayed = true;
+  }
+
+  /**
+   * Handles user input on the ItemWorldScreen.
+   * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
+   * @param {GameScreensManager} gameScreens - The collection of game screens.
+   * @param {ScreenKeyController} screenKeyController - The controller for managing user input related to screen keys.
+   * @returns {void}
+   * @public
+   */
+  handleInput(
+    keysPressed: { [key: string]: boolean },
+    gameScreens: GameScreensManager,
+    screenKeyController: ScreenKeyController
+  ): void {
+    handleItemWorldScreenInput(keysPressed, gameScreens, screenKeyController);
   }
 }

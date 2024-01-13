@@ -18,7 +18,7 @@ export function handleGameShopScreenInput(
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
 ): void {
-  const { gameShopScreen, mainHubScreen } = gameScreens;
+  const { gameShopScreen, mainHubScreen, activeScreens } = gameScreens;
 
   if (
     screenKeyController.isEscapeKeyTriggered(keysPressed) ||
@@ -29,7 +29,7 @@ export function handleGameShopScreenInput(
     screenKeyController.setLeftMousePressed(true);
 
     gameShopScreen.shutScreen();
-    mainHubScreen.isActive = true;
+    activeScreens.removeScreen(gameShopScreen).addScreen(mainHubScreen);
   } else {
     screenKeyController.resetEscapeKey(keysPressed);
     screenKeyController.resetLeftClick(keysPressed);

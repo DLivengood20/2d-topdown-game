@@ -1,6 +1,9 @@
 import { GameScreen } from '../gameScreen';
+import { GameScreensManager } from '../gameScreenManager';
+import { ScreenKeyController } from '../input_services/screenKeyController';
 import { ScreenElement } from '../screenElement';
 import { ScreenElements } from '../screenElements';
+import { handleSettingsScreenInput } from './settingsInput';
 import { renderSettingsScreen } from './settingsRenderer';
 
 /**
@@ -9,11 +12,10 @@ import { renderSettingsScreen } from './settingsRenderer';
  */
 export class SettingsScreen implements GameScreen {
   /**
-   * Indicates whether the settings screen is currently active.
-   * @type {boolean}
-   * @default false
+   * The name of the settings screen.
+   * @readonly
    */
-  isActive: boolean = false;
+  readonly name: string = 'settings';
 
   /**
    * Indicates whether the settings screen is currently displayed.
@@ -57,7 +59,6 @@ export class SettingsScreen implements GameScreen {
    * @returns {void}
    */
   shutScreen(): void {
-    this.isActive = false;
     this.isDisplayed = false;
   }
 
@@ -67,8 +68,23 @@ export class SettingsScreen implements GameScreen {
    * @returns {void}
    */
   openScreen(): void {
-    this.isActive = true;
     this.isDisplayed = true;
     this.closeMenuButton.isHovered = false;
+  }
+
+  /**
+   * Handles user input on the SettingsScreen.
+   * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
+   * @param {GameScreensManager} gameScreens - The collection of game screens.
+   * @param {ScreenKeyController} screenKeyController - The controller for managing user input related to screen keys.
+   * @returns {void}
+   * @public
+   */
+  handleInput(
+    keysPressed: { [key: string]: boolean },
+    gameScreens: GameScreensManager,
+    screenKeyController: ScreenKeyController
+  ): void {
+    handleSettingsScreenInput(keysPressed, gameScreens, screenKeyController);
   }
 }

@@ -10,6 +10,7 @@ import { MainHubScreen } from './main_hub_screen/mainHubScreen';
 import { SaveGameScreen } from './save_game_screen/saveGameScreen';
 import { SettingsScreen } from './settings_screen/settingsScreen';
 import { TitleScreen } from './title_screen/titleScreen';
+import { GameScreenStateStorage } from './gameScreenStateStorage';
 
 /**
  * Collection of game screens.
@@ -71,6 +72,12 @@ export class GameScreensManager {
   mainHubScreen: MainHubScreen;
 
   /**
+   * Storage for the active game screens.
+   * @readonly
+   */
+  readonly activeScreens: GameScreenStateStorage;
+
+  /**
    * Creates a new GameScreens instance.
    */
   constructor() {
@@ -85,6 +92,8 @@ export class GameScreensManager {
     this.craftingMenuScreen = new CraftingMenuScreen();
     this.constructionScreen = new ConstructionScreen();
     this.mainHubScreen = new MainHubScreen();
+    this.activeScreens = new GameScreenStateStorage();
+    this.activeScreens.addScreen(this.titleScreen);
   }
 
   /**

@@ -1,4 +1,6 @@
 import { Entity } from '../entities/entity';
+import { GameScreensManager } from './gameScreenManager';
+import { ScreenKeyController } from './input_services/screenKeyController';
 import { ScreenElement } from './screenElement';
 
 /**
@@ -7,10 +9,10 @@ import { ScreenElement } from './screenElement';
  */
 export interface GameScreen {
   /**
-   * Indicates whether the game screen is currently active.
-   * @type {boolean}
+   * The name of the game screen.
+   * @readonly
    */
-  isActive: boolean;
+  readonly name: string;
 
   /**
    * Indicates whether the game screen is currently displayed.
@@ -45,4 +47,17 @@ export interface GameScreen {
    * @returns {void}
    */
   openScreen(): void;
+
+  /**
+   * Handles user input for the game screen.
+   * @param {Object.<string, boolean>} keysPressed - The keys currently pressed.
+   * @param {GameScreensManager} gameScreens - The manager for game screens.
+   * @param {ScreenKeyController} screenKeyController - Controller for screen key events.
+   * @returns {void}
+   */
+  handleInput(
+    keysPressed: { [key: string]: boolean },
+    gameScreens: GameScreensManager,
+    screenKeyController: ScreenKeyController
+  ): void;
 }

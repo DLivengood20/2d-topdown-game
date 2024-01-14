@@ -18,13 +18,6 @@ export class GameMenuScreen implements GameScreen {
   readonly name: string = 'game-menu';
 
   /**
-   * Indicates whether the game menu screen is currently displayed.
-   * @type {boolean}
-   * @default false
-   */
-  isDisplayed: boolean = false;
-
-  /**
    * The screen element representing the close menu button.
    */
   closeMenuButton: ScreenElement;
@@ -95,37 +88,6 @@ export class GameMenuScreen implements GameScreen {
       this.openTitleButton,
       this.quitGameButton
     );
-  }
-
-  /**
-   * Closes or shuts down the game menu screen by updating its state properties.
-   *
-   * @public
-   * @returns {void}
-   */
-  shutScreen(): void {
-    this.isDisplayed = false;
-    this.closeMenuButton.isHovered = false;
-    this.saveGameButton.isHovered = false;
-    this.loadGameButton.isHovered = false;
-    this.settingsButton.isHovered = false;
-    this.openTitleButton.isHovered = false;
-    this.quitGameButton.isHovered = false;
-  }
-
-  /**
-   * Opens or activates the game menu screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  openScreen(): void {
-    this.isDisplayed = true;
-    this.closeMenuButton.isHovered = false;
-    this.saveGameButton.isHovered = false;
-    this.loadGameButton.isHovered = false;
-    this.settingsButton.isHovered = false;
-    this.openTitleButton.isHovered = false;
-    this.quitGameButton.isHovered = false;
   }
 
   /**

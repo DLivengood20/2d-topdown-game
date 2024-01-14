@@ -18,8 +18,13 @@ export function handleSettingsScreenInput(
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
 ): void {
-  const { settingsScreen, titleScreen, gameMenuScreen, activeScreens } =
-    gameScreens;
+  const {
+    settingsScreen,
+    titleScreen,
+    gameMenuScreen,
+    activeScreens,
+    displayedScreens,
+  } = gameScreens;
 
   if (
     screenKeyController.isEscapeKeyTriggered(keysPressed) ||
@@ -29,10 +34,12 @@ export function handleSettingsScreenInput(
     screenKeyController.setEscapeKeyPressed(true);
     screenKeyController.setLeftMousePressed(true);
 
-    settingsScreen.shutScreen();
+    displayedScreens.removeScreen(settingsScreen);
     activeScreens.removeScreen(settingsScreen);
-    if (titleScreen.isDisplayed) activeScreens.addScreen(titleScreen);
-    if (gameMenuScreen.isDisplayed) activeScreens.addScreen(gameMenuScreen);
+    if (displayedScreens.getByName(titleScreen.name))
+      activeScreens.addScreen(titleScreen);
+    if (displayedScreens.getByName(gameMenuScreen.name))
+      activeScreens.addScreen(gameMenuScreen);
   } else {
     screenKeyController.resetEscapeKey(keysPressed);
     screenKeyController.resetLeftClick(keysPressed);

@@ -15,12 +15,6 @@ export interface GameScreen {
   readonly name: string;
 
   /**
-   * Indicates whether the game screen is currently displayed.
-   * @type {boolean}
-   */
-  isDisplayed: boolean;
-
-  /**
    * Retrieves an array of screen elements associated with the game screen.
    * @returns {ScreenElement[]} An array of ScreenElement objects.
    */
@@ -33,20 +27,6 @@ export interface GameScreen {
    * @returns {void}
    */
   render(ctx: CanvasRenderingContext2D, entities?: Entity[]): void;
-
-  /**
-   * Closes or shuts down the current screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  shutScreen(): void;
-
-  /**
-   * Opens or activates the current screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  openScreen(): void;
 
   /**
    * Handles user input for the game screen.

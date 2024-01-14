@@ -17,14 +17,19 @@ export function handleItemWorldScreenInput(
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
 ): void {
-  const { gameMenuScreen, itemWorldScreen, constructionScreen, activeScreens } =
-    gameScreens;
+  const {
+    gameMenuScreen,
+    itemWorldScreen,
+    constructionScreen,
+    activeScreens,
+    displayedScreens,
+  } = gameScreens;
 
   // Check if Escape key is pressed to open the Game Menu screen
   if (screenKeyController.isEscapeKeyTriggered(keysPressed)) {
     screenKeyController.setEscapeKeyPressed(true);
 
-    gameMenuScreen.openScreen();
+    displayedScreens.addScreen(gameMenuScreen);
     activeScreens.removeScreen(itemWorldScreen).addScreen(gameMenuScreen);
   } else screenKeyController.resetEscapeKey(keysPressed);
 
@@ -32,7 +37,7 @@ export function handleItemWorldScreenInput(
   if (screenKeyController.isCTriggered(keysPressed)) {
     screenKeyController.setCPressed(true);
 
-    constructionScreen.openScreen();
+    displayedScreens.addScreen(constructionScreen);
     activeScreens.removeScreen(itemWorldScreen).addScreen(constructionScreen);
   } else screenKeyController.resetCKey(keysPressed);
 }

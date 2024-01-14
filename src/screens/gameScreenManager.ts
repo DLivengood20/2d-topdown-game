@@ -78,6 +78,12 @@ export class GameScreensManager {
   readonly activeScreens: GameScreenStateStorage;
 
   /**
+   * Storage for the displayed game screens.
+   * @readonly
+   */
+  readonly displayedScreens: GameScreenStateStorage;
+
+  /**
    * Creates a new GameScreens instance.
    */
   constructor() {
@@ -94,6 +100,8 @@ export class GameScreensManager {
     this.mainHubScreen = new MainHubScreen();
     this.activeScreens = new GameScreenStateStorage();
     this.activeScreens.addScreen(this.titleScreen);
+    this.displayedScreens = new GameScreenStateStorage();
+    this.displayedScreens.addScreen(this.titleScreen);
   }
 
   /**
@@ -101,18 +109,19 @@ export class GameScreensManager {
    * @returns {GameScreen[]} An array of game screens.
    */
   getScreens(): GameScreen[] {
+    // Order of screens decides rendering order. Last element is rendered last.
     return [
       this.titleScreen,
+      this.mainHubScreen,
       this.itemWorldScreen,
+      this.gameMenuScreen,
       this.loadGameScreen,
       this.saveGameScreen,
-      this.gameMenuScreen,
       this.settingsScreen,
       this.inventoryScreen,
       this.gameShopScreen,
       this.craftingMenuScreen,
       this.constructionScreen,
-      this.mainHubScreen,
     ];
   }
 }

@@ -18,13 +18,6 @@ export class SettingsScreen implements GameScreen {
   readonly name: string = 'settings';
 
   /**
-   * Indicates whether the settings screen is currently displayed.
-   * @type {boolean}
-   * @default false
-   */
-  isDisplayed: boolean = false;
-
-  /**
    * The screen element representing the close menu button.
    */
   closeMenuButton: ScreenElement;
@@ -51,25 +44,6 @@ export class SettingsScreen implements GameScreen {
    */
   render(ctx: CanvasRenderingContext2D): void {
     renderSettingsScreen(ctx, this.closeMenuButton);
-  }
-
-  /**
-   * Closes or deactivates the settings screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  shutScreen(): void {
-    this.isDisplayed = false;
-  }
-
-  /**
-   * Opens or activates the settings screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  openScreen(): void {
-    this.isDisplayed = true;
-    this.closeMenuButton.isHovered = false;
   }
 
   /**

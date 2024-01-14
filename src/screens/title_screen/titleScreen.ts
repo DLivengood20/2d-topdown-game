@@ -18,13 +18,6 @@ export class TitleScreen implements GameScreen {
   readonly name: string = 'title';
 
   /**
-   * Indicates whether the title screen is currently displayed.
-   * @type {boolean}
-   * @default true
-   */
-  isDisplayed: boolean = true;
-
-  /**
    * The screen element representing the start button.
    * @type {ScreenElement}
    */
@@ -84,29 +77,6 @@ export class TitleScreen implements GameScreen {
       this.settingsButton,
       this.quitButton
     );
-  }
-
-  /**
-   * Closes or deactivates the title screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  shutScreen(): void {
-    this.isDisplayed = false;
-    this.loadGameButton.isHovered = false;
-  }
-
-  /**
-   * Opens or activates the title screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  openScreen(): void {
-    this.isDisplayed = true;
-    this.startButton.isHovered = false;
-    this.loadGameButton.isHovered = false;
-    this.settingsButton.isHovered = false;
-    this.quitButton.isHovered = false;
   }
 
   /**

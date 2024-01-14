@@ -18,13 +18,6 @@ export class SaveGameScreen implements GameScreen {
   readonly name: string = 'save';
 
   /**
-   * Indicates whether the save game screen is currently displayed.
-   * @type {boolean}
-   * @default false
-   */
-  isDisplayed: boolean = false;
-
-  /**
    * The screen element representing the close save game button.
    * @type {ScreenElement}
    */
@@ -52,25 +45,6 @@ export class SaveGameScreen implements GameScreen {
    */
   render(ctx: CanvasRenderingContext2D): void {
     renderSaveGameScreen(ctx, this.closeSaveGameButton);
-  }
-
-  /**
-   * Closes or deactivates the save game screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  shutScreen(): void {
-    this.isDisplayed = false;
-  }
-
-  /**
-   * Opens or activates the save game screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  openScreen(): void {
-    this.isDisplayed = true;
-    this.closeSaveGameButton.isHovered = false;
   }
 
   /**

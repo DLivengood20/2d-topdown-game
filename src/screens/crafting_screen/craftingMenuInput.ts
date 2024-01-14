@@ -19,8 +19,13 @@ export function handleCraftingScreenInput(
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
 ): void {
-  const { mainHubScreen, craftingMenuScreen, itemWorldScreen, activeScreens } =
-    gameScreens;
+  const {
+    mainHubScreen,
+    craftingMenuScreen,
+    itemWorldScreen,
+    activeScreens,
+    displayedScreens,
+  } = gameScreens;
 
   // Handle Escape key or close button
   if (
@@ -31,8 +36,7 @@ export function handleCraftingScreenInput(
     screenKeyController.setEscapeKeyPressed(true);
     screenKeyController.setLeftMousePressed(true);
 
-    craftingMenuScreen.shutScreen();
-    mainHubScreen.openScreen();
+    displayedScreens.removeScreen(craftingMenuScreen).addScreen(mainHubScreen);
     activeScreens.removeScreen(craftingMenuScreen).addScreen(mainHubScreen);
   } else {
     screenKeyController.resetEscapeKey(keysPressed);
@@ -46,9 +50,10 @@ export function handleCraftingScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
 
-    mainHubScreen.shutScreen();
-    craftingMenuScreen.shutScreen();
-    itemWorldScreen.openScreen();
+    displayedScreens
+      .removeScreen(mainHubScreen)
+      .removeScreen(craftingMenuScreen)
+      .addScreen(itemWorldScreen);
     activeScreens
       .removeScreen(mainHubScreen)
       .removeScreen(craftingMenuScreen)

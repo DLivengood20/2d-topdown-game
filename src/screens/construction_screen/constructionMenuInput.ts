@@ -19,7 +19,12 @@ export function handleConstructionScreenInput(
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
 ): void {
-  const { itemWorldScreen, constructionScreen, activeScreens } = gameScreens;
+  const {
+    itemWorldScreen,
+    constructionScreen,
+    activeScreens,
+    displayedScreens,
+  } = gameScreens;
 
   // Handle Escape key or close button
   if (
@@ -30,7 +35,7 @@ export function handleConstructionScreenInput(
     screenKeyController.setEscapeKeyPressed(true);
     screenKeyController.setLeftMousePressed(true);
 
-    constructionScreen.shutScreen();
+    displayedScreens.removeScreen(constructionScreen);
     activeScreens.removeScreen(constructionScreen).addScreen(itemWorldScreen);
   } else {
     screenKeyController.resetEscapeKey(keysPressed);

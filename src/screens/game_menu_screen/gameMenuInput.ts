@@ -25,6 +25,7 @@ export function handleGameMenuScreenInput(
     titleScreen,
     mainHubScreen,
     activeScreens,
+    displayedScreens,
   } = gameScreens;
 
   /**
@@ -38,10 +39,12 @@ export function handleGameMenuScreenInput(
     screenKeyController.setEscapeKeyPressed(true);
     screenKeyController.setLeftMousePressed(true);
 
-    gameMenuScreen.shutScreen();
+    displayedScreens.removeScreen(gameMenuScreen);
     activeScreens.removeScreen(gameMenuScreen);
-    if (itemWorldScreen.isDisplayed) activeScreens.addScreen(itemWorldScreen);
-    if (mainHubScreen.isDisplayed) activeScreens.addScreen(mainHubScreen);
+    if (displayedScreens.getByName(itemWorldScreen.name))
+      activeScreens.addScreen(itemWorldScreen);
+    if (displayedScreens.getByName(mainHubScreen.name))
+      activeScreens.addScreen(mainHubScreen);
   } else {
     screenKeyController.resetEscapeKey(keysPressed);
     screenKeyController.resetLeftClick(keysPressed);
@@ -56,7 +59,7 @@ export function handleGameMenuScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
 
-    loadGameScreen.openScreen();
+    displayedScreens.addScreen(loadGameScreen);
     activeScreens.removeScreen(gameMenuScreen).addScreen(loadGameScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
 
@@ -69,7 +72,7 @@ export function handleGameMenuScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
 
-    saveGameScreen.openScreen();
+    displayedScreens.addScreen(saveGameScreen);
     activeScreens.removeScreen(gameMenuScreen).addScreen(saveGameScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
 
@@ -82,7 +85,7 @@ export function handleGameMenuScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
 
-    settingsScreen.openScreen();
+    displayedScreens.addScreen(settingsScreen);
     activeScreens.removeScreen(gameMenuScreen).addScreen(settingsScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
 
@@ -95,10 +98,11 @@ export function handleGameMenuScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
 
-    mainHubScreen.isDisplayed = false;
-    itemWorldScreen.isDisplayed = false;
-    gameMenuScreen.shutScreen();
-    titleScreen.openScreen();
+    displayedScreens
+      .removeScreen(mainHubScreen)
+      .removeScreen(itemWorldScreen)
+      .removeScreen(gameMenuScreen)
+      .addScreen(titleScreen);
     activeScreens.removeScreen(gameMenuScreen).addScreen(titleScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
 

@@ -18,13 +18,6 @@ export class LoadGameScreen implements GameScreen {
   readonly name: string = 'load';
 
   /**
-   * Indicates whether the load game screen is currently displayed.
-   * @type {boolean}
-   * @default false
-   */
-  isDisplayed: boolean = false;
-
-  /**
    * The screen element representing the close load game button.
    * @type {ScreenElement}
    */
@@ -52,25 +45,6 @@ export class LoadGameScreen implements GameScreen {
    */
   render(ctx: CanvasRenderingContext2D): void {
     renderLoadGameScreen(ctx, this.closeLoadGameButton);
-  }
-
-  /**
-   * Closes or shuts down the load game screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  shutScreen(): void {
-    this.isDisplayed = false;
-  }
-
-  /**
-   * Opens or activates the load game screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  openScreen(): void {
-    this.isDisplayed = true;
-    this.closeLoadGameButton.isHovered = false;
   }
 
   /**

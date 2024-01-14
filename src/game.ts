@@ -143,69 +143,33 @@ export class Game {
    * - Removes entities marked for removal.
    */
   private update(): void {
-    const {
-      titleScreen,
-      itemWorldScreen,
-      loadGameScreen,
-      saveGameScreen,
-      gameMenuScreen,
-      settingsScreen,
-      inventoryScreen,
-      gameShopScreen,
-      craftingMenuScreen,
-      constructionScreen,
-      mainHubScreen,
-    } = this.screenManager.gameScreens;
+    const { itemWorldScreen, activeScreens, displayedScreens } =
+      this.screenManager.gameScreens;
 
     try {
       this.screenManager.update();
-      if (titleScreen.isDisplayed) {
-        titleScreen.render(this.canvasManager.getContext());
-      }
-      if (mainHubScreen.isDisplayed) {
-        mainHubScreen.render(this.canvasManager.getContext());
-      }
-      if (itemWorldScreen.isDisplayed) {
-        itemWorldScreen.render(
-          this.canvasManager.getContext(),
-          this.entityManager.getAllEntities()
-        );
-      }
-      if (
-        this.screenManager.gameScreens.activeScreens.getByName(
-          itemWorldScreen.name
-        )
-      ) {
+
+      if (activeScreens.getByName(itemWorldScreen.name)) {
         this.systemManager.update(
           this.entityManager.getAllEntities(),
           this.inputService.keysPressed
         );
         this.entityManager.removeMarkedEntities();
       }
-      if (gameMenuScreen.isDisplayed) {
-        gameMenuScreen.render(this.canvasManager.getContext());
-      }
-      if (inventoryScreen.isDisplayed) {
-        inventoryScreen.render(this.canvasManager.getContext());
-      }
-      if (constructionScreen.isDisplayed) {
-        constructionScreen.render(this.canvasManager.getContext());
-      }
-      if (gameShopScreen.isDisplayed) {
-        gameShopScreen.render(this.canvasManager.getContext());
-      }
-      if (craftingMenuScreen.isDisplayed) {
-        craftingMenuScreen.render(this.canvasManager.getContext());
-      }
-      if (loadGameScreen.isDisplayed) {
-        loadGameScreen.render(this.canvasManager.getContext());
-      }
-      if (saveGameScreen.isDisplayed) {
-        saveGameScreen.render(this.canvasManager.getContext());
-      }
-      if (settingsScreen.isDisplayed) {
-        settingsScreen.render(this.canvasManager.getContext());
-      }
+
+      // Uses getScreens for render order
+      this.screenManager.gameScreens.getScreens().forEach((screen) => {
+        if (displayedScreens.getByName(screen.name)) {
+          if (screen.name === itemWorldScreen.name) {
+            screen.render(
+              this.canvasManager.getContext(),
+              this.entityManager.getAllEntities()
+            );
+          } else {
+            screen.render(this.canvasManager.getContext());
+          }
+        }
+      });
     } catch (error: any) {
       this.handleUpdateError(error);
     }

@@ -18,7 +18,8 @@ export function handleGameShopScreenInput(
   gameScreens: GameScreensManager,
   screenKeyController: ScreenKeyController
 ): void {
-  const { gameShopScreen, mainHubScreen, activeScreens } = gameScreens;
+  const { gameShopScreen, mainHubScreen, activeScreens, displayedScreens } =
+    gameScreens;
 
   if (
     screenKeyController.isEscapeKeyTriggered(keysPressed) ||
@@ -28,7 +29,7 @@ export function handleGameShopScreenInput(
     screenKeyController.setEscapeKeyPressed(true);
     screenKeyController.setLeftMousePressed(true);
 
-    gameShopScreen.shutScreen();
+    displayedScreens.removeScreen(gameShopScreen);
     activeScreens.removeScreen(gameShopScreen).addScreen(mainHubScreen);
   } else {
     screenKeyController.resetEscapeKey(keysPressed);

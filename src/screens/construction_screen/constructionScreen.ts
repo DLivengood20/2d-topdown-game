@@ -18,13 +18,6 @@ export class ConstructionScreen implements GameScreen {
   readonly name: string = 'construction';
 
   /**
-   * Indicates whether the construction screen is currently displayed.
-   * @type {boolean}
-   * @default false
-   */
-  isDisplayed: boolean = false;
-
-  /**
    * The screen element representing the close construction button.
    * @type {ScreenElement}
    */
@@ -52,26 +45,6 @@ export class ConstructionScreen implements GameScreen {
    */
   render(ctx: CanvasRenderingContext2D): void {
     renderConstructionScreen(ctx, this.closeConstructionButton);
-  }
-
-  /**
-   * Closes or shuts down the construction screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  shutScreen(): void {
-    this.isDisplayed = false;
-    this.closeConstructionButton.isHovered = false;
-  }
-
-  /**
-   * Opens or activates the construction screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  openScreen(): void {
-    this.isDisplayed = true;
-    this.closeConstructionButton.isHovered = false;
   }
 
   /**

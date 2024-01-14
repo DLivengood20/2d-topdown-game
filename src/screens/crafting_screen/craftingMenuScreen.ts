@@ -18,13 +18,6 @@ export class CraftingMenuScreen implements GameScreen {
   readonly name: string = 'crafting';
 
   /**
-   * Indicates whether the crafting menu screen is currently displayed.
-   * @type {boolean}
-   * @default false
-   */
-  isDisplayed: boolean = false;
-
-  /**
    * The screen element representing the close crafting menu button.
    * @type {ScreenElement}
    */
@@ -63,26 +56,6 @@ export class CraftingMenuScreen implements GameScreen {
       this.closeCraftingMenuButton,
       this.openItemWorldButton
     );
-  }
-
-  /**
-   * Closes or shuts down the crafting menu screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  shutScreen(): void {
-    this.isDisplayed = false;
-  }
-
-  /**
-   * Opens or activates the crafting menu screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  openScreen(): void {
-    this.isDisplayed = true;
-    this.closeCraftingMenuButton.isHovered = false;
-    this.openItemWorldButton.isHovered = false;
   }
 
   /**

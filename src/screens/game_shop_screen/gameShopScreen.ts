@@ -18,13 +18,6 @@ export class GameShopScreen implements GameScreen {
   readonly name: string = 'shop';
 
   /**
-   * Indicates whether the game shop screen is currently displayed.
-   * @type {boolean}
-   * @default false
-   */
-  isDisplayed: boolean = false;
-
-  /**
    * The screen element representing the close game shop button.
    * @type {ScreenElement}
    */
@@ -52,25 +45,6 @@ export class GameShopScreen implements GameScreen {
    */
   render(ctx: CanvasRenderingContext2D): void {
     renderGameShopScreen(ctx, this.closeGameShopButton);
-  }
-
-  /**
-   * Closes or shuts down the game shop screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  shutScreen(): void {
-    this.isDisplayed = false;
-  }
-
-  /**
-   * Opens or activates the game shop screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  openScreen(): void {
-    this.isDisplayed = true;
-    this.closeGameShopButton.isHovered = false;
   }
 
   /**

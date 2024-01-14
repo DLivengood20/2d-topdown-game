@@ -18,13 +18,6 @@ export class MainHubScreen implements GameScreen {
   readonly name: string = 'main-hub';
 
   /**
-   * Indicates whether the main hub screen is currently displayed.
-   * @type {boolean}
-   * @default false
-   */
-  isDisplayed: boolean = false;
-
-  /**
    * The screen element representing the open game menu button.
    * @type {ScreenElement}
    */
@@ -84,28 +77,6 @@ export class MainHubScreen implements GameScreen {
       this.openCraftingMenuButton,
       this.openGameShopButton
     );
-  }
-
-  /**
-   * Closes or shuts down the main hub screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  shutScreen(): void {
-    this.isDisplayed = false;
-  }
-
-  /**
-   * Opens or activates the main hub screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  openScreen(): void {
-    this.isDisplayed = true;
-    this.openGameMenuButton.isHovered = false;
-    this.openInventoryButton.isHovered = false;
-    this.openCraftingMenuButton.isHovered = false;
-    this.openGameShopButton.isHovered = false;
   }
 
   /**

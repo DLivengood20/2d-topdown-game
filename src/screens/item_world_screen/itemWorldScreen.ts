@@ -18,13 +18,6 @@ export class ItemWorldScreen implements GameScreen {
   readonly name: string = 'item-world';
 
   /**
-   * Indicates whether the item world screen is currently displayed.
-   * @type {boolean}
-   * @default false
-   */
-  isDisplayed: boolean = false;
-
-  /**
    * Creates a new ItemWorldScreen instance.
    */
   constructor() {}
@@ -46,24 +39,6 @@ export class ItemWorldScreen implements GameScreen {
    */
   render(ctx: CanvasRenderingContext2D, entities: Entity[]): void {
     renderItemWorldScreen(ctx, entities);
-  }
-
-  /**
-   * Closes or shuts down the item world screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  shutScreen(): void {
-    this.isDisplayed = false;
-  }
-
-  /**
-   * Opens or activates the item world screen by updating its state properties.
-   * @public
-   * @returns {void}
-   */
-  openScreen(): void {
-    this.isDisplayed = true;
   }
 
   /**

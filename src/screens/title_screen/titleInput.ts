@@ -24,6 +24,7 @@ export function handleTitleScreenInput(
     settingsScreen,
     mainHubScreen,
     activeScreens,
+    displayedScreens,
   } = gameScreens;
   if (
     keysPressed['Enter'] ||
@@ -31,8 +32,8 @@ export function handleTitleScreenInput(
       titleScreen.startButton.isHovered)
   ) {
     screenKeyController.setLeftMousePressed(true);
-    titleScreen.shutScreen();
-    mainHubScreen.openScreen();
+
+    displayedScreens.removeScreen(titleScreen).addScreen(mainHubScreen);
     activeScreens.removeScreen(titleScreen).addScreen(mainHubScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
   /**
@@ -43,8 +44,9 @@ export function handleTitleScreenInput(
     titleScreen.loadGameButton.isHovered
   ) {
     screenKeyController.setLeftMousePressed(true);
+
+    displayedScreens.addScreen(loadGameScreen);
     activeScreens.removeScreen(titleScreen).addScreen(loadGameScreen);
-    loadGameScreen.openScreen();
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**
@@ -55,8 +57,9 @@ export function handleTitleScreenInput(
     titleScreen.settingsButton.isHovered
   ) {
     screenKeyController.setLeftMousePressed(true);
+
     activeScreens.removeScreen(titleScreen).addScreen(settingsScreen);
-    settingsScreen.openScreen();
+    displayedScreens.addScreen(settingsScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**

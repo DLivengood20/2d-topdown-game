@@ -80,6 +80,17 @@ export class TitleScreen implements GameScreen {
   }
 
   /**
+   * Resets the title screen elements to default
+   * @returns {this}
+   */
+  reset(): this {
+    this.getElements().forEach((element) => {
+      element.isHovered = false;
+    });
+    return this;
+  }
+
+  /**
    * Handles user input on the TitleScreen.
    * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
    * @param {GameScreensManager} gameScreens - The collection of game screens.

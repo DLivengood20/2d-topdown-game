@@ -80,6 +80,17 @@ export class MainHubScreen implements GameScreen {
   }
 
   /**
+   * Resets the main hub screen elements to default
+   * @returns {this}
+   */
+  reset(): this {
+    this.getElements().forEach((element) => {
+      element.isHovered = false;
+    });
+    return this;
+  }
+
+  /**
    * Handles user input on the MainHubScreen.
    * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
    * @param {GameScreensManager} gameScreens - The collection of game screens.

@@ -48,6 +48,17 @@ export class ConstructionScreen implements GameScreen {
   }
 
   /**
+   * Resets the construction screen elements to default
+   * @returns {this}
+   */
+  reset(): this {
+    this.getElements().forEach((element) => {
+      element.isHovered = false;
+    });
+    return this;
+  }
+
+  /**
    * Handles user input on the ConstructionScreen.
    * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
    * @param {GameScreensManager} gameScreens - The collection of game screens.

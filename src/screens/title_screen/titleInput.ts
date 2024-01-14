@@ -46,7 +46,7 @@ export function handleTitleScreenInput(
     screenKeyController.setLeftMousePressed(true);
 
     displayedScreens.addScreen(loadGameScreen);
-    activeScreens.removeScreen(titleScreen).addScreen(loadGameScreen);
+    activeScreens.removeScreen(titleScreen.reset()).addScreen(loadGameScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**
@@ -58,8 +58,8 @@ export function handleTitleScreenInput(
   ) {
     screenKeyController.setLeftMousePressed(true);
 
-    activeScreens.removeScreen(titleScreen).addScreen(settingsScreen);
     displayedScreens.addScreen(settingsScreen);
+    activeScreens.removeScreen(titleScreen.reset()).addScreen(settingsScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**

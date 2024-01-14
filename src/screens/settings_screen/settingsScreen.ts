@@ -47,6 +47,17 @@ export class SettingsScreen implements GameScreen {
   }
 
   /**
+   * Resets the settings screen elements to default
+   * @returns {this}
+   */
+  reset(): this {
+    this.getElements().forEach((element) => {
+      element.isHovered = false;
+    });
+    return this;
+  }
+
+  /**
    * Handles user input on the SettingsScreen.
    * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
    * @param {GameScreensManager} gameScreens - The collection of game screens.

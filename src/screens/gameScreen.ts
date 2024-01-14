@@ -29,6 +29,12 @@ export interface GameScreen {
   render(ctx: CanvasRenderingContext2D, entities?: Entity[]): void;
 
   /**
+   * Resets the screen elements to default
+   * @returns {this}
+   */
+  reset(): this;
+
+  /**
    * Handles user input for the game screen.
    * @param {Object.<string, boolean>} keysPressed - The keys currently pressed.
    * @param {GameScreensManager} gameScreens - The manager for game screens.

@@ -30,7 +30,9 @@ export function handleItemWorldScreenInput(
     screenKeyController.setEscapeKeyPressed(true);
 
     displayedScreens.addScreen(gameMenuScreen);
-    activeScreens.removeScreen(itemWorldScreen).addScreen(gameMenuScreen);
+    activeScreens
+      .removeScreen(itemWorldScreen.reset())
+      .addScreen(gameMenuScreen);
   } else screenKeyController.resetEscapeKey(keysPressed);
 
   // Check if C key is pressed to open the Construction screen
@@ -38,6 +40,8 @@ export function handleItemWorldScreenInput(
     screenKeyController.setCPressed(true);
 
     displayedScreens.addScreen(constructionScreen);
-    activeScreens.removeScreen(itemWorldScreen).addScreen(constructionScreen);
+    activeScreens
+      .removeScreen(itemWorldScreen.reset())
+      .addScreen(constructionScreen);
   } else screenKeyController.resetCKey(keysPressed);
 }

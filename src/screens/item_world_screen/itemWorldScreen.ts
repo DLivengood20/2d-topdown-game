@@ -42,6 +42,17 @@ export class ItemWorldScreen implements GameScreen {
   }
 
   /**
+   * Resets the item world screen elements to default
+   * @returns {this}
+   */
+  reset(): this {
+    this.getElements().forEach((element) => {
+      element.isHovered = false;
+    });
+    return this;
+  }
+
+  /**
    * Handles user input on the ItemWorldScreen.
    * @param {Object.<string, boolean>} keysPressed - The keys currently pressed by the user.
    * @param {GameScreensManager} gameScreens - The collection of game screens.

@@ -32,7 +32,7 @@ export function handleMainHubScreenInput(
     screenKeyController.setEscapeKeyPressed(true);
 
     displayedScreens.addScreen(gameMenuScreen);
-    activeScreens.removeScreen(mainHubScreen).addScreen(gameMenuScreen);
+    activeScreens.removeScreen(mainHubScreen.reset()).addScreen(gameMenuScreen);
   } else screenKeyController.resetEscapeKey(keysPressed);
 
   // Check if left click is triggered and the Game Menu button is hovered
@@ -44,7 +44,7 @@ export function handleMainHubScreenInput(
     screenKeyController.setLeftMousePressed(true);
 
     displayedScreens.addScreen(gameMenuScreen);
-    activeScreens.removeScreen(mainHubScreen).addScreen(gameMenuScreen);
+    activeScreens.removeScreen(mainHubScreen.reset()).addScreen(gameMenuScreen);
   } else {
     screenKeyController.resetLeftClick(keysPressed);
   }
@@ -58,7 +58,9 @@ export function handleMainHubScreenInput(
     screenKeyController.setLeftMousePressed(true);
 
     displayedScreens.addScreen(inventoryScreen);
-    activeScreens.removeScreen(mainHubScreen).addScreen(inventoryScreen);
+    activeScreens
+      .removeScreen(mainHubScreen.reset())
+      .addScreen(inventoryScreen);
   } else {
     screenKeyController.resetLeftClick(keysPressed);
   }
@@ -72,7 +74,9 @@ export function handleMainHubScreenInput(
     screenKeyController.setLeftMousePressed(true);
 
     displayedScreens.addScreen(craftingMenuScreen);
-    activeScreens.removeScreen(mainHubScreen).addScreen(craftingMenuScreen);
+    activeScreens
+      .removeScreen(mainHubScreen.reset())
+      .addScreen(craftingMenuScreen);
   } else {
     screenKeyController.resetLeftClick(keysPressed);
   }
@@ -86,7 +90,7 @@ export function handleMainHubScreenInput(
     screenKeyController.setLeftMousePressed(true);
 
     displayedScreens.addScreen(gameMenuScreen);
-    activeScreens.removeScreen(mainHubScreen).addScreen(gameShopScreen);
+    activeScreens.removeScreen(mainHubScreen.reset()).addScreen(gameShopScreen);
   } else {
     screenKeyController.resetLeftClick(keysPressed);
   }

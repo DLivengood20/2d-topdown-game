@@ -60,7 +60,9 @@ export function handleGameMenuScreenInput(
     screenKeyController.setLeftMousePressed(true);
 
     displayedScreens.addScreen(loadGameScreen);
-    activeScreens.removeScreen(gameMenuScreen).addScreen(loadGameScreen);
+    activeScreens
+      .removeScreen(gameMenuScreen.reset())
+      .addScreen(loadGameScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**
@@ -73,7 +75,9 @@ export function handleGameMenuScreenInput(
     screenKeyController.setLeftMousePressed(true);
 
     displayedScreens.addScreen(saveGameScreen);
-    activeScreens.removeScreen(gameMenuScreen).addScreen(saveGameScreen);
+    activeScreens
+      .removeScreen(gameMenuScreen.reset())
+      .addScreen(saveGameScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**
@@ -86,7 +90,9 @@ export function handleGameMenuScreenInput(
     screenKeyController.setLeftMousePressed(true);
 
     displayedScreens.addScreen(settingsScreen);
-    activeScreens.removeScreen(gameMenuScreen).addScreen(settingsScreen);
+    activeScreens
+      .removeScreen(gameMenuScreen.reset())
+      .addScreen(settingsScreen);
   } else screenKeyController.resetLeftClick(keysPressed);
 
   /**

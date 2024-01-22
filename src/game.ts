@@ -160,14 +160,10 @@ export class Game {
       // Uses getScreens for render order
       this.screenManager.gameScreens.getScreens().forEach((screen) => {
         if (displayedScreens.getByName(screen.name)) {
-          if (screen.name === itemWorldScreen.name) {
-            screen.render(
-              this.canvasManager.getContext(),
-              this.entityManager.getAllEntities()
-            );
-          } else {
-            screen.render(this.canvasManager.getContext());
-          }
+          screen.render(
+            this.canvasManager.getContext(),
+            this.entityManager.getAllEntities()
+          );
         }
       });
     } catch (error: any) {

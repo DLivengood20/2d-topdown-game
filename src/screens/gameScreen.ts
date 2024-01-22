@@ -26,7 +26,7 @@ export interface GameScreen {
    * @param {Entity[]} [entities] - An optional array of entities relevant to the game screen.
    * @returns {void}
    */
-  render(ctx: CanvasRenderingContext2D, entities?: Entity[]): void;
+  render(ctx: CanvasRenderingContext2D, entities: Entity[]): void;
 
   /**
    * Resets the screen elements to default
